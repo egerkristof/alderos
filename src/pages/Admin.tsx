@@ -86,6 +86,7 @@ const Admin = () => {
   // Analytics computations
   const totalEvents = events.length;
   const preselected = events.filter((e) => e.event_type === "preselected").length;
+  const aiGenerated = events.filter((e) => e.event_type === "ai-generated").length;
   const custom = events.filter((e) => e.event_type === "custom").length;
   const aiMode = events.filter((e) => e.mode === "ai").length;
   const trainingMode = events.filter((e) => e.mode === "training").length;
