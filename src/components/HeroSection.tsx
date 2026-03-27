@@ -6,7 +6,7 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
   const { t } = useLanguage();
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
+    <section className="min-h-[85vh] lg:min-h-[75vh] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
       {/* Subtle background shapes */}
       <motion.div
         className="absolute top-20 right-20 w-72 h-72 rounded-full opacity-[0.04]"
