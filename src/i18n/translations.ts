@@ -426,6 +426,9 @@ const translations = {
     coach_gate_placeholder: "Contrasena",
     coach_gate_error: "Contrasena incorrecta. Intentalo de nuevo.",
     coach_gate_enter: "Entrar",
+    suggested_q1: "Que es realmente el Opus Dei?",
+    suggested_q2: "Es el Opus Dei una secta?",
+    suggested_q3: "Que hacen los miembros del Opus Dei en su dia a dia?",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
