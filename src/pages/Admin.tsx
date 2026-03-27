@@ -383,6 +383,8 @@ const Admin = () => {
                                       ? "bg-accent/10 text-accent"
                                       : event.event_type === "ai-generated"
                                       ? "bg-blue-500/10 text-blue-600"
+                                      : event.event_type === "withheld"
+                                      ? "bg-yellow-500/10 text-yellow-600"
                                       : "bg-primary/10 text-primary"
                                   }`}>
                                     {event.event_type}
