@@ -49,6 +49,8 @@ const translations = {
     mode_ai_desc: "See how the Catholic Voices methodology reframes this concern",
     mode_training: "Let me try first",
     mode_training_desc: "Practice reframing yourself, then compare with the AI",
+    mode_recommended: "Recommended",
+    mode_or: "or",
     loading: "Thoughtfully considering your question...",
     back: "Ask another question",
     back_challenges: "Back to challenges",
