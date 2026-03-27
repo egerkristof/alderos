@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
-import { Heart, Handshake, Lightbulb, ArrowLeft, Loader2 } from "lucide-react";
+import { Heart, Handshake, Lightbulb, ArrowLeft, Loader2, BookOpen } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ResponseActions from "./ResponseActions";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -23,7 +23,7 @@ const ReframingExperience = ({ challenge, onBack }: ReframingExperienceProps) =>
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activePhase, setActivePhase] = useState(0);
-  const [rawData, setRawData] = useState<{ empathy: string; shared_value: string; message: string } | null>(null);
+  const [rawData, setRawData] = useState<{ empathy: string; shared_value: string; message: string; sources?: { title: string; description: string }[] } | null>(null);
 
   const phaseMeta = [
     { icon: <Heart className="w-5 h-5" />, label: t("phase1_label"), title: t("phase1_title"), key: "empathy" },
@@ -55,7 +55,7 @@ const ReframingExperience = ({ challenge, onBack }: ReframingExperienceProps) =>
       if (!resp.ok) { setError(t("error_generic")); setIsLoading(false); return; }
 
       const data = await resp.json();
-      setRawData({ empathy: data.empathy || "", shared_value: data.shared_value || "", message: data.message || "" });
+      setRawData({ empathy: data.empathy || "", shared_value: data.shared_value || "", message: data.message || "", sources: data.sources || [] });
 
       const builtPhases: Phase[] = phaseMeta.map((meta) => ({
         icon: meta.icon, label: meta.label, title: meta.title,
@@ -148,6 +148,32 @@ const ReframingExperience = ({ challenge, onBack }: ReframingExperienceProps) =>
               )
             ))}
           </div>
+        )}
+
+        {allLoaded && rawData?.sources && rawData.sources.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="max-w-2xl mx-auto mt-10"
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <BookOpen className="w-4 h-4 text-accent" />
+              <h3 className="text-sm font-heading tracking-wide text-foreground/80">{t("sources_label")}</h3>
+            </div>
+            <p className="text-xs text-muted-foreground font-body mb-4">{t("sources_subtitle")}</p>
+            <ul className="space-y-3">
+              {rawData.sources.map((source, i) => (
+                <li key={i} className="flex gap-3 items-start">
+                  <span className="text-accent/60 text-xs font-body mt-0.5">{i + 1}.</span>
+                  <div>
+                    <p className="text-sm font-body font-medium text-foreground/90">{source.title}</p>
+                    <p className="text-xs font-body text-muted-foreground leading-relaxed">{source.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         )}
 
         {allLoaded && rawData && <ResponseActions challenge={challenge} phases={rawData} />}

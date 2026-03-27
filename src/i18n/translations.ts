@@ -102,6 +102,8 @@ const translations = {
     error_unavailable: "Service temporarily unavailable. Please try again later.",
     error_generic: "Something went wrong. Please try again.",
     error_connection: "Unable to connect. Please check your connection and try again.",
+    sources_label: "Sources",
+    sources_subtitle: "References supporting this reframing",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
@@ -197,6 +199,8 @@ const translations = {
     error_unavailable: "Dienst vorübergehend nicht verfügbar. Bitte versuchen Sie es später erneut.",
     error_generic: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
     error_connection: "Verbindung nicht möglich. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+    sources_label: "Quellen",
+    sources_subtitle: "Referenzen, die dieses Reframing unterstützen",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
@@ -292,6 +296,8 @@ const translations = {
     error_unavailable: "Servicio temporalmente no disponible. Por favor, inténtalo más tarde.",
     error_generic: "Algo salió mal. Por favor, inténtalo de nuevo.",
     error_connection: "No se puede conectar. Por favor, verifica tu conexión e inténtalo de nuevo.",
+    sources_label: "Fuentes",
+    sources_subtitle: "Referencias que respaldan este reencuadre",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
@@ -387,6 +393,8 @@ const translations = {
     error_unavailable: "Service temporairement indisponible. Veuillez réessayer plus tard.",
     error_generic: "Quelque chose s'est mal passé. Veuillez réessayer.",
     error_connection: "Impossible de se connecter. Veuillez vérifier votre connexion et réessayer.",
+    sources_label: "Sources",
+    sources_subtitle: "References soutenant ce recadrage",
   },
 } as const;
 
