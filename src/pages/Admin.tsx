@@ -90,6 +90,21 @@ const Admin = () => {
   const aiMode = events.filter((e) => e.mode === "ai").length;
   const trainingMode = events.filter((e) => e.mode === "training").length;
 
+  // Group by session
+  const sessionMap: Record<string, any[]> = {};
+  events.forEach((e) => {
+    const sid = e.session_id || e.id;
+    if (!sessionMap[sid]) sessionMap[sid] = [];
+    sessionMap[sid].push(e);
+  });
+  const sessions = Object.entries(sessionMap).sort(([, a], [, b]) => {
+    const latestA = Math.max(...a.map((e: any) => new Date(e.created_at).getTime()));
+    const latestB = Math.max(...b.map((e: any) => new Date(e.created_at).getTime()));
+    return latestB - latestA;
+  });
+  const multiQuestionSessions = sessions.filter(([, evts]) => evts.length > 1).length;
+  const uniqueSessions = sessions.length;
+
   // Group by challenge_id for preselected
   const challengeCounts: Record<string, number> = {};
   events.filter((e) => e.event_type === "preselected" && e.challenge_id).forEach((e) => {
