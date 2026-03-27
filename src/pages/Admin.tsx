@@ -84,13 +84,15 @@ const Admin = () => {
   }
 
   // Analytics computations
+  const coachEvents = events.filter((e) => e.mode !== "explore");
+  const exploreEvents = events.filter((e) => e.mode === "explore");
   const totalEvents = events.length;
-  const preselected = events.filter((e) => e.event_type === "preselected").length;
-  const aiGenerated = events.filter((e) => e.event_type === "ai-generated").length;
-  const withheld = events.filter((e) => e.event_type === "withheld").length;
-  const custom = events.filter((e) => e.event_type === "custom").length;
-  const aiMode = events.filter((e) => e.mode === "ai").length;
-  const trainingMode = events.filter((e) => e.mode === "training").length;
+  const preselected = coachEvents.filter((e) => e.event_type === "preselected").length;
+  const aiGenerated = coachEvents.filter((e) => e.event_type === "ai-generated").length;
+  const withheld = coachEvents.filter((e) => e.event_type === "withheld").length;
+  const custom = coachEvents.filter((e) => e.event_type === "custom").length;
+  const aiMode = coachEvents.filter((e) => e.mode === "ai").length;
+  const trainingMode = coachEvents.filter((e) => e.mode === "training").length;
 
   // Group by session
   const sessionMap: Record<string, any[]> = {};
@@ -243,10 +245,10 @@ const Admin = () => {
             {/* Stats cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
               {[
-                { label: "Total submissions", value: totalEvents },
+                { label: "Total (all)", value: totalEvents },
+                { label: "Public explore", value: exploreEvents.length },
+                { label: "Coach submissions", value: coachEvents.length },
                 { label: "Unique sessions", value: uniqueSessions },
-                { label: "Multi-question sessions", value: multiQuestionSessions },
-                { label: "Avg questions/session", value: uniqueSessions ? (totalEvents / uniqueSessions).toFixed(1) : "0" },
               ].map((stat) => (
                 <div key={stat.label} className="rounded-xl border border-border bg-card p-4 text-center">
                   <p className="text-2xl font-heading font-semibold text-foreground">{stat.value}</p>
@@ -254,6 +256,28 @@ const Admin = () => {
                 </div>
               ))}
             </div>
+
+            {/* Explore questions section */}
+            {exploreEvents.length > 0 && (
+              <div className="rounded-xl border border-accent/30 bg-accent/5 p-6 mb-6">
+                <h3 className="text-sm font-body font-medium text-foreground mb-4">
+                  Public explore questions ({exploreEvents.length})
+                </h3>
+                <div className="space-y-2 max-h-60 overflow-y-auto">
+                  {exploreEvents.map((event: any) => (
+                    <div key={event.id} className="flex items-start justify-between gap-3">
+                      <p className="text-xs text-foreground/80 font-body leading-snug flex-1">{event.challenge_text}</p>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <span className="text-[0.6rem] text-muted-foreground/50 font-body uppercase">{event.language || "en"}</span>
+                        <span className="text-[0.6rem] text-muted-foreground/40 font-body">
+                          {new Date(event.created_at).toLocaleDateString(undefined, { day: "2-digit", month: "short" })}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
               {[
@@ -385,6 +409,8 @@ const Admin = () => {
                                       ? "bg-blue-500/10 text-blue-600"
                                       : event.event_type === "withheld"
                                       ? "bg-yellow-500/10 text-yellow-600"
+                                      : event.event_type === "explore"
+                                      ? "bg-accent/15 text-accent"
                                       : "bg-primary/10 text-primary"
                                   }`}>
                                     {event.event_type === "custom"
@@ -393,11 +419,15 @@ const Admin = () => {
                                       ? "from website"
                                       : event.event_type === "ai-generated"
                                       ? "AI suggestion"
+                                      : event.event_type === "explore"
+                                      ? "public explore"
                                       : event.event_type}
                                   </span>
                                   <span className={`inline-block px-1.5 py-0.5 rounded text-[0.6rem] font-body ${
                                     event.mode === "training"
                                       ? "bg-muted text-muted-foreground"
+                                      : event.mode === "explore"
+                                      ? "bg-accent/10 text-accent"
                                       : "bg-secondary text-secondary-foreground"
                                   }`}>
                                     {event.mode || "ai"}
