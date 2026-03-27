@@ -105,14 +105,16 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.15 }}
             style={tooltipStyle}
-            className="w-72 p-3 rounded-lg border border-border bg-card shadow-lg pointer-events-none"
+            className="w-72 p-3 rounded-lg border border-border bg-card shadow-lg"
+            onMouseEnter={() => setHoveredCitation(hoveredCitation)}
+            onMouseLeave={() => setHoveredCitation(null)}
           >
             <p className="text-xs font-body font-medium text-foreground mb-1">{hoveredSource.title}</p>
             <p className="text-[0.7rem] font-body text-muted-foreground leading-relaxed">{hoveredSource.description}</p>
             {hoveredSource.url && (
-              <span className="text-[0.7rem] font-body text-accent mt-1 block truncate">
+              <a href={hoveredSource.url} target="_blank" rel="noopener noreferrer" className="text-[0.7rem] font-body text-accent mt-1 block truncate hover:text-accent/80 transition-colors">
                 View source
-              </span>
+              </a>
             )}
           </motion.div>
         )}
