@@ -32,6 +32,7 @@ const PRELOADED_CHALLENGES = [
 
 interface ChallengeSelectorProps {
   onSelect: (challenge: string) => void;
+  trainingMode?: boolean;
 }
 
 const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
