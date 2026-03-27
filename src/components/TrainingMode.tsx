@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { PenLine, Sparkles, ArrowRight, Loader2, Star, Lightbulb, ChevronDown, ChevronUp, Heart, Handshake, Target } from "lucide-react";
+import { PenLine, Sparkles, ArrowRight, Loader2, Star, Lightbulb, ChevronDown, ChevronUp, Heart, Handshake, Target, HelpCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
 
