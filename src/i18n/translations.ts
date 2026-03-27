@@ -417,6 +417,8 @@ const translations = {
     demo_refresh: "Afficher de nouvelles questions",
     step_label: "Etape",
     step_of: "sur",
+    sources_value_title: "Appuye par des sources reelles",
+    sources_value_body: "Chaque reponse inclut des references verifiees pour que vous puissiez approfondir le sujet et comprendre d'ou viennent les idees.",
   },
 } as const;
 

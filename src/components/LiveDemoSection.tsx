@@ -177,6 +177,25 @@ const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
             {t("demo_custom")}
           </button>
         </motion.div>
+
+        {/* Verified sources value prop */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.7 }}
+          className="mt-16 max-w-lg mx-auto text-center"
+        >
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 mb-4">
+            <BookOpen className="w-5 h-5 text-accent" />
+          </div>
+          <h3 className="text-lg font-heading font-semibold text-foreground mb-2">
+            {t("sources_value_title")}
+          </h3>
+          <p className="text-sm text-muted-foreground font-body leading-relaxed">
+            {t("sources_value_body")}
+          </p>
+        </motion.div>
       </div>
     </section>
   );
