@@ -624,6 +624,10 @@ const translations = {
     step_of: "di",
     sources_value_title: "Supportato da fonti reali",
     sources_value_body: "Ogni risposta include riferimenti verificati per approfondire l'argomento e capire da dove provengono le intuizioni.",
+    consent_notice: "La tua domanda viene raccolta in modo anonimo per aiutarci a migliorare.",
+    consent_opt_out: "Non raccogliere",
+    consent_opted_out: "Non raccolta",
+    consent_opt_in: "Consenti la raccolta",
   },
 } as const;
 

@@ -118,6 +118,15 @@ const Index = () => {
                 <blockquote className="text-xl md:text-2xl font-heading italic text-foreground/80 max-w-2xl mx-auto leading-relaxed">"{challenge}"</blockquote>
               </div>
               <ModeChooser onChoose={handleModeChoice} />
+              <div className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground/60 font-body">
+                <span>{collectConsent ? t("consent_notice") : t("consent_opted_out")}</span>
+                <button
+                  onClick={toggleConsent}
+                  className="underline hover:text-muted-foreground transition-colors"
+                >
+                  {collectConsent ? t("consent_opt_out") : t("consent_opt_in")}
+                </button>
+              </div>
             </div>
           </section>
         )}
