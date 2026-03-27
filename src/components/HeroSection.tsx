@@ -52,7 +52,7 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.8 }}
-          className="text-base text-muted-foreground/80 mb-12 max-w-xl mx-auto leading-relaxed font-body"
+          className="text-base text-muted-foreground/80 mb-10 max-w-xl mx-auto leading-relaxed font-body"
         >
           {t("hero_body_new")}
         </motion.p>
