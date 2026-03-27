@@ -102,6 +102,8 @@ const translations = {
     error_unavailable: "Service temporarily unavailable. Please try again later.",
     error_generic: "Something went wrong. Please try again.",
     error_connection: "Unable to connect. Please check your connection and try again.",
+    sources_label: "Sources",
+    sources_subtitle: "References supporting this reframing",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
