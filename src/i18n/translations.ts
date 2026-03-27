@@ -401,6 +401,8 @@ const translations = {
     error_connection: "Impossible de se connecter. Veuillez vérifier votre connexion et réessayer.",
     sources_label: "Sources",
     sources_subtitle: "References soutenant ce recadrage",
+    followup_label: "Explorer davantage",
+    demo_refresh: "Afficher de nouvelles questions",
   },
 } as const;
 
