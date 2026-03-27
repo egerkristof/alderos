@@ -154,7 +154,16 @@ const Explore = () => {
                   ))}
                 </div>
 
-                <p className="mt-4 text-xs text-muted-foreground/50 font-body">
+                <div className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground/50 font-body">
+                  <span>{collectConsent ? t("consent_notice") : t("consent_opted_out")}</span>
+                  <button
+                    onClick={toggleConsent}
+                    className="underline hover:text-muted-foreground transition-colors"
+                  >
+                    {collectConsent ? t("consent_opt_out") : t("consent_opt_in")}
+                  </button>
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground/50 font-body">
                   {t("explore_hint")}
                 </p>
               </motion.div>
