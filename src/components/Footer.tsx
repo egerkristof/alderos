@@ -7,19 +7,29 @@ const Footer = () => {
     <footer className="border-t border-border py-16 px-6">
       <div className="max-w-3xl mx-auto text-center">
         <p className="text-sm font-body text-muted-foreground mb-3">
-          {t("footer_method")}{" "}
-          <span className="text-foreground font-medium">{t("footer_method_name")}</span>{" "}
-          {t("footer_method_suffix")}
+          Inspired by the work of{" "}
+          <a
+            href="https://www.catholicvoices.org.uk/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground font-medium underline underline-offset-2 decoration-accent/40 hover:decoration-accent transition-colors"
+          >
+            Catholic Voices
+          </a>
         </p>
         <p className="text-xs font-body text-muted-foreground/70 max-w-lg mx-auto leading-relaxed mb-6">
           {t("footer_body")}
         </p>
-        <div className="flex items-center justify-center gap-2">
-          <div className="w-1 h-1 rounded-full bg-accent/40" />
-          <p className="text-xs font-body text-muted-foreground/50 italic">
-            {t("footer_credit")}
+        <div className="flex flex-col items-center gap-2">
+          <p className="text-xs font-body text-muted-foreground/60">
+            A project by <span className="text-foreground/70 font-medium">Kristof Eger</span>
           </p>
-          <div className="w-1 h-1 rounded-full bg-accent/40" />
+          <a
+            href="mailto:kristof.eger@lizaos.ai"
+            className="text-xs font-body text-accent hover:text-accent/80 transition-colors"
+          >
+            kristof.eger@lizaos.ai
+          </a>
         </div>
       </div>
     </footer>
