@@ -277,7 +277,7 @@ const translations = {
     footer_method: "Construido con la",
     footer_method_name: "Catholic Voices",
     footer_method_suffix: "metodología de reencuadre",
-    footer_body: "Alderos explora cómo la IA y la comunicación estratégica pueden servir a la misión de construir puentes. Diseñado para mostrar que la tecnología, guiada por pensamiento claro y empatía genuina, se convierte en una herramienta poderosa para la comprensión.",
+    footer_body: "En un mundo donde las buenas causas suelen ser malinterpretadas, Alderos ayuda a personas con convicciones a comunicar con claridad, empatía y verdad.",
     footer_credit: "Un proyecto de Christoph — donde la estrategia se encuentra con la fe y la innovación",
     challenge_wealth: "Dinero y poder",
     challenge_wealth_desc: "El Opus Dei es muy rico, tiene casas caras y está interesado en el dinero y el poder.",
