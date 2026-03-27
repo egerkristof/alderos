@@ -566,6 +566,9 @@ const translations = {
     coach_gate_placeholder: "Mot de passe",
     coach_gate_error: "Mot de passe incorrect. Veuillez reessayer.",
     coach_gate_enter: "Entrer",
+    suggested_q1: "Qu'est-ce que l'Opus Dei exactement?",
+    suggested_q2: "L'Opus Dei est-il une secte?",
+    suggested_q3: "Que font les membres de l'Opus Dei au quotidien?",
   },
   it: {
     hero_tagline: "Un ponte tra domande e comprensione",
