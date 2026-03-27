@@ -30,6 +30,14 @@ const Footer = () => {
           >
             kristof.eger@lizaos.ai
           </a>
+          <a
+            href="/admin/login"
+            className="text-xs font-body text-muted-foreground/40 hover:text-muted-foreground/60 transition-colors mt-4"
+          >
+            Admin
+          </a>
+            kristof.eger@lizaos.ai
+          </a>
         </div>
       </div>
     </footer>
