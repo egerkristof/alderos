@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import { Heart, Handshake, Lightbulb, ArrowLeft, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import ResponseActions from "./ResponseActions";
 
 interface Phase {
   icon: React.ReactNode;
@@ -13,6 +14,7 @@ interface Phase {
 interface ReframingExperienceProps {
   challenge: string;
   onBack: () => void;
+  trainingMode?: boolean;
 }
 
 const PHASE_META = [
@@ -36,16 +38,18 @@ const PHASE_META = [
   },
 ];
 
-const ReframingExperience = ({ challenge, onBack }: ReframingExperienceProps) => {
+const ReframingExperience = ({ challenge, onBack, trainingMode }: ReframingExperienceProps) => {
   const [phases, setPhases] = useState<Phase[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activePhase, setActivePhase] = useState(0);
+  const [rawData, setRawData] = useState<{ empathy: string; shared_value: string; message: string } | null>(null);
 
   const fetchReframing = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     setPhases([]);
+    setRawData(null);
 
     try {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -77,15 +81,15 @@ const ReframingExperience = ({ challenge, onBack }: ReframingExperienceProps) =>
       }
 
       const data = await resp.json();
+      setRawData({ empathy: data.empathy || "", shared_value: data.shared_value || "", message: data.message || "" });
 
-      const builtPhases: Phase[] = PHASE_META.map((meta, i) => ({
+      const builtPhases: Phase[] = PHASE_META.map((meta) => ({
         icon: meta.icon,
         label: meta.label,
         title: meta.title,
         content: data[meta.key] || "",
       }));
 
-      // Reveal phases sequentially
       for (let i = 0; i < builtPhases.length; i++) {
         await new Promise((r) => setTimeout(r, i === 0 ? 400 : 800));
         setPhases((prev) => [...prev, builtPhases[i]]);
@@ -101,6 +105,8 @@ const ReframingExperience = ({ challenge, onBack }: ReframingExperienceProps) =>
   useEffect(() => {
     fetchReframing();
   }, [fetchReframing]);
+
+  const allLoaded = phases.length === 3 && !isLoading;
 
   return (
     <section className="min-h-screen flex flex-col items-center px-6 py-16 md:py-24">
@@ -229,6 +235,11 @@ const ReframingExperience = ({ challenge, onBack }: ReframingExperienceProps) =>
               )
             ))}
           </div>
+        )}
+
+        {/* Response actions: copy, share, rate */}
+        {allLoaded && rawData && (
+          <ResponseActions challenge={challenge} phases={rawData} />
         )}
       </motion.div>
     </section>

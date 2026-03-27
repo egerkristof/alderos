@@ -32,9 +32,10 @@ const PRELOADED_CHALLENGES = [
 
 interface ChallengeSelectorProps {
   onSelect: (challenge: string) => void;
+  trainingMode?: boolean;
 }
 
-const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
+const ChallengeSelector = ({ onSelect, trainingMode }: ChallengeSelectorProps) => {
   const [customInput, setCustomInput] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -60,7 +61,7 @@ const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
         className="max-w-3xl w-full text-center"
       >
         <p className="text-sm tracking-[0.25em] uppercase text-accent mb-4 font-body">
-          Step One
+          {trainingMode ? "Training Mode" : "Step One"}
         </p>
         <h2 className="text-3xl md:text-4xl font-heading font-semibold text-foreground mb-3">
           What's on your mind?
