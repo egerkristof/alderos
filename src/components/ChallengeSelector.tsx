@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ChallengeSelectorProps {
-  onSelect: (challenge: string) => void;
+  onSelect: (challenge: string, id?: string) => void;
 }
 
 const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
@@ -23,7 +23,7 @@ const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
   const handleChipClick = (challenge: typeof challenges[0]) => {
     setSelectedId(challenge.id);
     setCustomInput("");
-    onSelect(t(challenge.descKey));
+    onSelect(t(challenge.descKey), challenge.id);
   };
 
   const handleCustomSubmit = () => {

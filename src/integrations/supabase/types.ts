@@ -14,7 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      system_prompts: {
+        Row: {
+          description: string | null
+          id: string
+          name: string
+          prompt_text: string
+          updated_at: string | null
+        }
+        Insert: {
+          description?: string | null
+          id?: string
+          name: string
+          prompt_text: string
+          updated_at?: string | null
+        }
+        Update: {
+          description?: string | null
+          id?: string
+          name?: string
+          prompt_text?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      usage_events: {
+        Row: {
+          challenge_id: string | null
+          challenge_text: string
+          created_at: string | null
+          event_type: string
+          id: string
+          language: string | null
+          mode: string | null
+        }
+        Insert: {
+          challenge_id?: string | null
+          challenge_text: string
+          created_at?: string | null
+          event_type: string
+          id?: string
+          language?: string | null
+          mode?: string | null
+        }
+        Update: {
+          challenge_id?: string | null
+          challenge_text?: string
+          created_at?: string | null
+          event_type?: string
+          id?: string
+          language?: string | null
+          mode?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
