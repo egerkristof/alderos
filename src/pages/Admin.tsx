@@ -311,37 +311,91 @@ const Admin = () => {
               ) : sessions.length === 0 ? (
                 <p className="text-muted-foreground font-body text-center py-8">No submissions yet.</p>
               ) : (
-                <div className="divide-y divide-border/50">
+                <div className="divide-y divide-border">
                   {sessions.slice(0, 30).map(([sessionId, sessionEvents]) => {
-                    const firstEvent = sessionEvents[sessionEvents.length - 1];
-                    const lastEvent = sessionEvents[0];
-                    const isMulti = sessionEvents.length > 1;
+                    const sortedEvents = [...sessionEvents].sort(
+                      (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+                    );
+                    const firstEvent = sortedEvents[0];
+                    const lastEvent = sortedEvents[sortedEvents.length - 1];
+                    const isMulti = sortedEvents.length > 1;
+                    const hasSessionId = firstEvent.session_id != null;
+
+                    // Duration for multi-question sessions
+                    const durationMs = new Date(lastEvent.created_at).getTime() - new Date(firstEvent.created_at).getTime();
+                    const durationMin = Math.round(durationMs / 60000);
+
                     return (
-                      <div key={sessionId} className={`p-4 ${isMulti ? "bg-accent/[0.03]" : ""}`}>
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            {isMulti && (
-                              <span className="inline-block px-2 py-0.5 rounded-full text-[0.65rem] bg-accent/10 text-accent font-body font-medium">
-                                {sessionEvents.length} questions
-                              </span>
-                            )}
-                            <span className="text-xs text-muted-foreground font-body">
-                              {new Date(firstEvent.created_at).toLocaleString()}
-                            </span>
-                            <span className="text-xs text-muted-foreground/50 font-body uppercase">{firstEvent.language}</span>
+                      <div key={sessionId} className="p-5">
+                        {/* Session header */}
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-3">
+                            {/* Session icon */}
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-body font-semibold ${
+                              isMulti
+                                ? "bg-accent/15 text-accent"
+                                : "bg-muted text-muted-foreground"
+                            }`}>
+                              {sortedEvents.length}
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-body font-medium text-foreground">
+                                  {isMulti ? `${sortedEvents.length} questions` : "1 question"}
+                                </span>
+                                {isMulti && durationMin > 0 && (
+                                  <span className="text-[0.65rem] text-muted-foreground/60 font-body">
+                                    ({durationMin} min session)
+                                  </span>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-[0.65rem] text-muted-foreground font-body">
+                                  {new Date(firstEvent.created_at).toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" })}
+                                  {", "}
+                                  {new Date(firstEvent.created_at).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })}
+                                </span>
+                                <span className="text-[0.65rem] text-muted-foreground/40 font-body uppercase">{firstEvent.language || "en"}</span>
+                                {!hasSessionId && (
+                                  <span className="text-[0.6rem] text-muted-foreground/40 font-body italic">pre-tracking</span>
+                                )}
+                              </div>
+                            </div>
                           </div>
-                          <span className="text-[0.6rem] text-muted-foreground/40 font-mono">{sessionId.slice(0, 8)}</span>
+                          <span className="text-[0.55rem] text-muted-foreground/30 font-mono select-all">{sessionId.slice(0, 8)}</span>
                         </div>
-                        <div className="space-y-1.5">
-                          {sessionEvents.map((event: any) => (
-                            <div key={event.id} className="flex items-center gap-3">
-                              <span className={`inline-block px-1.5 py-0.5 rounded text-[0.65rem] ${
-                                event.event_type === "custom" ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary"
-                              }`}>
-                                {event.event_type}
-                              </span>
-                              <span className="text-[0.65rem] text-muted-foreground font-body">{event.mode || "-"}</span>
-                              <span className="text-xs text-foreground/80 font-body truncate max-w-md">{event.challenge_text}</span>
+
+                        {/* Questions list */}
+                        <div className={`ml-11 space-y-2 ${isMulti ? "border-l-2 border-accent/15 pl-4" : "pl-0"}`}>
+                          {sortedEvents.map((event: any, idx: number) => (
+                            <div key={event.id} className="flex items-start gap-2">
+                              {isMulti && (
+                                <span className="text-[0.6rem] text-muted-foreground/40 font-mono mt-1 w-4 flex-shrink-0">{idx + 1}.</span>
+                              )}
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-1.5 mb-0.5">
+                                  <span className={`inline-block px-1.5 py-0.5 rounded text-[0.6rem] font-body font-medium ${
+                                    event.event_type === "custom"
+                                      ? "bg-accent/10 text-accent"
+                                      : "bg-primary/10 text-primary"
+                                  }`}>
+                                    {event.event_type}
+                                  </span>
+                                  <span className={`inline-block px-1.5 py-0.5 rounded text-[0.6rem] font-body ${
+                                    event.mode === "training"
+                                      ? "bg-muted text-muted-foreground"
+                                      : "bg-secondary text-secondary-foreground"
+                                  }`}>
+                                    {event.mode || "ai"}
+                                  </span>
+                                  {isMulti && (
+                                    <span className="text-[0.55rem] text-muted-foreground/40 font-body">
+                                      {new Date(event.created_at).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-xs text-foreground/80 font-body leading-snug">{event.challenge_text}</p>
+                              </div>
                             </div>
                           ))}
                         </div>
