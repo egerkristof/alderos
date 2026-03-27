@@ -6,7 +6,7 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
   const { t } = useLanguage();
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
+    <section className="min-h-[85vh] lg:min-h-[75vh] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
       {/* Subtle background shapes */}
       <motion.div
         className="absolute top-20 right-20 w-72 h-72 rounded-full opacity-[0.04]"
@@ -32,7 +32,7 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold tracking-tight text-foreground mb-6 leading-[1.15]"
+          className="text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-heading font-semibold tracking-tight text-foreground mb-6 leading-[1.15]"
         >
           {t("hero_title_pain")}
         </motion.h1>
@@ -52,7 +52,7 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.8 }}
-          className="text-base text-muted-foreground/80 mb-12 max-w-xl mx-auto leading-relaxed font-body"
+          className="text-base text-muted-foreground/80 mb-10 max-w-xl mx-auto leading-relaxed font-body"
         >
           {t("hero_body_new")}
         </motion.p>
