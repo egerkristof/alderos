@@ -35,7 +35,7 @@ interface ChallengeSelectorProps {
   trainingMode?: boolean;
 }
 
-const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
+const ChallengeSelector = ({ onSelect, trainingMode }: ChallengeSelectorProps) => {
   const [customInput, setCustomInput] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
