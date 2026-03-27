@@ -199,6 +199,8 @@ const translations = {
     error_unavailable: "Dienst vorübergehend nicht verfügbar. Bitte versuchen Sie es später erneut.",
     error_generic: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
     error_connection: "Verbindung nicht möglich. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+    sources_label: "Quellen",
+    sources_subtitle: "Referenzen, die dieses Reframing unterstützen",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
