@@ -61,18 +61,26 @@ const Index = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const toggleConsent = () => {
+    const newVal = !collectConsent;
+    setCollectConsent(newVal);
+    localStorage.setItem("alderos_collect_consent", String(newVal));
+  };
+
   const handleModeChoice = (mode: "ai" | "training") => {
     setState(mode === "ai" ? "reframe" : "training");
     window.scrollTo({ top: 0, behavior: "smooth" });
-    // Track usage event
-    supabase.from("usage_events").insert({
-      event_type: isCustom ? "custom" : "preselected",
-      challenge_id: challengeId,
-      challenge_text: challenge,
-      language: lang,
-      mode,
-      session_id: SESSION_ID,
-    } as any).then(() => {});
+    // Track usage event only if user consented
+    if (collectConsent) {
+      supabase.from("usage_events").insert({
+        event_type: isCustom ? "custom" : "preselected",
+        challenge_id: challengeId,
+        challenge_text: challenge,
+        language: lang,
+        mode,
+        session_id: SESSION_ID,
+      } as any).then(() => {});
+    }
   };
 
   const handleBack = () => {
