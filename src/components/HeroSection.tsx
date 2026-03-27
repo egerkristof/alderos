@@ -32,7 +32,7 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold tracking-tight text-foreground mb-6 leading-[1.15]"
+          className="text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-heading font-semibold tracking-tight text-foreground mb-6 leading-[1.15]"
         >
           {t("hero_title_pain")}
         </motion.h1>

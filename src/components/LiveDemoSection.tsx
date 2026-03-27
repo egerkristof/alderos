@@ -61,7 +61,7 @@ const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
   };
 
   return (
-    <section className="py-24 px-6 relative">
+    <section className="py-16 lg:py-20 px-6 relative">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
