@@ -86,6 +86,7 @@ const Admin = () => {
   // Analytics computations
   const totalEvents = events.length;
   const preselected = events.filter((e) => e.event_type === "preselected").length;
+  const aiGenerated = events.filter((e) => e.event_type === "ai-generated").length;
   const custom = events.filter((e) => e.event_type === "custom").length;
   const aiMode = events.filter((e) => e.mode === "ai").length;
   const trainingMode = events.filter((e) => e.mode === "training").length;
@@ -253,10 +254,11 @@ const Admin = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
               {[
                 { label: "Preselected", value: preselected },
-                { label: "Custom questions", value: custom },
+                { label: "AI-generated", value: aiGenerated },
+                { label: "Custom (user-typed)", value: custom },
                 { label: "AI mode", value: aiMode },
                 { label: "Training mode", value: trainingMode },
               ].map((stat) => (
@@ -377,6 +379,8 @@ const Admin = () => {
                                   <span className={`inline-block px-1.5 py-0.5 rounded text-[0.6rem] font-body font-medium ${
                                     event.event_type === "custom"
                                       ? "bg-accent/10 text-accent"
+                                      : event.event_type === "ai-generated"
+                                      ? "bg-blue-500/10 text-blue-600"
                                       : "bg-primary/10 text-primary"
                                   }`}>
                                     {event.event_type}
