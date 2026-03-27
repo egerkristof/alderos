@@ -22,7 +22,7 @@ serve(async (req) => {
   }
 
   try {
-    const { question, language = "en", consent = true } = await req.json();
+    const { question, language = "en", consent = true, session_id = null } = await req.json();
     if (!question || typeof question !== "string" || question.trim().length === 0) {
       return new Response(JSON.stringify({ error: "No question provided" }), {
         status: 400,
@@ -136,6 +136,7 @@ ${langInstruction}`;
           challenge_text: consent ? question.trim() : "(withheld by user)",
           language,
           mode: "explore",
+          session_id: session_id || null,
         });
       } catch (logErr) {
         console.error("Failed to log explore event:", logErr);

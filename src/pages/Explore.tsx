@@ -6,6 +6,8 @@ import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
 import Footer from "@/components/Footer";
 
+const EXPLORE_SESSION_ID = crypto.randomUUID();
+
 interface AnswerData {
   answer: string;
   sources: { title: string; description: string; url?: string | null }[];
@@ -49,7 +51,7 @@ const Explore = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${supabaseKey}`,
         },
-        body: JSON.stringify({ question: q, language: lang, consent: collectConsent }),
+        body: JSON.stringify({ question: q, language: lang, consent: collectConsent, session_id: EXPLORE_SESSION_ID }),
       });
 
       if (resp.status === 429) {
