@@ -207,6 +207,8 @@ const translations = {
     sources_subtitle: "Referenzen, die dieses Reframing unterstützen",
     followup_label: "Weiter erkunden",
     demo_refresh: "Neue Fragen anzeigen",
+    step_label: "Schritt",
+    step_of: "von",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
