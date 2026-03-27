@@ -146,6 +146,9 @@ const translations = {
     coach_gate_placeholder: "Password",
     coach_gate_error: "Incorrect password. Please try again.",
     coach_gate_enter: "Enter",
+    suggested_q1: "What is Opus Dei, really?",
+    suggested_q2: "Is Opus Dei a cult?",
+    suggested_q3: "What do members of Opus Dei do every day?",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
@@ -283,6 +286,9 @@ const translations = {
     coach_gate_placeholder: "Passwort",
     coach_gate_error: "Falsches Passwort. Bitte versuchen Sie es erneut.",
     coach_gate_enter: "Eintreten",
+    suggested_q1: "Was ist Opus Dei wirklich?",
+    suggested_q2: "Ist Opus Dei eine Sekte?",
+    suggested_q3: "Was machen Mitglieder von Opus Dei im Alltag?",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
@@ -420,6 +426,9 @@ const translations = {
     coach_gate_placeholder: "Contrasena",
     coach_gate_error: "Contrasena incorrecta. Intentalo de nuevo.",
     coach_gate_enter: "Entrar",
+    suggested_q1: "Que es realmente el Opus Dei?",
+    suggested_q2: "Es el Opus Dei una secta?",
+    suggested_q3: "Que hacen los miembros del Opus Dei en su dia a dia?",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
@@ -557,6 +566,9 @@ const translations = {
     coach_gate_placeholder: "Mot de passe",
     coach_gate_error: "Mot de passe incorrect. Veuillez reessayer.",
     coach_gate_enter: "Entrer",
+    suggested_q1: "Qu'est-ce que l'Opus Dei exactement?",
+    suggested_q2: "L'Opus Dei est-il une secte?",
+    suggested_q3: "Que font les membres de l'Opus Dei au quotidien?",
   },
   it: {
     hero_tagline: "Un ponte tra domande e comprensione",
@@ -694,6 +706,9 @@ const translations = {
     coach_gate_placeholder: "Password",
     coach_gate_error: "Password errata. Riprova.",
     coach_gate_enter: "Entra",
+    suggested_q1: "Cos'e davvero l'Opus Dei?",
+    suggested_q2: "L'Opus Dei e una setta?",
+    suggested_q3: "Cosa fanno i membri dell'Opus Dei ogni giorno?",
   },
   hu: {
     hero_tagline: "Híd a kérdések és a megértés között",
@@ -831,6 +846,9 @@ const translations = {
     coach_gate_placeholder: "Jelszó",
     coach_gate_error: "Helytelen jelszó. Próbálja újra.",
     coach_gate_enter: "Belép",
+    suggested_q1: "Mi is valójában az Opus Dei?",
+    suggested_q2: "Az Opus Dei szekta?",
+    suggested_q3: "Mit csinálnak az Opus Dei tagjai a mindennapokban?",
   },
 } as const;
 
