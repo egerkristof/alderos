@@ -73,11 +73,11 @@ const Index = () => {
 };
 
 // Wrapper that fetches AI data and passes to training mode
-import { useState as useStateImport, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 
 const TrainingReframeWrapper = ({ challenge, onBack }: { challenge: string; onBack: () => void }) => {
-  const [aiData, setAiData] = useStateImport<{ empathy: string; shared_value: string; message: string } | null>(null);
-  const [isLoading, setIsLoading] = useStateImport(true);
+  const [aiData, setAiData] = useState<{ empathy: string; shared_value: string; message: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchReframing = useCallback(async () => {
     setIsLoading(true);
