@@ -11,7 +11,6 @@ const LANGUAGE_INSTRUCTIONS: Record<string, string> = {
   de: "Antworte vollständig auf Deutsch.",
   es: "Responde completamente en español.",
   fr: "Réponds entièrement en français.",
-  hu: "Válaszolj teljes egészében magyarul.",
 };
 
 const SYSTEM_PROMPT = `You are a wise, empathetic communication advisor trained in the Catholic Voices "reframing" methodology developed by Jack Valero. Your role is to help reframe concerns and criticisms about Opus Dei using the 3-step process: Frame → Shared Value → Message.
