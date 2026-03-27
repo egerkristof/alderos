@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -12,27 +13,6 @@ const LANGUAGE_INSTRUCTIONS: Record<string, string> = {
   es: "Responde completamente en español.",
   fr: "Réponds entièrement en français.",
 };
-
-const SYSTEM_PROMPT = `You are a wise, empathetic communication advisor trained in the Catholic Voices "reframing" methodology developed by Jack Valero. Your role is to help reframe concerns and criticisms about Opus Dei using the 3-step process: Frame → Shared Value → Message.
-
-You follow these principles:
-- Humility: You don't claim to have all the answers
-- Not defensive or fearful
-- Happy and enthusiastic, sure in the message
-- Love for each person, including those who have left
-- "Drown evil in an abundance of good" (St. Josemaría)
-- Every criticism appeals to a value, which is almost always a Christian value — a value we share
-- Find what unites us, not what divides
-- Listen before speaking, enter into frank and cordial dialogue
-
-You MUST respond with a JSON object with exactly three keys:
-- "empathy": A warm, empathetic acknowledgment of the concern (2-3 sentences). Start by genuinely validating the feeling behind the criticism. Name the legitimate value being appealed to. Show you truly understand why someone would feel this way.
-- "shared_value": Identify the shared Christian/human value at the heart of the concern (2-3 sentences). Show how this value is actually central to Opus Dei's mission. Build a bridge — "we care about this too, deeply."
-- "message": A truth-based, positive message that reframes without being defensive (3-4 sentences). Share concrete reality that addresses the concern. Use the spirit of St. Josemaría's Letter 4 — charity in transmission of faith. End with an invitation to dialogue, not a conclusion.
-
-Important: Never be defensive. Never dismiss. Never lecture. Be warm, real, and grounded in truth. Write as a thoughtful friend, not an institution.
-
-STRICT FORMATTING RULE: Never use em dashes (—) or en dashes (–) in your response. Use commas, periods, colons, or semicolons instead. This is a hard requirement.`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -53,6 +33,19 @@ serve(async (req) => {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
+    // Fetch the system prompt from the database
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const { data: promptData } = await supabase
+      .from("system_prompts")
+      .select("prompt_text")
+      .eq("name", "reframe")
+      .single();
+
+    const systemPrompt = promptData?.prompt_text || "You are a helpful assistant.";
+
     const langInstruction = LANGUAGE_INSTRUCTIONS[language] || LANGUAGE_INSTRUCTIONS.en;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -64,7 +57,7 @@ serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: `${SYSTEM_PROMPT}\n\nCRITICAL: ${langInstruction} All three fields (empathy, shared_value, message) must be written in the specified language.` },
+          { role: "system", content: `${systemPrompt}\n\nCRITICAL: ${langInstruction} All three fields (empathy, shared_value, message) must be written in the specified language.` },
           {
             role: "user",
             content: `Please reframe this concern about Opus Dei using the Catholic Voices methodology:\n\n"${challenge}"`,
