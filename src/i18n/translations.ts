@@ -308,6 +308,8 @@ const translations = {
     sources_subtitle: "Referencias que respaldan este reencuadre",
     followup_label: "Explorar mas",
     demo_refresh: "Mostrar nuevas preguntas",
+    step_label: "Paso",
+    step_of: "de",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
