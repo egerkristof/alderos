@@ -302,6 +302,8 @@ const translations = {
     error_connection: "No se puede conectar. Por favor, verifica tu conexión e inténtalo de nuevo.",
     sources_label: "Fuentes",
     sources_subtitle: "Referencias que respaldan este reencuadre",
+    followup_label: "Explorar mas",
+    demo_refresh: "Mostrar nuevas preguntas",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
