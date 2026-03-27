@@ -104,6 +104,8 @@ const translations = {
     error_connection: "Unable to connect. Please check your connection and try again.",
     sources_label: "Sources",
     sources_subtitle: "References supporting this reframing",
+    followup_label: "Explore further",
+    demo_refresh: "Show new questions",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
