@@ -94,10 +94,34 @@ const Admin = () => {
   const aiMode = coachEvents.filter((e) => e.mode === "ai").length;
   const trainingMode = coachEvents.filter((e) => e.mode === "training").length;
 
+  // Infer legacy sessions for explore rows without session_id (group by language and time proximity)
+  const inferredLegacySessionByEventId: Record<string, string> = {};
+  const exploreWithoutSession = [...exploreEvents]
+    .filter((e) => !e.session_id)
+    .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+
+  let clusterIndex = 0;
+  let lastLegacyEvent: any | null = null;
+  exploreWithoutSession.forEach((event) => {
+    const currentTs = new Date(event.created_at).getTime();
+    const lastTs = lastLegacyEvent ? new Date(lastLegacyEvent.created_at).getTime() : 0;
+    const sameLanguage = !!lastLegacyEvent && lastLegacyEvent.language === event.language;
+    const closeInTime = !!lastLegacyEvent && currentTs - lastTs <= 10 * 60 * 1000;
+
+    if (!sameLanguage || !closeInTime) {
+      clusterIndex += 1;
+    }
+
+    inferredLegacySessionByEventId[event.id] = `legacy-explore-${clusterIndex}`;
+    lastLegacyEvent = event;
+  });
+
+  const getSessionKey = (event: any) => event.session_id || inferredLegacySessionByEventId[event.id] || event.id;
+
   // Group by session
   const sessionMap: Record<string, any[]> = {};
   events.forEach((e) => {
-    const sid = e.session_id || e.id;
+    const sid = getSessionKey(e);
     if (!sessionMap[sid]) sessionMap[sid] = [];
     sessionMap[sid].push(e);
   });
