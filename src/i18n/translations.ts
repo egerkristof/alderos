@@ -24,6 +24,7 @@ const translations = {
     demo_body: "Choose a real concern people raise about Opus Dei and watch Alderos reframe it in real time.",
     demo_challenge_prefix: "They say…",
     demo_custom: "Or ask your own question",
+    demo_custom_title: "Have your own question?",
     methodology_label: "The approach",
     methodology_title: "How Alderos works",
     methodology_body: "Built on the Catholic Voices reframing methodology: a proven approach to transforming difficult conversations into bridges of understanding.",
