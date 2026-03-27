@@ -1,10 +1,11 @@
-export type Language = "en" | "de" | "es" | "fr";
+export type Language = "en" | "de" | "es" | "fr" | "it";
 
 export const LANGUAGES: { code: Language; label: string; flag: string }[] = [
   { code: "en", label: "English", flag: "🇬🇧" },
   { code: "de", label: "Deutsch", flag: "🇩🇪" },
   { code: "es", label: "Español", flag: "🇪🇸" },
   { code: "fr", label: "Français", flag: "🇫🇷" },
+  { code: "it", label: "Italiano", flag: "🇮🇹" },
 ];
 
 const translations = {
