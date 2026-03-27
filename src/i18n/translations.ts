@@ -313,6 +313,7 @@ const translations = {
     train_step2_label: "Encontrar un valor compartido",
     train_step2_placeholder: "¿Qué valores compartes con quien pregunta? ¿Qué terreno común puedes encontrar?",
     train_step3_label: "Elaborar un mensaje basado en la verdad",
+    train_step3_placeholder: "Basandote en ese valor compartido, que mensaje positivo y veraz ofrecerias?",
     train_step1_guidance: "Comienza mostrando que realmente entiendes por que alguien se siente asi. No defiendas ni expliques todavia. Simplemente refleja la emocion y la experiencia detras de la preocupacion.",
     train_step2_guidance: "Ahora encuentra un valor que genuinamente compartas con quien pregunta. Debe ser un valor humano universal (dignidad, libertad, honestidad, cuidado) que ambos valoren.",
     train_step3_guidance: "Desde ese terreno comun, elabora un mensaje positivo y veraz. Evita ser defensivo o despectivo. Ofrece una nueva perspectiva que fluya naturalmente del valor compartido que identificaste.",
