@@ -239,9 +239,22 @@ const Admin = () => {
             </div>
 
             {/* Stats cards */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
               {[
                 { label: "Total submissions", value: totalEvents },
+                { label: "Unique sessions", value: uniqueSessions },
+                { label: "Multi-question sessions", value: multiQuestionSessions },
+                { label: "Avg questions/session", value: uniqueSessions ? (totalEvents / uniqueSessions).toFixed(1) : "0" },
+              ].map((stat) => (
+                <div key={stat.label} className="rounded-xl border border-border bg-card p-4 text-center">
+                  <p className="text-2xl font-heading font-semibold text-foreground">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground font-body mt-1">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              {[
                 { label: "Preselected", value: preselected },
                 { label: "Custom questions", value: custom },
                 { label: "AI mode", value: aiMode },
