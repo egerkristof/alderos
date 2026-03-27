@@ -23,6 +23,10 @@ const Index = () => {
   const [challenge, setChallenge] = useState("");
   const [challengeId, setChallengeId] = useState<string | null>(null);
   const [isCustom, setIsCustom] = useState(false);
+  const [collectConsent, setCollectConsent] = useState(() => {
+    const stored = localStorage.getItem("alderos_collect_consent");
+    return stored !== "false";
+  });
   const demoRef = useRef<HTMLDivElement>(null);
 
   // Scroll to top on every state change (except "home" initial load)
@@ -57,18 +61,26 @@ const Index = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const toggleConsent = () => {
+    const newVal = !collectConsent;
+    setCollectConsent(newVal);
+    localStorage.setItem("alderos_collect_consent", String(newVal));
+  };
+
   const handleModeChoice = (mode: "ai" | "training") => {
     setState(mode === "ai" ? "reframe" : "training");
     window.scrollTo({ top: 0, behavior: "smooth" });
-    // Track usage event
-    supabase.from("usage_events").insert({
-      event_type: isCustom ? "custom" : "preselected",
-      challenge_id: challengeId,
-      challenge_text: challenge,
-      language: lang,
-      mode,
-      session_id: SESSION_ID,
-    } as any).then(() => {});
+    // Track usage event only if user consented
+    if (collectConsent) {
+      supabase.from("usage_events").insert({
+        event_type: isCustom ? "custom" : "preselected",
+        challenge_id: challengeId,
+        challenge_text: challenge,
+        language: lang,
+        mode,
+        session_id: SESSION_ID,
+      } as any).then(() => {});
+    }
   };
 
   const handleBack = () => {
@@ -106,6 +118,15 @@ const Index = () => {
                 <blockquote className="text-xl md:text-2xl font-heading italic text-foreground/80 max-w-2xl mx-auto leading-relaxed">"{challenge}"</blockquote>
               </div>
               <ModeChooser onChoose={handleModeChoice} />
+              <div className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground/60 font-body">
+                <span>{collectConsent ? t("consent_notice") : t("consent_opted_out")}</span>
+                <button
+                  onClick={toggleConsent}
+                  className="underline hover:text-muted-foreground transition-colors"
+                >
+                  {collectConsent ? t("consent_opt_out") : t("consent_opt_in")}
+                </button>
+              </div>
             </div>
           </section>
         )}

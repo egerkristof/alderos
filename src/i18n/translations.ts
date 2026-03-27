@@ -128,6 +128,10 @@ const translations = {
     step_of: "of",
     sources_value_title: "Backed by real sources",
     sources_value_body: "Every answer includes verified references so you can explore the topic further and learn where the insights come from.",
+    consent_notice: "Your question is collected anonymously to help us improve.",
+    consent_opt_out: "Don't collect",
+    consent_opted_out: "Not collected",
+    consent_opt_in: "Allow collection",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
@@ -248,6 +252,10 @@ const translations = {
     step_of: "von",
     sources_value_title: "Gestützt auf echte Quellen",
     sources_value_body: "Jede Antwort enthält verifizierte Referenzen, damit Sie das Thema vertiefen und nachvollziehen können, woher die Erkenntnisse stammen.",
+    consent_notice: "Ihre Frage wird anonym gesammelt, um uns zu verbessern.",
+    consent_opt_out: "Nicht sammeln",
+    consent_opted_out: "Wird nicht gesammelt",
+    consent_opt_in: "Sammlung erlauben",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
@@ -368,6 +376,10 @@ const translations = {
     step_of: "de",
     sources_value_title: "Respaldado por fuentes reales",
     sources_value_body: "Cada respuesta incluye referencias verificadas para que puedas explorar el tema y conocer de donde provienen las ideas.",
+    consent_notice: "Tu pregunta se recopila de forma anonima para ayudarnos a mejorar.",
+    consent_opt_out: "No recopilar",
+    consent_opted_out: "No se recopila",
+    consent_opt_in: "Permitir recopilacion",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
@@ -488,6 +500,10 @@ const translations = {
     step_of: "sur",
     sources_value_title: "Appuye par des sources reelles",
     sources_value_body: "Chaque reponse inclut des references verifiees pour que vous puissiez approfondir le sujet et comprendre d'ou viennent les idees.",
+    consent_notice: "Votre question est collectee anonymement pour nous aider a ameliorer.",
+    consent_opt_out: "Ne pas collecter",
+    consent_opted_out: "Non collectee",
+    consent_opt_in: "Autoriser la collecte",
   },
   it: {
     hero_tagline: "Un ponte tra domande e comprensione",
@@ -608,6 +624,10 @@ const translations = {
     step_of: "di",
     sources_value_title: "Supportato da fonti reali",
     sources_value_body: "Ogni risposta include riferimenti verificati per approfondire l'argomento e capire da dove provengono le intuizioni.",
+    consent_notice: "La tua domanda viene raccolta in modo anonimo per aiutarci a migliorare.",
+    consent_opt_out: "Non raccogliere",
+    consent_opted_out: "Non raccolta",
+    consent_opt_in: "Consenti la raccolta",
   },
 } as const;
 
