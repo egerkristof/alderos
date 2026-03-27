@@ -104,6 +104,8 @@ const translations = {
     error_connection: "Unable to connect. Please check your connection and try again.",
     sources_label: "Sources",
     sources_subtitle: "References supporting this reframing",
+    followup_label: "Explore further",
+    demo_refresh: "Show new questions",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
@@ -201,6 +203,8 @@ const translations = {
     error_connection: "Verbindung nicht möglich. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
     sources_label: "Quellen",
     sources_subtitle: "Referenzen, die dieses Reframing unterstützen",
+    followup_label: "Weiter erkunden",
+    demo_refresh: "Neue Fragen anzeigen",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
@@ -298,6 +302,8 @@ const translations = {
     error_connection: "No se puede conectar. Por favor, verifica tu conexión e inténtalo de nuevo.",
     sources_label: "Fuentes",
     sources_subtitle: "Referencias que respaldan este reencuadre",
+    followup_label: "Explorar mas",
+    demo_refresh: "Mostrar nuevas preguntas",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
@@ -395,6 +401,8 @@ const translations = {
     error_connection: "Impossible de se connecter. Veuillez vérifier votre connexion et réessayer.",
     sources_label: "Sources",
     sources_subtitle: "References soutenant ce recadrage",
+    followup_label: "Explorer davantage",
+    demo_refresh: "Afficher de nouvelles questions",
   },
 } as const;
 

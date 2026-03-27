@@ -102,7 +102,17 @@ const Index = () => {
 
       {state === "reframe" && (
         <>
-          <ReframingExperience challenge={challenge} onBack={handleBack} />
+          <ReframingExperience
+            challenge={challenge}
+            onBack={handleBack}
+            onNewChallenge={(text) => {
+              setChallenge(text);
+              setChallengeId(null);
+              setIsCustom(true);
+              setState("choose-mode");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
           <Footer />
         </>
       )}

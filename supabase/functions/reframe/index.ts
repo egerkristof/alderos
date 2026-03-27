@@ -57,7 +57,7 @@ serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: `${systemPrompt}\n\nCRITICAL: ${langInstruction} All three fields (empathy, shared_value, message) must be written in the specified language.` },
+          { role: "system", content: `${systemPrompt}\n\nCRITICAL: ${langInstruction} All three fields (empathy, shared_value, message) must be written in the specified language.\n\nIMPORTANT CITATION RULES:\n- You MUST embed inline citation markers like [1], [2], [3] etc. in the text of empathy, shared_value, and especially message fields.\n- Place citation markers at the end of sentences or claims that reference a source.\n- The numbers must correspond to the index (1-based) of the sources array.\n- Focus citations especially in the "message" field but include them in empathy and shared_value where relevant.\n- Provide 4-6 high-quality sources with real URLs where possible.\n- Sources should be real, verifiable references: Church documents, papal encyclicals, books by St. Josemaria Escriva, academic studies, official Opus Dei publications, Vatican documents, or reputable journalism.\n- For well-known documents, provide the actual URL (e.g. vatican.va links, opusdei.org links, or Google Books links).\n- If an exact URL is not available, set url to null.\n- Also suggest 3 related follow-up questions the user might want to explore next, in the specified language.` },
           {
             role: "user",
             content: `Please reframe this concern about Opus Dei using the Catholic Voices methodology:\n\n"${challenge}"`,
@@ -68,28 +68,34 @@ serve(async (req) => {
             type: "function",
             function: {
               name: "reframe_response",
-              description: "Return the three-phase reframing response",
+              description: "Return the three-phase reframing response with inline citations, sources, and follow-up questions",
               parameters: {
                 type: "object",
                 properties: {
-                  empathy: { type: "string", description: "Empathetic acknowledgment of the concern" },
-                  shared_value: { type: "string", description: "The shared value that connects both perspectives" },
-                  message: { type: "string", description: "Truth-based, positive reframing message" },
+                  empathy: { type: "string", description: "Empathetic acknowledgment with inline [N] citation markers where relevant" },
+                  shared_value: { type: "string", description: "Shared value connecting perspectives with inline [N] citation markers where relevant" },
+                  message: { type: "string", description: "Truth-based reframing message with inline [N] citation markers referencing sources" },
                   sources: {
                     type: "array",
-                    description: "List of 2-4 credible sources that support the reframing (e.g. Church documents, papal writings, academic studies, official Opus Dei publications, reputable journalism). Each source should have a title and a brief description of its relevance.",
+                    description: "4-6 credible, real sources supporting the reframing",
                     items: {
                       type: "object",
                       properties: {
-                        title: { type: "string", description: "Title or name of the source (e.g. 'Josemaria Escriva, Christ Is Passing By' or 'Vatican II, Lumen Gentium')" },
+                        title: { type: "string", description: "Full title of the source (e.g. 'St. Josemaria Escriva, Christ Is Passing By, no. 48')" },
                         description: { type: "string", description: "One sentence explaining how this source supports the reframing" },
+                        url: { type: "string", description: "Direct URL to the source if available (e.g. vatican.va, opusdei.org). Null if no reliable URL exists." },
                       },
                       required: ["title", "description"],
                       additionalProperties: false,
                     },
                   },
+                  follow_up_questions: {
+                    type: "array",
+                    description: "3 related follow-up questions the user might want to explore next",
+                    items: { type: "string" },
+                  },
                 },
-                required: ["empathy", "shared_value", "message", "sources"],
+                required: ["empathy", "shared_value", "message", "sources", "follow_up_questions"],
                 additionalProperties: false,
               },
             },
