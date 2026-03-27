@@ -9,7 +9,7 @@ import TrainingMode from "@/components/TrainingMode";
 import Footer from "@/components/Footer";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 type AppState = "home" | "select" | "choose-mode" | "reframe" | "training";
@@ -24,6 +24,13 @@ const Index = () => {
   const [challengeId, setChallengeId] = useState<string | null>(null);
   const [isCustom, setIsCustom] = useState(false);
   const demoRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to top on every state change (except "home" initial load)
+  useLayoutEffect(() => {
+    if (state !== "home") {
+      window.scrollTo(0, 0);
+    }
+  }, [state]);
 
   const handleBegin = () => {
     demoRef.current?.scrollIntoView({ behavior: "smooth" });
