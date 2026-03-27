@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Source {
@@ -14,6 +14,34 @@ interface CitationTextProps {
 
 const CitationText = ({ text, sources }: CitationTextProps) => {
   const [hoveredCitation, setHoveredCitation] = useState<number | null>(null);
+  const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({});
+  const triggerRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    if (hoveredCitation == null || !triggerRef.current) return;
+
+    const el = triggerRef.current;
+    const rect = el.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const tooltipW = 288; // w-72 = 18rem = 288px
+    let left = rect.left + rect.width / 2 - tooltipW / 2;
+
+    // Clamp horizontally
+    if (left < 8) left = 8;
+    if (left + tooltipW > vw - 8) left = vw - 8 - tooltipW;
+
+    // Position above or below
+    const spaceAbove = rect.top;
+    const above = spaceAbove > 160;
+
+    setTooltipStyle({
+      position: "fixed",
+      left: `${left}px`,
+      top: above ? `${rect.top - 8}px` : `${rect.bottom + 8}px`,
+      transform: above ? "translateY(-100%)" : "translateY(0)",
+      zIndex: 9999,
+    });
+  }, [hoveredCitation]);
 
   const parts = useMemo(() => {
     const regex = /\[(\d+)\]/g;
@@ -37,6 +65,8 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
     return result;
   }, [text]);
 
+  const hoveredSource = hoveredCitation != null ? sources[hoveredCitation - 1] : null;
+
   return (
     <span className="relative">
       {parts.map((part, i) => {
@@ -44,46 +74,49 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
           return <span key={i}>{part.value}</span>;
         }
 
-        const source = part.index != null ? sources[part.index - 1] : null;
-
         return (
           <span
             key={i}
             className="relative inline-block"
-            onMouseEnter={() => setHoveredCitation(part.index ?? null)}
+            ref={hoveredCitation === part.index ? triggerRef : undefined}
+            onMouseEnter={(e) => {
+              triggerRef.current = e.currentTarget;
+              setHoveredCitation(part.index ?? null);
+            }}
             onMouseLeave={() => setHoveredCitation(null)}
+            onTouchStart={(e) => {
+              triggerRef.current = e.currentTarget;
+              setHoveredCitation((prev) => (prev === part.index ? null : (part.index ?? null)));
+            }}
           >
             <sup className="cursor-help text-accent font-body font-semibold text-[0.7em] hover:text-accent/80 transition-colors px-0.5">
               {part.value}
             </sup>
-            <AnimatePresence>
-              {hoveredCitation === part.index && source && (
-                <motion.div
-                  initial={{ opacity: 0, y: 4, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 4, scale: 0.95 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 w-72 p-3 rounded-lg border border-border bg-card shadow-lg"
-                >
-                  <p className="text-xs font-body font-medium text-foreground mb-1">{source.title}</p>
-                  <p className="text-[0.7rem] font-body text-muted-foreground leading-relaxed">{source.description}</p>
-                  {source.url && (
-                    <a
-                      href={source.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[0.7rem] font-body text-accent hover:underline mt-1 block truncate"
-                    >
-                      View source ↗
-                    </a>
-                  )}
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 rotate-45 bg-card border-r border-b border-border -mt-1" />
-                </motion.div>
-              )}
-            </AnimatePresence>
           </span>
         );
       })}
+
+      {/* Portal-like fixed tooltip */}
+      <AnimatePresence>
+        {hoveredCitation != null && hoveredSource && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.15 }}
+            style={tooltipStyle}
+            className="w-72 p-3 rounded-lg border border-border bg-card shadow-lg pointer-events-none"
+          >
+            <p className="text-xs font-body font-medium text-foreground mb-1">{hoveredSource.title}</p>
+            <p className="text-[0.7rem] font-body text-muted-foreground leading-relaxed">{hoveredSource.description}</p>
+            {hoveredSource.url && (
+              <span className="text-[0.7rem] font-body text-accent mt-1 block truncate">
+                View source
+              </span>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </span>
   );
 };
