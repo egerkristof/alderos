@@ -6,6 +6,8 @@ import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
 import Footer from "@/components/Footer";
 
+const EXPLORE_SESSION_ID = crypto.randomUUID();
+
 interface AnswerData {
   answer: string;
   sources: { title: string; description: string; url?: string | null }[];
