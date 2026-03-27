@@ -203,6 +203,8 @@ const translations = {
     error_connection: "Verbindung nicht möglich. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
     sources_label: "Quellen",
     sources_subtitle: "Referenzen, die dieses Reframing unterstützen",
+    followup_label: "Weiter erkunden",
+    demo_refresh: "Neue Fragen anzeigen",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
