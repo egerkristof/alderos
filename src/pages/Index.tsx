@@ -12,7 +12,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 type AppState = "home" | "select" | "choose-mode" | "reframe" | "training";
 
 const Index = () => {
-  const { lang } = useLanguage();
+  const { lang, t } = useLanguage();
   const [state, setState] = useState<AppState>("home");
   const [challenge, setChallenge] = useState("");
   const selectorRef = useRef<HTMLDivElement>(null);
