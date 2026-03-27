@@ -71,41 +71,39 @@ const Index = () => {
   };
 
   return (
-    <main className="bg-background min-h-screen">
-
-      {state === "home" && (
-        <>
-          <LanguageSelector />
-          <HeroSection onBegin={handleBegin} />
-          <div ref={demoRef}>
-            <LiveDemoSection onTryChallenge={handleTryChallenge} />
-          </div>
-          <MethodologySection />
-          <Footer />
-        </>
-      )}
-
-      {state === "select" && (
-        <ChallengeSelector onSelect={handleSelect} />
-      )}
-
-      {state === "choose-mode" && (
-        <section className="min-h-screen flex flex-col items-center px-6 py-16 md:py-24">
-          <div className="max-w-3xl w-full">
-            <button onClick={handleBack} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 font-body">
-              ← {t("back")}
-            </button>
-            <div className="mb-12 text-center">
-              <p className="text-sm tracking-[0.25em] uppercase text-accent mb-4 font-body">{t("concern_label")}</p>
-              <blockquote className="text-xl md:text-2xl font-heading italic text-foreground/80 max-w-2xl mx-auto leading-relaxed">"{challenge}"</blockquote>
+    <main className="bg-background min-h-screen flex flex-col">
+      <div className="flex-1">
+        {state === "home" && (
+          <>
+            <LanguageSelector />
+            <HeroSection onBegin={handleBegin} />
+            <div ref={demoRef}>
+              <LiveDemoSection onTryChallenge={handleTryChallenge} />
             </div>
-            <ModeChooser onChoose={handleModeChoice} />
-          </div>
-        </section>
-      )}
+            <MethodologySection />
+          </>
+        )}
 
-      {state === "reframe" && (
-        <>
+        {state === "select" && (
+          <ChallengeSelector onSelect={handleSelect} />
+        )}
+
+        {state === "choose-mode" && (
+          <section className="min-h-[70vh] flex flex-col items-center px-6 py-16 md:py-24">
+            <div className="max-w-3xl w-full">
+              <button onClick={handleBack} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 font-body">
+                ← {t("back")}
+              </button>
+              <div className="mb-12 text-center">
+                <p className="text-sm tracking-[0.25em] uppercase text-accent mb-4 font-body">{t("concern_label")}</p>
+                <blockquote className="text-xl md:text-2xl font-heading italic text-foreground/80 max-w-2xl mx-auto leading-relaxed">"{challenge}"</blockquote>
+              </div>
+              <ModeChooser onChoose={handleModeChoice} />
+            </div>
+          </section>
+        )}
+
+        {state === "reframe" && (
           <ReframingExperience
             challenge={challenge}
             onBack={handleBack}
@@ -122,12 +120,9 @@ const Index = () => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           />
-          <Footer />
-        </>
-      )}
+        )}
 
-      {state === "training" && (
-        <>
+        {state === "training" && (
           <TrainingReframeWrapper challenge={challenge} onBack={handleBack} lang={lang} />
           <Footer />
         </>
