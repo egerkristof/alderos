@@ -380,14 +380,20 @@ const Admin = () => {
                                 <div className="flex items-center gap-1.5 mb-0.5">
                                   <span className={`inline-block px-1.5 py-0.5 rounded text-[0.6rem] font-body font-medium ${
                                     event.event_type === "custom"
-                                      ? "bg-accent/10 text-accent"
+                                      ? "bg-red-500/10 text-red-600"
                                       : event.event_type === "ai-generated"
                                       ? "bg-blue-500/10 text-blue-600"
                                       : event.event_type === "withheld"
                                       ? "bg-yellow-500/10 text-yellow-600"
                                       : "bg-primary/10 text-primary"
                                   }`}>
-                                    {event.event_type}
+                                    {event.event_type === "custom"
+                                      ? "user typed"
+                                      : event.event_type === "preselected"
+                                      ? "from website"
+                                      : event.event_type === "ai-generated"
+                                      ? "AI suggestion"
+                                      : event.event_type}
                                   </span>
                                   <span className={`inline-block px-1.5 py-0.5 rounded text-[0.6rem] font-body ${
                                     event.mode === "training"
