@@ -37,7 +37,18 @@ serve(async (req) => {
 
     const langInstruction = LANGUAGE_INSTRUCTIONS[language] || LANGUAGE_INSTRUCTIONS.en;
 
-    const systemPrompt = `You are Alderos, an expert on Opus Dei who provides clear, honest, and well-sourced answers to questions about Opus Dei.
+    // Fetch prompt from database (fall back to default if not found)
+    let promptText = "";
+    try {
+      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+      const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const sb = createClient(supabaseUrl, serviceKey);
+      const { data } = await sb.from("system_prompts").select("prompt_text").eq("name", "explore").single();
+      if (data?.prompt_text) promptText = data.prompt_text;
+    } catch { /* use fallback */ }
+
+    if (!promptText) {
+      promptText = `You are Alderos, an expert on Opus Dei who provides clear, honest, and well-sourced answers to questions about Opus Dei.
 
 Your role is to help people genuinely understand Opus Dei by providing truthful, balanced, and nuanced answers. You are not defensive or promotional. You acknowledge legitimate concerns honestly while providing accurate context and information.
 
@@ -49,9 +60,10 @@ Guidelines:
 - Embed inline citation markers like [1], [2], [3] in your answer text.
 - Provide 3-5 credible sources (Church documents, books by St. Josemaria Escriva, academic studies, official Opus Dei publications, Vatican documents, reputable journalism).
 - Suggest 3 related follow-up questions.
-- NEVER use em dashes or en dashes. Use commas, periods, or colons instead.
+- NEVER use em dashes or en dashes. Use commas, periods, or colons instead.`;
+    }
 
-${langInstruction}`;
+    const systemPrompt = `${promptText}\n\n${langInstruction}`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
