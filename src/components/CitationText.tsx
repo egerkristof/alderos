@@ -83,7 +83,7 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
               triggerRef.current = e.currentTarget;
               setHoveredCitation(part.index ?? null);
             }}
-            onMouseLeave={() => setHoveredCitation(null)}
+            onMouseLeave={() => setTimeout(() => setHoveredCitation((prev) => prev === part.index ? null : prev), 150)}
             onTouchStart={(e) => {
               triggerRef.current = e.currentTarget;
               setHoveredCitation((prev) => (prev === part.index ? null : (part.index ?? null)));
