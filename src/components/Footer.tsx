@@ -24,7 +24,7 @@ const Footer = () => {
           <p className="text-xs font-body text-muted-foreground/60">
             A project by{" "}
             <a
-              href="https://www.linkedin.com/in/christoph-eger/"
+              href="https://www.linkedin.com/in/kristofeger/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-foreground/70 font-medium hover:text-accent transition-colors underline underline-offset-2 decoration-accent/30 hover:decoration-accent"
