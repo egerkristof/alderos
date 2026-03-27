@@ -181,6 +181,37 @@ const TrainingMode = ({ challenge, aiPhases, isAiLoading }: TrainingModeProps) =
     }
   };
 
+  const fetchHints = async (stepKey: string) => {
+    setHintsLoading(true);
+    try {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      const resp = await fetch(`${supabaseUrl}/functions/v1/training-hint`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${supabaseKey}`,
+        },
+        body: JSON.stringify({
+          challenge,
+          step: stepKey,
+          currentText: userAnswers[stepKey as keyof typeof userAnswers] || "",
+          language: lang,
+        }),
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.prompts) {
+          setHints((prev) => ({ ...prev, [stepKey]: data.prompts }));
+        }
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setHintsLoading(false);
+    }
+  };
+
   const handleNext = () => {
     if (currentStep < 2) {
       setCurrentStep(currentStep + 1);
