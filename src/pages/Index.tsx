@@ -70,7 +70,7 @@ const Index = () => {
   const handleModeChoice = (mode: "ai" | "training") => {
     setState(mode === "ai" ? "reframe" : "training");
     window.scrollTo({ top: 0, behavior: "smooth" });
-    // Track usage event only if user consented
+    const eventType = isCustom ? "custom" : (challengeId?.startsWith("ai-generated") ? "ai-generated" : "preselected");
     if (collectConsent) {
       supabase.from("usage_events").insert({
         event_type: isCustom ? "custom" : "preselected",
