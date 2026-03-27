@@ -87,7 +87,7 @@ const translations = {
     footer_method: "Built with the",
     footer_method_name: "Catholic Voices",
     footer_method_suffix: "reframing methodology",
-    footer_body: "Alderos explores how AI and strategic communication can serve the mission of building bridges. Designed to show that technology, when guided by clear thinking and genuine empathy, becomes a powerful tool for understanding.",
+    footer_body: "In a world where good causes are often misunderstood, Alderos helps people of conviction communicate with clarity, empathy, and truth.",
     footer_credit: "A project by Christoph — where strategy meets faith meets innovation",
     challenge_wealth: "Money & Power",
     challenge_wealth_desc: "Opus Dei is very rich, has expensive houses, and is interested in money and power.",
