@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import HeroSection from "@/components/HeroSection";
 import MethodologySection from "@/components/MethodologySection";
+import LiveDemoSection from "@/components/LiveDemoSection";
 import ChallengeSelector from "@/components/ChallengeSelector";
 import ModeChooser from "@/components/ModeChooser";
 import ReframingExperience from "@/components/ReframingExperience";
@@ -8,6 +9,7 @@ import TrainingMode from "@/components/TrainingMode";
 import Footer from "@/components/Footer";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useEffect } from "react";
 
 type AppState = "home" | "select" | "choose-mode" | "reframe" | "training";
 
@@ -15,11 +17,22 @@ const Index = () => {
   const { lang, t } = useLanguage();
   const [state, setState] = useState<AppState>("home");
   const [challenge, setChallenge] = useState("");
-  const selectorRef = useRef<HTMLDivElement>(null);
+  const demoRef = useRef<HTMLDivElement>(null);
 
   const handleBegin = () => {
-    setState("select");
-    setTimeout(() => selectorRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+    demoRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleTryChallenge = (text: string) => {
+    if (text === "") {
+      // "Ask your own" — go to full selector
+      setState("select");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    setChallenge(text);
+    setState("choose-mode");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSelect = (text: string) => {
@@ -34,13 +47,8 @@ const Index = () => {
   };
 
   const handleBack = () => {
-    setState("select");
+    setState("home");
     setChallenge("");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleBackToMode = () => {
-    setState("choose-mode");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -51,15 +59,16 @@ const Index = () => {
       {state === "home" && (
         <>
           <HeroSection onBegin={handleBegin} />
+          <div ref={demoRef}>
+            <LiveDemoSection onTryChallenge={handleTryChallenge} />
+          </div>
           <MethodologySection />
           <Footer />
         </>
       )}
 
       {state === "select" && (
-        <div ref={selectorRef}>
-          <ChallengeSelector onSelect={handleSelect} />
-        </div>
+        <ChallengeSelector onSelect={handleSelect} />
       )}
 
       {state === "choose-mode" && (
