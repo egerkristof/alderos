@@ -146,6 +146,9 @@ const translations = {
     coach_gate_placeholder: "Password",
     coach_gate_error: "Incorrect password. Please try again.",
     coach_gate_enter: "Enter",
+    suggested_q1: "What is Opus Dei, really?",
+    suggested_q2: "Is Opus Dei a cult?",
+    suggested_q3: "What do members of Opus Dei do every day?",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
