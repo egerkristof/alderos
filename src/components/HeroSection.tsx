@@ -55,18 +55,32 @@ const HeroSection = ({ onBegin, onTraining }: { onBegin: () => void; onTraining:
           the shared values that connect us all.
         </motion.p>
 
-        <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={onBegin}
-          className="px-10 py-4 bg-primary text-primary-foreground rounded-full font-body text-sm tracking-wide
-                     hover:opacity-90 transition-opacity shadow-lg shadow-primary/10"
-        >
-          Begin the conversation
-        </motion.button>
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <motion.button
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onBegin}
+            className="px-10 py-4 bg-primary text-primary-foreground rounded-full font-body text-sm tracking-wide
+                       hover:opacity-90 transition-opacity shadow-lg shadow-primary/10"
+          >
+            Begin the conversation
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.4, duration: 0.6 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onTraining}
+            className="px-10 py-4 border border-border text-foreground rounded-full font-body text-sm tracking-wide
+                       hover:bg-secondary transition-colors"
+          >
+            Practice reframing
+          </motion.button>
+        </div>
       </motion.div>
 
       {/* Scroll indicator */}
