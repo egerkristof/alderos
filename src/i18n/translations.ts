@@ -409,6 +409,8 @@ const translations = {
     sources_subtitle: "References soutenant ce recadrage",
     followup_label: "Explorer davantage",
     demo_refresh: "Afficher de nouvelles questions",
+    step_label: "Etape",
+    step_of: "sur",
   },
 } as const;
 
