@@ -232,6 +232,7 @@ const translations = {
     demo_body: "Elige una preocupación real y observa cómo Alderos la reencuadra en tiempo real.",
     demo_challenge_prefix: "Dicen que…",
     demo_custom: "O haz tu propia pregunta",
+    demo_custom_title: "Tienes tu propia pregunta?",
     methodology_label: "El enfoque",
     methodology_title: "Cómo funciona Alderos",
     methodology_body: "Construido sobre la metodología de reencuadre de Catholic Voices: un enfoque probado para transformar conversaciones difíciles en puentes de comprensión.",
