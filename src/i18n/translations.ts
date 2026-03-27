@@ -182,7 +182,7 @@ const translations = {
     footer_method: "Entwickelt mit der",
     footer_method_name: "Catholic Voices",
     footer_method_suffix: "Reframing-Methodik",
-    footer_body: "Alderos erkundet, wie KI und strategische Kommunikation der Mission des Brückenbauens dienen können. Entwickelt um zu zeigen, dass Technologie, geleitet von klarem Denken und echter Empathie, ein kraftvolles Werkzeug für Verständnis wird.",
+    footer_body: "In einer Welt, in der gute Anliegen oft missverstanden werden, hilft Alderos überzeugten Menschen, mit Klarheit, Empathie und Wahrheit zu kommunizieren.",
     footer_credit: "Ein Projekt von Christoph — wo Strategie auf Glaube und Innovation trifft",
     challenge_wealth: "Geld & Macht",
     challenge_wealth_desc: "Das Opus Dei ist sehr reich, hat teure Häuser und ist an Geld und Macht interessiert.",
