@@ -25,6 +25,13 @@ const Index = () => {
   const [isCustom, setIsCustom] = useState(false);
   const demoRef = useRef<HTMLDivElement>(null);
 
+  // Scroll to top on every state change (except "home" initial load)
+  useLayoutEffect(() => {
+    if (state !== "home") {
+      window.scrollTo(0, 0);
+    }
+  }, [state]);
+
   const handleBegin = () => {
     demoRef.current?.scrollIntoView({ behavior: "smooth" });
   };
