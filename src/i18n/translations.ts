@@ -467,7 +467,7 @@ const translations = {
     footer_method: "A",
     footer_method_name: "Catholic Voices",
     footer_method_suffix: "átkeretezési módszertanával készült",
-    footer_body: "Az Alderos azt vizsgálja, hogyan szolgálhatja az AI és a stratégiai kommunikáció a hídépítés küldetését. Arra tervezve, hogy megmutassa: a technológia, tiszta gondolkodással és őszinte empátiával vezérelve, a megértés erőteljes eszközévé válik.",
+    footer_body: "Egy olyan világban, ahol a jó ügyeket gyakran félreértik, az Alderos segít a meggyőződéssel rendelkező embereknek világosan, empatikusan és igazságosan kommunikálni.",
     footer_credit: "Christoph projektje — ahol a stratégia találkozik a hittel és az innovációval",
     challenge_wealth: "Pénz és hatalom",
     challenge_wealth_desc: "Az Opus Dei nagyon gazdag, drága házai vannak, és a pénz és a hatalom érdekli.",
