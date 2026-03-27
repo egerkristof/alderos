@@ -1,35 +1,35 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import HeroSection from "@/components/HeroSection";
 import MethodologySection from "@/components/MethodologySection";
 import ChallengeSelector from "@/components/ChallengeSelector";
+import ModeChooser from "@/components/ModeChooser";
 import ReframingExperience from "@/components/ReframingExperience";
 import TrainingMode from "@/components/TrainingMode";
 import Footer from "@/components/Footer";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-type AppState = "home" | "select" | "reframe" | "training-select" | "training";
+type AppState = "home" | "select" | "choose-mode" | "reframe" | "training";
 
 const Index = () => {
+  const { lang } = useLanguage();
   const [state, setState] = useState<AppState>("home");
   const [challenge, setChallenge] = useState("");
   const selectorRef = useRef<HTMLDivElement>(null);
 
   const handleBegin = () => {
     setState("select");
-    setTimeout(() => {
-      selectorRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  };
-
-  const handleTrainingBegin = () => {
-    setState("training-select");
-    setTimeout(() => {
-      selectorRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    setTimeout(() => selectorRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
   };
 
   const handleSelect = (text: string) => {
     setChallenge(text);
-    setState(state === "training-select" ? "training" : "reframe");
+    setState("choose-mode");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleModeChoice = (mode: "ai" | "training") => {
+    setState(mode === "ai" ? "reframe" : "training");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -39,32 +39,54 @@ const Index = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleBackToMode = () => {
+    setState("choose-mode");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <main className="bg-background min-h-screen">
+      <LanguageSelector />
+
       {state === "home" && (
         <>
-          <HeroSection onBegin={handleBegin} onTraining={handleTrainingBegin} />
+          <HeroSection onBegin={handleBegin} />
           <MethodologySection />
           <Footer />
         </>
       )}
-      {(state === "select" || state === "training-select") && (
+
+      {state === "select" && (
         <div ref={selectorRef}>
-          <ChallengeSelector
-            onSelect={handleSelect}
-            trainingMode={state === "training-select"}
-          />
+          <ChallengeSelector onSelect={handleSelect} />
         </div>
       )}
+
+      {state === "choose-mode" && (
+        <section className="min-h-screen flex flex-col items-center px-6 py-16 md:py-24">
+          <div className="max-w-3xl w-full">
+            <button onClick={handleBack} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 font-body">
+              ← {useLanguage().t("back")}
+            </button>
+            <div className="mb-12 text-center">
+              <p className="text-sm tracking-[0.25em] uppercase text-accent mb-4 font-body">{useLanguage().t("concern_label")}</p>
+              <blockquote className="text-xl md:text-2xl font-heading italic text-foreground/80 max-w-2xl mx-auto leading-relaxed">"{challenge}"</blockquote>
+            </div>
+            <ModeChooser onChoose={handleModeChoice} />
+          </div>
+        </section>
+      )}
+
       {state === "reframe" && (
         <>
           <ReframingExperience challenge={challenge} onBack={handleBack} />
           <Footer />
         </>
       )}
+
       {state === "training" && (
         <>
-          <TrainingReframeWrapper challenge={challenge} onBack={handleBack} />
+          <TrainingReframeWrapper challenge={challenge} onBack={handleBack} lang={lang} />
           <Footer />
         </>
       )}
@@ -72,10 +94,8 @@ const Index = () => {
   );
 };
 
-// Wrapper that fetches AI data and passes to training mode
-import { useEffect, useCallback } from "react";
-
-const TrainingReframeWrapper = ({ challenge, onBack }: { challenge: string; onBack: () => void }) => {
+const TrainingReframeWrapper = ({ challenge, onBack, lang }: { challenge: string; onBack: () => void; lang: string }) => {
+  const { t } = useLanguage();
   const [aiData, setAiData] = useState<{ empathy: string; shared_value: string; message: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -86,48 +106,28 @@ const TrainingReframeWrapper = ({ challenge, onBack }: { challenge: string; onBa
       const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
       const resp = await fetch(`${supabaseUrl}/functions/v1/reframe`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${supabaseKey}`,
-        },
-        body: JSON.stringify({ challenge }),
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${supabaseKey}` },
+        body: JSON.stringify({ challenge, language: lang }),
       });
       if (resp.ok) {
         const data = await resp.json();
         setAiData({ empathy: data.empathy || "", shared_value: data.shared_value || "", message: data.message || "" });
       }
-    } catch {
-      // silently fail — training mode still works
-    } finally {
-      setIsLoading(false);
-    }
-  }, [challenge]);
+    } catch { /* training mode still works */ } finally { setIsLoading(false); }
+  }, [challenge, lang]);
 
-  useEffect(() => {
-    fetchReframing();
-  }, [fetchReframing]);
+  useEffect(() => { fetchReframing(); }, [fetchReframing]);
 
   return (
     <section className="min-h-screen flex flex-col items-center px-6 py-16 md:py-24">
       <div className="max-w-3xl w-full">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground
-                     transition-colors mb-12 font-body"
-        >
-          <span className="w-4 h-4">←</span>
-          Back to challenges
+        <button onClick={onBack} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 font-body">
+          ← {t("back_challenges")}
         </button>
-
         <div className="mb-12 text-center">
-          <p className="text-sm tracking-[0.25em] uppercase text-accent mb-4 font-body">
-            Training Mode
-          </p>
-          <blockquote className="text-xl md:text-2xl font-heading italic text-foreground/80 max-w-2xl mx-auto leading-relaxed">
-            "{challenge}"
-          </blockquote>
+          <p className="text-sm tracking-[0.25em] uppercase text-accent mb-4 font-body">{t("training_label")}</p>
+          <blockquote className="text-xl md:text-2xl font-heading italic text-foreground/80 max-w-2xl mx-auto leading-relaxed">"{challenge}"</blockquote>
         </div>
-
         <TrainingMode challenge={challenge} aiPhases={aiData} isAiLoading={isLoading} />
       </div>
     </section>
