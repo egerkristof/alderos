@@ -73,7 +73,7 @@ const Index = () => {
     const eventType = isCustom ? "custom" : (challengeId?.startsWith("ai-generated") ? "ai-generated" : "preselected");
     if (collectConsent) {
       supabase.from("usage_events").insert({
-        event_type: isCustom ? "custom" : "preselected",
+        event_type: eventType,
         challenge_id: challengeId,
         challenge_text: challenge,
         language: lang,
