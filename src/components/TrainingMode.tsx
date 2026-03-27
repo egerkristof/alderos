@@ -83,7 +83,7 @@ const FeedbackSection = ({ title, icon, feedback, expanded, onToggle }: {
 
               {/* Improvements */}
               <div>
-                <p className="text-xs tracking-[0.15em] uppercase text-amber-700 font-body mb-1.5">{t("coach_improve")}</p>
+                <p className="text-xs tracking-[0.15em] uppercase text-accent font-body mb-1.5">{t("coach_improve")}</p>
                 <div className="text-sm text-foreground/85 font-body leading-relaxed prose prose-sm max-w-none">
                   <ReactMarkdown>{feedback.improvements}</ReactMarkdown>
                 </div>
