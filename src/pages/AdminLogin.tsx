@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -18,6 +19,11 @@ const AdminLogin = () => {
       if (error) {
         setError(error.message);
       } else {
+        if (rememberMe) {
+          localStorage.setItem("alderos_remember_admin", "true");
+        } else {
+          localStorage.removeItem("alderos_remember_admin");
+        }
         navigate("/admin");
       }
     } catch {
@@ -56,6 +62,17 @@ const AdminLogin = () => {
               required
             />
           </div>
+
+          <label className="flex items-center gap-2.5 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="w-4 h-4 rounded border-border text-accent focus:ring-accent/20 bg-card"
+            />
+            <span className="text-sm font-body text-muted-foreground">Keep me signed in on this device</span>
+          </label>
+
           {error && (
             <p className="text-sm text-destructive font-body">{error}</p>
           )}

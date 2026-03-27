@@ -60,7 +60,8 @@ const Index = () => {
       challenge_text: challenge,
       language: lang,
       mode,
-    }).then(() => {});
+      session_id: SESSION_ID,
+    } as any).then(() => {});
   };
 
   const handleBack = () => {
