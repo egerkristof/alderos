@@ -29,16 +29,14 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="text-foreground/70 font-medium hover:text-accent transition-colors underline underline-offset-2 decoration-accent/30 hover:decoration-accent"
             >
-              Christoph Eger
+              Kristof Eger
             </a>
           </p>
           <a
-            href="https://lizawest.ai"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="mailto:kristof.eger@lizaos.ai"
             className="text-xs font-body text-accent hover:text-accent/80 transition-colors"
           >
-            LizaWest.ai
+            kristof.eger@lizaos.ai
           </a>
           <a
             href="/admin/login"
