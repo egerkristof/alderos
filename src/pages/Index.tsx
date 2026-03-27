@@ -23,6 +23,10 @@ const Index = () => {
   const [challenge, setChallenge] = useState("");
   const [challengeId, setChallengeId] = useState<string | null>(null);
   const [isCustom, setIsCustom] = useState(false);
+  const [collectConsent, setCollectConsent] = useState(() => {
+    const stored = localStorage.getItem("alderos_collect_consent");
+    return stored !== "false";
+  });
   const demoRef = useRef<HTMLDivElement>(null);
 
   // Scroll to top on every state change (except "home" initial load)
