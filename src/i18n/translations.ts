@@ -108,6 +108,8 @@ const translations = {
     demo_refresh: "Show new questions",
     step_label: "Step",
     step_of: "of",
+    sources_value_title: "Backed by real sources",
+    sources_value_body: "Every answer includes verified references so you can explore the topic further and learn where the insights come from.",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
@@ -209,6 +211,8 @@ const translations = {
     demo_refresh: "Neue Fragen anzeigen",
     step_label: "Schritt",
     step_of: "von",
+    sources_value_title: "Gestützt auf echte Quellen",
+    sources_value_body: "Jede Antwort enthält verifizierte Referenzen, damit Sie das Thema vertiefen und nachvollziehen können, woher die Erkenntnisse stammen.",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
@@ -310,6 +314,8 @@ const translations = {
     demo_refresh: "Mostrar nuevas preguntas",
     step_label: "Paso",
     step_of: "de",
+    sources_value_title: "Respaldado por fuentes reales",
+    sources_value_body: "Cada respuesta incluye referencias verificadas para que puedas explorar el tema y conocer de donde provienen las ideas.",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
@@ -411,6 +417,8 @@ const translations = {
     demo_refresh: "Afficher de nouvelles questions",
     step_label: "Etape",
     step_of: "sur",
+    sources_value_title: "Appuye par des sources reelles",
+    sources_value_body: "Chaque reponse inclut des references verifiees pour que vous puissiez approfondir le sujet et comprendre d'ou viennent les idees.",
   },
 } as const;
 

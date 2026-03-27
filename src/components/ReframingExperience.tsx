@@ -272,8 +272,8 @@ const ReframingExperience = ({ challenge, onBack, onNewChallenge }: ReframingExp
           )}
         </AnimatePresence>
 
-        {/* Sources section - only show on last phase or when all loaded */}
-        {allLoaded && isLastPhase && activePhase === 2 && sources.length > 0 && (
+        {/* Sources section - show on every phase once loaded */}
+        {allLoaded && sources.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
