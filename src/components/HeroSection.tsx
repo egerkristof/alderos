@@ -33,7 +33,7 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
         </motion.p>
 
         <h1 className="text-6xl md:text-7xl lg:text-8xl font-heading font-semibold tracking-tight text-foreground mb-6">
-          Puente
+          Alderos
         </h1>
 
         <motion.p
