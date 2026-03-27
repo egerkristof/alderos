@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
-import { Heart, Handshake, Lightbulb, ArrowLeft, Loader2, BookOpen, ExternalLink, ArrowRight, ChevronRight } from "lucide-react";
+import { Heart, Handshake, Lightbulb, ArrowLeft, Loader2, BookOpen, ExternalLink, ArrowRight, ChevronRight, Sparkles } from "lucide-react";
 import CitationText from "./CitationText";
 import ResponseActions from "./ResponseActions";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -310,8 +310,8 @@ const ReframingExperience = ({ challenge, onBack, onNewChallenge }: ReframingExp
 
         {allLoaded && isLastPhase && activePhase === 2 && rawData && <ResponseActions challenge={challenge} phases={rawData} />}
 
-        {/* Follow-up questions */}
-        {allLoaded && isLastPhase && activePhase === 2 && rawData?.follow_up_questions && rawData.follow_up_questions.length > 0 && onNewChallenge && (
+        {/* Follow-up questions + ask your own */}
+        {allLoaded && isLastPhase && activePhase === 2 && onNewChallenge && (
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -321,21 +321,48 @@ const ReframingExperience = ({ challenge, onBack, onNewChallenge }: ReframingExp
             <p className="text-center text-sm tracking-[0.2em] uppercase text-accent font-body mb-6">
               {t("followup_label")}
             </p>
-            <div className="grid gap-3">
-              {rawData.follow_up_questions.map((q, i) => (
-                <motion.button
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.7 + i * 0.1 }}
-                  onClick={() => onNewChallenge(q)}
-                  className="group flex items-center justify-between p-4 rounded-xl border border-border bg-card hover:border-accent/40 hover:shadow-md hover:shadow-accent/5 transition-all text-left"
-                >
-                  <p className="text-sm font-body text-foreground/80 italic leading-snug flex-1">"{q}"</p>
-                  <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-accent ml-3 flex-shrink-0 transition-colors" />
-                </motion.button>
-              ))}
-            </div>
+
+            {/* Ask your own - prominent */}
+            <button
+              onClick={() => onNewChallenge("")}
+              className="w-full group flex items-center justify-between p-5 rounded-xl border-2 border-dashed border-accent/30
+                         bg-accent/[0.03] hover:border-accent/60 hover:bg-accent/[0.06] hover:shadow-lg hover:shadow-accent/5
+                         transition-all duration-300 text-left mb-4"
+            >
+              <div className="flex items-center gap-4 flex-1">
+                <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <Sparkles className="w-4 h-4 text-accent" />
+                </div>
+                <div>
+                  <p className="text-base font-heading font-semibold text-foreground mb-0.5">
+                    {t("demo_custom_title")}
+                  </p>
+                  <p className="text-xs font-body text-muted-foreground">
+                    {t("demo_custom")}
+                  </p>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-accent transition-colors flex-shrink-0" />
+            </button>
+
+            {/* AI-suggested follow-ups */}
+            {rawData?.follow_up_questions && rawData.follow_up_questions.length > 0 && (
+              <div className="grid gap-3">
+                {rawData.follow_up_questions.map((q, i) => (
+                  <motion.button
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.7 + i * 0.1 }}
+                    onClick={() => onNewChallenge(q)}
+                    className="group flex items-center justify-between p-4 rounded-xl border border-border bg-card hover:border-accent/40 hover:shadow-md hover:shadow-accent/5 transition-all text-left"
+                  >
+                    <p className="text-sm font-body text-foreground/80 italic leading-snug flex-1">"{q}"</p>
+                    <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-accent ml-3 flex-shrink-0 transition-colors" />
+                  </motion.button>
+                ))}
+              </div>
+            )}
           </motion.div>
         )}
       </motion.div>
