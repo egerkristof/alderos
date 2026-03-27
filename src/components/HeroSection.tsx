@@ -75,7 +75,7 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.4 }}
+        animate={{ opacity: 0.7 }}
         transition={{ delay: 2, duration: 1 }}
         className="absolute bottom-12"
       >
@@ -84,10 +84,10 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
           transition={{ duration: 2, repeat: Infinity }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="text-xs font-body text-muted-foreground/50 tracking-widest uppercase">
+          <span className="text-xs font-body text-muted-foreground/70 tracking-widest uppercase">
             {t("hero_scroll")}
           </span>
-          <ArrowDown className="w-4 h-4 text-muted-foreground/40" />
+          <ArrowDown className="w-4 h-4 text-muted-foreground/60" />
         </motion.div>
       </motion.div>
     </section>
