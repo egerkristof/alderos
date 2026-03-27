@@ -22,7 +22,7 @@ serve(async (req) => {
   }
 
   try {
-    const { question, language = "en" } = await req.json();
+    const { question, language = "en", consent = true } = await req.json();
     if (!question || typeof question !== "string" || question.trim().length === 0) {
       return new Response(JSON.stringify({ error: "No question provided" }), {
         status: 400,
