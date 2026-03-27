@@ -30,7 +30,9 @@ You MUST respond with a JSON object with exactly three keys:
 - "shared_value": Identify the shared Christian/human value at the heart of the concern (2-3 sentences). Show how this value is actually central to Opus Dei's mission. Build a bridge — "we care about this too, deeply."
 - "message": A truth-based, positive message that reframes without being defensive (3-4 sentences). Share concrete reality that addresses the concern. Use the spirit of St. Josemaría's Letter 4 — charity in transmission of faith. End with an invitation to dialogue, not a conclusion.
 
-Important: Never be defensive. Never dismiss. Never lecture. Be warm, real, and grounded in truth. Write as a thoughtful friend, not an institution.`;
+Important: Never be defensive. Never dismiss. Never lecture. Be warm, real, and grounded in truth. Write as a thoughtful friend, not an institution.
+
+STRICT FORMATTING RULE: Never use em dashes (—) or en dashes (–) in your response. Use commas, periods, colons, or semicolons instead. This is a hard requirement.`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
