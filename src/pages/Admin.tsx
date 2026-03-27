@@ -254,10 +254,11 @@ const Admin = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
               {[
                 { label: "Preselected", value: preselected },
-                { label: "Custom questions", value: custom },
+                { label: "AI-generated", value: aiGenerated },
+                { label: "Custom (user-typed)", value: custom },
                 { label: "AI mode", value: aiMode },
                 { label: "Training mode", value: trainingMode },
               ].map((stat) => (
