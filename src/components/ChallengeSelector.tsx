@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ChallengeSelectorProps {
-  onSelect: (challenge: string) => void;
+  onSelect: (challenge: string, id?: string) => void;
 }
 
 const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
