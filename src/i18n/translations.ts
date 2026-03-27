@@ -252,6 +252,10 @@ const translations = {
     step_of: "von",
     sources_value_title: "Gestützt auf echte Quellen",
     sources_value_body: "Jede Antwort enthält verifizierte Referenzen, damit Sie das Thema vertiefen und nachvollziehen können, woher die Erkenntnisse stammen.",
+    consent_notice: "Ihre Frage wird anonym gesammelt, um uns zu verbessern.",
+    consent_opt_out: "Nicht sammeln",
+    consent_opted_out: "Wird nicht gesammelt",
+    consent_opt_in: "Sammlung erlauben",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
