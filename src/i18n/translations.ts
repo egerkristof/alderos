@@ -128,6 +128,7 @@ const translations = {
     demo_body: "Wählen Sie ein echtes Anliegen und sehen Sie, wie Alderos es in Echtzeit neu rahmt.",
     demo_challenge_prefix: "Man sagt…",
     demo_custom: "Oder stellen Sie Ihre eigene Frage",
+    demo_custom_title: "Haben Sie eine eigene Frage?",
     methodology_label: "Der Ansatz",
     methodology_title: "Wie Alderos funktioniert",
     methodology_body: "Aufgebaut auf der Catholic-Voices-Reframing-Methodik: ein bewährter Ansatz, um schwierige Gespräche in Brücken des Verständnisses zu verwandeln.",
