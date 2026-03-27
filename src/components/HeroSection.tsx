@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
+const HeroSection = ({ onBegin, onTraining }: { onBegin: () => void; onTraining: () => void }) => {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
       {/* Subtle decorative element */}
