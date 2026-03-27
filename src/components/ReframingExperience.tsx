@@ -150,6 +150,32 @@ const ReframingExperience = ({ challenge, onBack }: ReframingExperienceProps) =>
           </div>
         )}
 
+        {allLoaded && rawData?.sources && rawData.sources.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="max-w-2xl mx-auto mt-10"
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <BookOpen className="w-4 h-4 text-accent" />
+              <h3 className="text-sm font-heading tracking-wide text-foreground/80">{t("sources_label")}</h3>
+            </div>
+            <p className="text-xs text-muted-foreground font-body mb-4">{t("sources_subtitle")}</p>
+            <ul className="space-y-3">
+              {rawData.sources.map((source, i) => (
+                <li key={i} className="flex gap-3 items-start">
+                  <span className="text-accent/60 text-xs font-body mt-0.5">{i + 1}.</span>
+                  <div>
+                    <p className="text-sm font-body font-medium text-foreground/90">{source.title}</p>
+                    <p className="text-xs font-body text-muted-foreground leading-relaxed">{source.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+
         {allLoaded && rawData && <ResponseActions challenge={challenge} phases={rawData} />}
       </motion.div>
     </section>

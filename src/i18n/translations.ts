@@ -393,6 +393,8 @@ const translations = {
     error_unavailable: "Service temporairement indisponible. Veuillez réessayer plus tard.",
     error_generic: "Quelque chose s'est mal passé. Veuillez réessayer.",
     error_connection: "Impossible de se connecter. Veuillez vérifier votre connexion et réessayer.",
+    sources_label: "Sources",
+    sources_subtitle: "References soutenant ce recadrage",
   },
 } as const;
 

@@ -75,8 +75,21 @@ serve(async (req) => {
                   empathy: { type: "string", description: "Empathetic acknowledgment of the concern" },
                   shared_value: { type: "string", description: "The shared value that connects both perspectives" },
                   message: { type: "string", description: "Truth-based, positive reframing message" },
+                  sources: {
+                    type: "array",
+                    description: "List of 2-4 credible sources that support the reframing (e.g. Church documents, papal writings, academic studies, official Opus Dei publications, reputable journalism). Each source should have a title and a brief description of its relevance.",
+                    items: {
+                      type: "object",
+                      properties: {
+                        title: { type: "string", description: "Title or name of the source (e.g. 'Josemaria Escriva, Christ Is Passing By' or 'Vatican II, Lumen Gentium')" },
+                        description: { type: "string", description: "One sentence explaining how this source supports the reframing" },
+                      },
+                      required: ["title", "description"],
+                      additionalProperties: false,
+                    },
+                  },
                 },
-                required: ["empathy", "shared_value", "message"],
+                required: ["empathy", "shared_value", "message", "sources"],
                 additionalProperties: false,
               },
             },
