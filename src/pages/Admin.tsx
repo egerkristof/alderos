@@ -409,6 +409,8 @@ const Admin = () => {
                                       ? "bg-blue-500/10 text-blue-600"
                                       : event.event_type === "withheld"
                                       ? "bg-yellow-500/10 text-yellow-600"
+                                      : event.event_type === "explore"
+                                      ? "bg-accent/15 text-accent"
                                       : "bg-primary/10 text-primary"
                                   }`}>
                                     {event.event_type === "custom"
@@ -417,11 +419,15 @@ const Admin = () => {
                                       ? "from website"
                                       : event.event_type === "ai-generated"
                                       ? "AI suggestion"
+                                      : event.event_type === "explore"
+                                      ? "public explore"
                                       : event.event_type}
                                   </span>
                                   <span className={`inline-block px-1.5 py-0.5 rounded text-[0.6rem] font-body ${
                                     event.mode === "training"
                                       ? "bg-muted text-muted-foreground"
+                                      : event.mode === "explore"
+                                      ? "bg-accent/10 text-accent"
                                       : "bg-secondary text-secondary-foreground"
                                   }`}>
                                     {event.mode || "ai"}
