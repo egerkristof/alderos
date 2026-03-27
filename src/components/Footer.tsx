@@ -36,8 +36,6 @@ const Footer = () => {
           >
             Admin
           </a>
-            kristof.eger@lizaos.ai
-          </a>
         </div>
       </div>
     </footer>
