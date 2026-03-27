@@ -84,13 +84,15 @@ const Admin = () => {
   }
 
   // Analytics computations
+  const coachEvents = events.filter((e) => e.mode !== "explore");
+  const exploreEvents = events.filter((e) => e.mode === "explore");
   const totalEvents = events.length;
-  const preselected = events.filter((e) => e.event_type === "preselected").length;
-  const aiGenerated = events.filter((e) => e.event_type === "ai-generated").length;
-  const withheld = events.filter((e) => e.event_type === "withheld").length;
-  const custom = events.filter((e) => e.event_type === "custom").length;
-  const aiMode = events.filter((e) => e.mode === "ai").length;
-  const trainingMode = events.filter((e) => e.mode === "training").length;
+  const preselected = coachEvents.filter((e) => e.event_type === "preselected").length;
+  const aiGenerated = coachEvents.filter((e) => e.event_type === "ai-generated").length;
+  const withheld = coachEvents.filter((e) => e.event_type === "withheld").length;
+  const custom = coachEvents.filter((e) => e.event_type === "custom").length;
+  const aiMode = coachEvents.filter((e) => e.mode === "ai").length;
+  const trainingMode = coachEvents.filter((e) => e.mode === "training").length;
 
   // Group by session
   const sessionMap: Record<string, any[]> = {};
