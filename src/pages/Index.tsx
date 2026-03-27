@@ -18,6 +18,8 @@ const Index = () => {
   const { lang, t } = useLanguage();
   const [state, setState] = useState<AppState>("home");
   const [challenge, setChallenge] = useState("");
+  const [challengeId, setChallengeId] = useState<string | null>(null);
+  const [isCustom, setIsCustom] = useState(false);
   const demoRef = useRef<HTMLDivElement>(null);
 
   const handleBegin = () => {
