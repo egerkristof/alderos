@@ -70,6 +70,7 @@ const Admin = () => {
   };
 
   const handleLogout = async () => {
+    localStorage.removeItem("alderos_remember_admin");
     await supabase.auth.signOut();
     navigate("/");
   };
