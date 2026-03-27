@@ -336,6 +336,7 @@ const translations = {
     demo_body: "Choisissez une préoccupation réelle et regardez Alderos la recadrer en temps réel.",
     demo_challenge_prefix: "On dit que…",
     demo_custom: "Ou posez votre propre question",
+    demo_custom_title: "Vous avez votre propre question ?",
     methodology_label: "L'approche",
     methodology_title: "Comment Alderos fonctionne",
     methodology_body: "Construit sur la méthodologie de recadrage de Catholic Voices: une approche éprouvée pour transformer les conversations difficiles en ponts de compréhension.",
