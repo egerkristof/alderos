@@ -846,6 +846,9 @@ const translations = {
     coach_gate_placeholder: "Jelszó",
     coach_gate_error: "Helytelen jelszó. Próbálja újra.",
     coach_gate_enter: "Belép",
+    suggested_q1: "Mi is valójában az Opus Dei?",
+    suggested_q2: "Az Opus Dei szekta?",
+    suggested_q3: "Mit csinálnak az Opus Dei tagjai a mindennapokban?",
   },
 } as const;
 
