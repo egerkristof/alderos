@@ -26,20 +26,23 @@ const Index = () => {
     demoRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleTryChallenge = (text: string) => {
+  const handleTryChallenge = (text: string, id?: string) => {
     if (text === "") {
-      // "Ask your own" — go to full selector
       setState("select");
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
     setChallenge(text);
+    setChallengeId(id || null);
+    setIsCustom(!id);
     setState("choose-mode");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleSelect = (text: string) => {
+  const handleSelect = (text: string, id?: string) => {
     setChallenge(text);
+    setChallengeId(id || null);
+    setIsCustom(!id);
     setState("choose-mode");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -47,6 +50,14 @@ const Index = () => {
   const handleModeChoice = (mode: "ai" | "training") => {
     setState(mode === "ai" ? "reframe" : "training");
     window.scrollTo({ top: 0, behavior: "smooth" });
+    // Track usage event
+    supabase.from("usage_events").insert({
+      event_type: isCustom ? "custom" : "preselected",
+      challenge_id: challengeId,
+      challenge_text: challenge,
+      language: lang,
+      mode,
+    }).then(() => {});
   };
 
   const handleBack = () => {
