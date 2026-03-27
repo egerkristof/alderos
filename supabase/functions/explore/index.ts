@@ -22,7 +22,7 @@ serve(async (req) => {
   }
 
   try {
-    const { question, language = "en" } = await req.json();
+    const { question, language = "en", consent = true } = await req.json();
     if (!question || typeof question !== "string" || question.trim().length === 0) {
       return new Response(JSON.stringify({ error: "No question provided" }), {
         status: 400,
@@ -132,8 +132,8 @@ ${langInstruction}`;
         const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
         const sb = createClient(supabaseUrl, serviceKey);
         await sb.from("usage_events").insert({
-          event_type: "explore",
-          challenge_text: question.trim(),
+          event_type: consent ? "explore" : "withheld",
+          challenge_text: consent ? question.trim() : "(withheld by user)",
           language,
           mode: "explore",
         });

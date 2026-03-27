@@ -19,7 +19,17 @@ const Explore = () => {
   const [answerData, setAnswerData] = useState<AnswerData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [collectConsent, setCollectConsent] = useState(() => {
+    const stored = localStorage.getItem("alderos_collect_consent");
+    return stored !== "false";
+  });
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const toggleConsent = () => {
+    const newVal = !collectConsent;
+    setCollectConsent(newVal);
+    localStorage.setItem("alderos_collect_consent", String(newVal));
+  };
 
   const askQuestion = async (q: string) => {
     if (!q.trim()) return;
@@ -39,7 +49,7 @@ const Explore = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${supabaseKey}`,
         },
-        body: JSON.stringify({ question: q, language: lang }),
+        body: JSON.stringify({ question: q, language: lang, consent: collectConsent }),
       });
 
       if (resp.status === 429) {
@@ -144,7 +154,16 @@ const Explore = () => {
                   ))}
                 </div>
 
-                <p className="mt-4 text-xs text-muted-foreground/50 font-body">
+                <div className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground/50 font-body">
+                  <span>{collectConsent ? t("consent_notice") : t("consent_opted_out")}</span>
+                  <button
+                    onClick={toggleConsent}
+                    className="underline hover:text-muted-foreground transition-colors"
+                  >
+                    {collectConsent ? t("consent_opt_out") : t("consent_opt_in")}
+                  </button>
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground/50 font-body">
                   {t("explore_hint")}
                 </p>
               </motion.div>
