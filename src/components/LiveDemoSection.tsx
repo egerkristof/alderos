@@ -52,7 +52,11 @@ const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
     }
   }, [lang]);
 
+  // On language change: immediately show static (already-translated) questions,
+  // then fetch new AI-generated ones in the background
   useEffect(() => {
+    setDynamicQuestions([]);
+    setUseDynamic(false);
     fetchDynamicQuestions();
   }, [fetchDynamicQuestions]);
 
