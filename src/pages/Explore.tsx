@@ -49,7 +49,7 @@ const Explore = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${supabaseKey}`,
         },
-        body: JSON.stringify({ question: q, language: lang }),
+        body: JSON.stringify({ question: q, language: lang, consent: collectConsent }),
       });
 
       if (resp.status === 429) {
