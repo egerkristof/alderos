@@ -379,6 +379,8 @@ const Admin = () => {
                                   <span className={`inline-block px-1.5 py-0.5 rounded text-[0.6rem] font-body font-medium ${
                                     event.event_type === "custom"
                                       ? "bg-accent/10 text-accent"
+                                      : event.event_type === "ai-generated"
+                                      ? "bg-blue-500/10 text-blue-600"
                                       : "bg-primary/10 text-primary"
                                   }`}>
                                     {event.event_type}
