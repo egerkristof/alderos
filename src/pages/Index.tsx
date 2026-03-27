@@ -58,6 +58,7 @@ const Index = () => {
 
       {state === "home" && (
         <>
+          <LanguageSelector />
           <HeroSection onBegin={handleBegin} />
           <div ref={demoRef}>
             <LiveDemoSection onTryChallenge={handleTryChallenge} />
