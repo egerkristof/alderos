@@ -23,7 +23,7 @@ const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
   const handleChipClick = (challenge: typeof challenges[0]) => {
     setSelectedId(challenge.id);
     setCustomInput("");
-    onSelect(t(challenge.descKey));
+    onSelect(t(challenge.descKey), challenge.id);
   };
 
   const handleCustomSubmit = () => {
