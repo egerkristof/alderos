@@ -136,6 +136,7 @@ ${langInstruction}`;
           challenge_text: consent ? question.trim() : "(withheld by user)",
           language,
           mode: "explore",
+          session_id: session_id || null,
         });
       } catch (logErr) {
         console.error("Failed to log explore event:", logErr);
