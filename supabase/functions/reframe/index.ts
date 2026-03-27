@@ -56,7 +56,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-2.5-pro",
         messages: [
           { role: "system", content: `${systemPrompt}\n\nCRITICAL: ${langInstruction} All three fields (empathy, shared_value, message) must be written in the specified language.\n\nIMPORTANT CITATION RULES:\n- You MUST embed inline citation markers like [1], [2], [3] etc. in the text of empathy, shared_value, and especially message fields.\n- Place citation markers at the end of sentences or claims that reference a source.\n- The numbers must correspond to the index (1-based) of the sources array.\n- Focus citations especially in the "message" field but include them in empathy and shared_value where relevant.\n- Provide 4-6 high-quality sources with real URLs where possible.\n- Sources should be real, verifiable references: Church documents, papal encyclicals, books by St. Josemaria Escriva, academic studies, official Opus Dei publications, Vatican documents, or reputable journalism.\n- For well-known documents, provide the actual URL (e.g. vatican.va links, opusdei.org links, or Google Books links).\n- If an exact URL is not available, set url to null.\n- Also suggest 3 related follow-up questions the user might want to explore next, in the specified language.` },
           {
