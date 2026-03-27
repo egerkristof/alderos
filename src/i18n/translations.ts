@@ -128,6 +128,10 @@ const translations = {
     step_of: "of",
     sources_value_title: "Backed by real sources",
     sources_value_body: "Every answer includes verified references so you can explore the topic further and learn where the insights come from.",
+    consent_notice: "Your question is collected anonymously to help us improve.",
+    consent_opt_out: "Don't collect",
+    consent_opted_out: "Not collected",
+    consent_opt_in: "Allow collection",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
