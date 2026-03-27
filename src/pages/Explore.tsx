@@ -19,7 +19,17 @@ const Explore = () => {
   const [answerData, setAnswerData] = useState<AnswerData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [collectConsent, setCollectConsent] = useState(() => {
+    const stored = localStorage.getItem("alderos_collect_consent");
+    return stored !== "false";
+  });
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const toggleConsent = () => {
+    const newVal = !collectConsent;
+    setCollectConsent(newVal);
+    localStorage.setItem("alderos_collect_consent", String(newVal));
+  };
 
   const askQuestion = async (q: string) => {
     if (!q.trim()) return;
