@@ -110,6 +110,11 @@ const Index = () => {
             challenge={challenge}
             onBack={handleBack}
             onNewChallenge={(text) => {
+              if (text === "") {
+                setState("select");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
+              }
               setChallenge(text);
               setChallengeId(null);
               setIsCustom(true);
