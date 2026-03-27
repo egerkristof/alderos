@@ -198,6 +198,7 @@ const translations = {
     train_step2_label: "Einen gemeinsamen Wert finden",
     train_step2_placeholder: "Welche Werte teilen Sie mit dem Fragenden? Welche gemeinsame Basis finden Sie?",
     train_step3_label: "Eine wahrheitsbasierte Botschaft formulieren",
+    train_step3_placeholder: "Welche positive, wahrheitsgemasse Botschaft wurden Sie auf Basis dieses gemeinsamen Wertes anbieten?",
     train_step1_guidance: "Zeigen Sie zuerst, dass Sie wirklich verstehen, warum jemand so empfindet. Verteidigen oder erklaren Sie noch nicht. Spiegeln Sie einfach die Emotion und Erfahrung hinter dem Anliegen wider.",
     train_step2_guidance: "Finden Sie nun einen Wert, den Sie aufrichtig mit dem Fragenden teilen. Es sollte ein universeller menschlicher Wert sein (Wurde, Freiheit, Ehrlichkeit, Fursorge), den Sie beide hochhalten.",
     train_step3_guidance: "Formulieren Sie von dieser gemeinsamen Basis aus eine positive, wahrheitsgemasse Botschaft. Vermeiden Sie Verteidigung oder Abweisung. Bieten Sie eine neue Perspektive, die naturlich aus dem gemeinsamen Wert fliesst.",
