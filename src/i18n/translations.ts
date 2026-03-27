@@ -211,6 +211,8 @@ const translations = {
     demo_refresh: "Neue Fragen anzeigen",
     step_label: "Schritt",
     step_of: "von",
+    sources_value_title: "Gestützt auf echte Quellen",
+    sources_value_body: "Jede Antwort enthält verifizierte Referenzen, damit Sie das Thema vertiefen und nachvollziehen können, woher die Erkenntnisse stammen.",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
