@@ -47,6 +47,7 @@ export type Database = {
           id: string
           language: string | null
           mode: string | null
+          session_id: string | null
         }
         Insert: {
           challenge_id?: string | null
@@ -56,6 +57,7 @@ export type Database = {
           id?: string
           language?: string | null
           mode?: string | null
+          session_id?: string | null
         }
         Update: {
           challenge_id?: string | null
@@ -65,6 +67,7 @@ export type Database = {
           id?: string
           language?: string | null
           mode?: string | null
+          session_id?: string | null
         }
         Relationships: []
       }
