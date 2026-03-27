@@ -257,10 +257,10 @@ const Admin = () => {
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
               {[
-                { label: "Preselected", value: preselected },
-                { label: "AI-generated", value: aiGenerated },
-                { label: "Custom (user-typed)", value: custom },
-                { label: "Withheld", value: withheld },
+                { label: "From website (preselected)", value: preselected },
+                { label: "AI suggestions (homepage)", value: aiGenerated },
+                { label: "User typed (custom)", value: custom },
+                { label: "Withheld (opted out)", value: withheld },
                 { label: "AI mode", value: aiMode },
                 { label: "Training mode", value: trainingMode },
               ].map((stat) => (
