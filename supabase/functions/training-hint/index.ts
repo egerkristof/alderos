@@ -32,6 +32,17 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
+    // Fetch system prompt from DB
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data: promptData } = await supabase
+      .from("system_prompts")
+      .select("prompt_text")
+      .eq("name", "training-hint")
+      .single();
+
+    const basePrompt = promptData?.prompt_text || "You are a gentle communication coach.";
     const langInstruction = LANGUAGE_INSTRUCTIONS[language] || LANGUAGE_INSTRUCTIONS.en;
 
     const stepDescriptions: Record<string, string> = {
@@ -40,13 +51,7 @@ serve(async (req) => {
       message: "Step 3: Craft a truth-based message. The user needs to offer a positive, truthful perspective that naturally flows from the shared value, without being defensive or dismissive.",
     };
 
-    const systemPrompt = `You are a gentle communication coach helping someone practice the Catholic Voices reframing methodology. 
-
-The user is working on a concern about Opus Dei and needs help with a specific step. Generate 3 short, actionable thinking prompts (NOT full answers) that nudge them in the right direction without writing the response for them.
-
-Each prompt should be a brief question or suggestion (max 15 words) that helps them think about what to write. Be specific to the concern, not generic.
-
-${langInstruction}`;
+    const systemPrompt = `${basePrompt}\n\n${langInstruction}`;
 
     const userPrompt = `The concern being addressed: "${challenge}"
 
