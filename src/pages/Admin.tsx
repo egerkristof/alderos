@@ -260,6 +260,7 @@ const Admin = () => {
                 { label: "Preselected", value: preselected },
                 { label: "AI-generated", value: aiGenerated },
                 { label: "Custom (user-typed)", value: custom },
+                { label: "Withheld", value: withheld },
                 { label: "AI mode", value: aiMode },
                 { label: "Training mode", value: trainingMode },
               ].map((stat) => (
