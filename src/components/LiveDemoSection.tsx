@@ -152,14 +152,45 @@ const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
           </AnimatePresence>
         </div>
 
+        {/* Ask your own question - prominent */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="flex items-center justify-center gap-6 mt-10"
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="max-w-2xl mx-auto mt-8"
         >
-          {useDynamic && (
+          <button
+            onClick={() => onTryChallenge("")}
+            className="w-full group flex items-center justify-between p-6 rounded-xl border-2 border-dashed border-accent/30
+                       bg-accent/[0.03] hover:border-accent/60 hover:bg-accent/[0.06] hover:shadow-lg hover:shadow-accent/5
+                       transition-all duration-300 text-left"
+          >
+            <div className="flex items-center gap-4 flex-1">
+              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                <Sparkles className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <p className="text-base font-heading font-semibold text-foreground mb-0.5">
+                  {t("demo_custom_title")}
+                </p>
+                <p className="text-sm font-body text-muted-foreground">
+                  {t("demo_custom")}
+                </p>
+              </div>
+            </div>
+            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors flex-shrink-0" />
+          </button>
+        </motion.div>
+
+        {useDynamic && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="flex items-center justify-center mt-6"
+          >
             <button
               onClick={handleRefresh}
               disabled={isLoadingDynamic}
@@ -168,15 +199,8 @@ const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
               <RefreshCw className={`w-3.5 h-3.5 ${isLoadingDynamic ? "animate-spin" : ""}`} />
               {t("demo_refresh")}
             </button>
-          )}
-          <button
-            onClick={() => onTryChallenge("")}
-            className="inline-flex items-center gap-2 text-sm font-body text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            {t("demo_custom")}
-          </button>
-        </motion.div>
+          </motion.div>
+        )}
 
         {/* Verified sources value prop */}
         <motion.div
