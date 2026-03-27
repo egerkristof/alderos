@@ -48,7 +48,7 @@ const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
               transition={{ delay: i * 0.12, duration: 0.5 }}
               onMouseEnter={() => setHoveredId(challenge.id)}
               onMouseLeave={() => setHoveredId(null)}
-              onClick={() => onTryChallenge(t(challenge.descKey))}
+              onClick={() => onTryChallenge(t(challenge.descKey), challenge.id)}
               className="group flex items-center justify-between p-6 rounded-xl border border-border
                          bg-card hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5
                          transition-all duration-300 text-left"
