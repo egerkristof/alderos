@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
-import { Heart, Handshake, Lightbulb, ArrowLeft, Loader2 } from "lucide-react";
+import { Heart, Handshake, Lightbulb, ArrowLeft, Loader2, BookOpen } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ResponseActions from "./ResponseActions";
 import { useLanguage } from "@/contexts/LanguageContext";
