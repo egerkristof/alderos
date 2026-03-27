@@ -6,6 +6,14 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const LANGUAGE_INSTRUCTIONS: Record<string, string> = {
+  en: "Respond entirely in English.",
+  de: "Antworte vollständig auf Deutsch.",
+  es: "Responde completamente en español.",
+  fr: "Réponds entièrement en français.",
+  hu: "Válaszolj teljes egészében magyarul.",
+};
+
 const SYSTEM_PROMPT = `You are a wise, empathetic communication advisor trained in the Catholic Voices "reframing" methodology developed by Jack Valero. Your role is to help reframe concerns and criticisms about Opus Dei using the 3-step process: Frame → Shared Value → Message.
 
 You follow these principles:
@@ -31,7 +39,7 @@ serve(async (req) => {
   }
 
   try {
-    const { challenge } = await req.json();
+    const { challenge, language = "en" } = await req.json();
     if (!challenge) {
       return new Response(JSON.stringify({ error: "No challenge provided" }), {
         status: 400,
@@ -44,6 +52,8 @@ serve(async (req) => {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
+    const langInstruction = LANGUAGE_INSTRUCTIONS[language] || LANGUAGE_INSTRUCTIONS.en;
+
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -53,7 +63,7 @@ serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: `${SYSTEM_PROMPT}\n\nCRITICAL: ${langInstruction} All three fields (empathy, shared_value, message) must be written in the specified language.` },
           {
             role: "user",
             content: `Please reframe this concern about Opus Dei using the Catholic Voices methodology:\n\n"${challenge}"`,
@@ -68,18 +78,9 @@ serve(async (req) => {
               parameters: {
                 type: "object",
                 properties: {
-                  empathy: {
-                    type: "string",
-                    description: "Empathetic acknowledgment of the concern",
-                  },
-                  shared_value: {
-                    type: "string",
-                    description: "The shared value that connects both perspectives",
-                  },
-                  message: {
-                    type: "string",
-                    description: "Truth-based, positive reframing message",
-                  },
+                  empathy: { type: "string", description: "Empathetic acknowledgment of the concern" },
+                  shared_value: { type: "string", description: "The shared value that connects both perspectives" },
+                  message: { type: "string", description: "Truth-based, positive reframing message" },
                 },
                 required: ["empathy", "shared_value", "message"],
                 additionalProperties: false,
@@ -94,14 +95,12 @@ serve(async (req) => {
     if (!response.ok) {
       if (response.status === 429) {
         return new Response(JSON.stringify({ error: "Rate limited" }), {
-          status: 429,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       if (response.status === 402) {
         return new Response(JSON.stringify({ error: "Payment required" }), {
-          status: 402,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       const text = await response.text();
@@ -119,7 +118,6 @@ serve(async (req) => {
       });
     }
 
-    // Fallback: try parsing content as JSON
     const content = data.choices?.[0]?.message?.content || "";
     const jsonMatch = content.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
@@ -134,10 +132,7 @@ serve(async (req) => {
     console.error("reframe error:", e);
     return new Response(
       JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });
