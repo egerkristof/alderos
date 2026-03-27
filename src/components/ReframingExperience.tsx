@@ -23,7 +23,7 @@ const ReframingExperience = ({ challenge, onBack }: ReframingExperienceProps) =>
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activePhase, setActivePhase] = useState(0);
-  const [rawData, setRawData] = useState<{ empathy: string; shared_value: string; message: string } | null>(null);
+  const [rawData, setRawData] = useState<{ empathy: string; shared_value: string; message: string; sources?: { title: string; description: string }[] } | null>(null);
 
   const phaseMeta = [
     { icon: <Heart className="w-5 h-5" />, label: t("phase1_label"), title: t("phase1_title"), key: "empathy" },
