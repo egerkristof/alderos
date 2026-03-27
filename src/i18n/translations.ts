@@ -409,6 +409,8 @@ const translations = {
     mode_ai_desc: "Voyez comment la méthodologie Catholic Voices recadre cette préoccupation",
     mode_training: "Laissez-moi essayer d'abord",
     mode_training_desc: "Pratiquez le recadrage vous-même, puis comparez avec l'IA",
+    mode_recommended: "Recommandé",
+    mode_or: "ou",
     loading: "Réflexion attentive sur votre question...",
     back: "Poser une autre question",
     back_challenges: "Retour aux préoccupations",
