@@ -106,6 +106,8 @@ const translations = {
     sources_subtitle: "References supporting this reframing",
     followup_label: "Explore further",
     demo_refresh: "Show new questions",
+    step_label: "Step",
+    step_of: "of",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
