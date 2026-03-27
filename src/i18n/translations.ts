@@ -314,6 +314,8 @@ const translations = {
     demo_refresh: "Mostrar nuevas preguntas",
     step_label: "Paso",
     step_of: "de",
+    sources_value_title: "Respaldado por fuentes reales",
+    sources_value_body: "Cada respuesta incluye referencias verificadas para que puedas explorar el tema y conocer de donde provienen las ideas.",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
