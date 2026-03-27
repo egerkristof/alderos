@@ -55,7 +55,7 @@ const ReframingExperience = ({ challenge, onBack }: ReframingExperienceProps) =>
       if (!resp.ok) { setError(t("error_generic")); setIsLoading(false); return; }
 
       const data = await resp.json();
-      setRawData({ empathy: data.empathy || "", shared_value: data.shared_value || "", message: data.message || "" });
+      setRawData({ empathy: data.empathy || "", shared_value: data.shared_value || "", message: data.message || "", sources: data.sources || [] });
 
       const builtPhases: Phase[] = phaseMeta.map((meta) => ({
         icon: meta.icon, label: meta.label, title: meta.title,
