@@ -87,6 +87,7 @@ const Admin = () => {
   const totalEvents = events.length;
   const preselected = events.filter((e) => e.event_type === "preselected").length;
   const aiGenerated = events.filter((e) => e.event_type === "ai-generated").length;
+  const withheld = events.filter((e) => e.event_type === "withheld").length;
   const custom = events.filter((e) => e.event_type === "custom").length;
   const aiMode = events.filter((e) => e.mode === "ai").length;
   const trainingMode = events.filter((e) => e.mode === "training").length;
@@ -259,6 +260,7 @@ const Admin = () => {
                 { label: "Preselected", value: preselected },
                 { label: "AI-generated", value: aiGenerated },
                 { label: "Custom (user-typed)", value: custom },
+                { label: "Withheld", value: withheld },
                 { label: "AI mode", value: aiMode },
                 { label: "Training mode", value: trainingMode },
               ].map((stat) => (
@@ -381,6 +383,8 @@ const Admin = () => {
                                       ? "bg-accent/10 text-accent"
                                       : event.event_type === "ai-generated"
                                       ? "bg-blue-500/10 text-blue-600"
+                                      : event.event_type === "withheld"
+                                      ? "bg-yellow-500/10 text-yellow-600"
                                       : "bg-primary/10 text-primary"
                                   }`}>
                                     {event.event_type}

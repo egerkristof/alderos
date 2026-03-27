@@ -80,6 +80,15 @@ const Index = () => {
         mode,
         session_id: SESSION_ID,
       } as any).then(() => {});
+    } else {
+      supabase.from("usage_events").insert({
+        event_type: "withheld",
+        challenge_id: null,
+        challenge_text: "(withheld by user)",
+        language: lang,
+        mode,
+        session_id: SESSION_ID,
+      } as any).then(() => {});
     }
   };
 
