@@ -4,7 +4,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LiveDemoSectionProps {
-  onTryChallenge: (challenge: string) => void;
+  onTryChallenge: (challenge: string, id?: string) => void;
 }
 
 const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
