@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { PenLine, Sparkles, ArrowRight, Loader2, Star, Lightbulb, ChevronDown, ChevronUp, Heart, Handshake, Target } from "lucide-react";
+import { PenLine, Sparkles, ArrowRight, Loader2, Star, Lightbulb, ChevronDown, ChevronUp, Heart, Handshake, Target, HelpCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
 
@@ -123,6 +123,8 @@ const TrainingMode = ({ challenge, aiPhases, isAiLoading }: TrainingModeProps) =
   const [isCoachingLoading, setIsCoachingLoading] = useState(false);
   const [coachingError, setCoachingError] = useState<string | null>(null);
   const [expandedFeedback, setExpandedFeedback] = useState<string | null>("empathy_feedback");
+  const [hints, setHints] = useState<Record<string, string[]>>({});
+  const [hintsLoading, setHintsLoading] = useState(false);
 
   const STEPS = [
     {
@@ -176,6 +178,37 @@ const TrainingMode = ({ challenge, aiPhases, isAiLoading }: TrainingModeProps) =
       setCoachingError(t("error_connection"));
     } finally {
       setIsCoachingLoading(false);
+    }
+  };
+
+  const fetchHints = async (stepKey: string) => {
+    setHintsLoading(true);
+    try {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      const resp = await fetch(`${supabaseUrl}/functions/v1/training-hint`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${supabaseKey}`,
+        },
+        body: JSON.stringify({
+          challenge,
+          step: stepKey,
+          currentText: userAnswers[stepKey as keyof typeof userAnswers] || "",
+          language: lang,
+        }),
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.prompts) {
+          setHints((prev) => ({ ...prev, [stepKey]: data.prompts }));
+        }
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setHintsLoading(false);
     }
   };
 
@@ -234,6 +267,56 @@ const TrainingMode = ({ challenge, aiPhases, isAiLoading }: TrainingModeProps) =
               placeholder={t(step.placeholderKey)}
               className="w-full h-36 px-5 py-4 rounded-xl border border-border bg-card text-foreground placeholder:text-muted-foreground/50 resize-none font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/40 transition-all"
             />
+
+            {/* Help me button and hints */}
+            <div className="mt-3 mb-1">
+              {!hints[step.key] ? (
+                <button
+                  onClick={() => fetchHints(step.key)}
+                  disabled={hintsLoading}
+                  className="inline-flex items-center gap-1.5 text-sm font-body text-muted-foreground hover:text-accent transition-colors disabled:opacity-40"
+                >
+                  {hintsLoading ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <HelpCircle className="w-3.5 h-3.5" />
+                  )}
+                  {t("training_help_me")}
+                </button>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-2"
+                >
+                  <p className="text-[0.65rem] tracking-[0.15em] uppercase text-accent font-body mb-2 flex items-center gap-1.5">
+                    <Lightbulb className="w-3 h-3" /> {t("training_think_about")}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {hints[step.key].map((hint, i) => (
+                      <motion.span
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="inline-block px-3 py-2 rounded-lg border border-accent/20 bg-accent/[0.04] text-xs font-body text-foreground/75 leading-snug"
+                      >
+                        {hint}
+                      </motion.span>
+                    ))}
+                  </div>
+                  <button
+                    onClick={() => fetchHints(step.key)}
+                    disabled={hintsLoading}
+                    className="inline-flex items-center gap-1 text-[0.65rem] font-body text-muted-foreground hover:text-accent transition-colors mt-1 disabled:opacity-40"
+                  >
+                    {hintsLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <HelpCircle className="w-3 h-3" />}
+                    {t("training_more_hints")}
+                  </button>
+                </motion.div>
+              )}
+            </div>
+
             <div className="flex justify-between items-center mt-4">
               {currentStep > 0 ? (
                 <button
