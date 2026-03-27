@@ -124,9 +124,9 @@ const Index = () => {
 
         {state === "training" && (
           <TrainingReframeWrapper challenge={challenge} onBack={handleBack} lang={lang} />
-          <Footer />
-        </>
-      )}
+        )}
+      </div>
+      <Footer />
     </main>
   );
 };
