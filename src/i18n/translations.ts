@@ -169,6 +169,8 @@ const translations = {
     mode_ai_desc: "Sehen Sie, wie die Catholic-Voices-Methodik dieses Anliegen neu rahmt",
     mode_training: "Lass mich zuerst versuchen",
     mode_training_desc: "Üben Sie selbst das Reframing und vergleichen Sie dann mit der KI",
+    mode_recommended: "Empfohlen",
+    mode_or: "oder",
     loading: "Ihre Frage wird sorgfältig bedacht...",
     back: "Eine andere Frage stellen",
     back_challenges: "Zurück zu den Anliegen",
