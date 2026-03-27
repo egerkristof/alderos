@@ -14,6 +14,9 @@ import { supabase } from "@/integrations/supabase/client";
 
 type AppState = "home" | "select" | "choose-mode" | "reframe" | "training";
 
+// Generate a stable session ID per browser tab
+const SESSION_ID = crypto.randomUUID();
+
 const Index = () => {
   const { lang, t } = useLanguage();
   const [state, setState] = useState<AppState>("home");
@@ -57,7 +60,8 @@ const Index = () => {
       challenge_text: challenge,
       language: lang,
       mode,
-    }).then(() => {});
+      session_id: SESSION_ID,
+    } as any).then(() => {});
   };
 
   const handleBack = () => {

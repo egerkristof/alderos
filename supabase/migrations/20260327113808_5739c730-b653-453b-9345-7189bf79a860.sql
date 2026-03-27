@@ -1,0 +1,1 @@
+ALTER TABLE public.usage_events ADD COLUMN session_id text;

@@ -70,6 +70,7 @@ const Admin = () => {
   };
 
   const handleLogout = async () => {
+    localStorage.removeItem("alderos_remember_admin");
     await supabase.auth.signOut();
     navigate("/");
   };
@@ -88,6 +89,21 @@ const Admin = () => {
   const custom = events.filter((e) => e.event_type === "custom").length;
   const aiMode = events.filter((e) => e.mode === "ai").length;
   const trainingMode = events.filter((e) => e.mode === "training").length;
+
+  // Group by session
+  const sessionMap: Record<string, any[]> = {};
+  events.forEach((e) => {
+    const sid = e.session_id || e.id;
+    if (!sessionMap[sid]) sessionMap[sid] = [];
+    sessionMap[sid].push(e);
+  });
+  const sessions = Object.entries(sessionMap).sort(([, a], [, b]) => {
+    const latestA = Math.max(...a.map((e: any) => new Date(e.created_at).getTime()));
+    const latestB = Math.max(...b.map((e: any) => new Date(e.created_at).getTime()));
+    return latestB - latestA;
+  });
+  const multiQuestionSessions = sessions.filter(([, evts]) => evts.length > 1).length;
+  const uniqueSessions = sessions.length;
 
   // Group by challenge_id for preselected
   const challengeCounts: Record<string, number> = {};
@@ -223,9 +239,22 @@ const Admin = () => {
             </div>
 
             {/* Stats cards */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
               {[
                 { label: "Total submissions", value: totalEvents },
+                { label: "Unique sessions", value: uniqueSessions },
+                { label: "Multi-question sessions", value: multiQuestionSessions },
+                { label: "Avg questions/session", value: uniqueSessions ? (totalEvents / uniqueSessions).toFixed(1) : "0" },
+              ].map((stat) => (
+                <div key={stat.label} className="rounded-xl border border-border bg-card p-4 text-center">
+                  <p className="text-2xl font-heading font-semibold text-foreground">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground font-body mt-1">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              {[
                 { label: "Preselected", value: preselected },
                 { label: "Custom questions", value: custom },
                 { label: "AI mode", value: aiMode },
@@ -272,45 +301,53 @@ const Admin = () => {
               </div>
             )}
 
-            {/* Recent events table */}
+            {/* Sessions view */}
             <div className="rounded-xl border border-border bg-card overflow-hidden">
-              <h3 className="text-sm font-body font-medium text-foreground p-4 border-b border-border">Recent submissions</h3>
+              <h3 className="text-sm font-body font-medium text-foreground p-4 border-b border-border">
+                Recent sessions ({sessions.length})
+              </h3>
               {eventsLoading ? (
                 <p className="text-muted-foreground font-body text-center py-8">Loading...</p>
-              ) : events.length === 0 ? (
+              ) : sessions.length === 0 ? (
                 <p className="text-muted-foreground font-body text-center py-8">No submissions yet.</p>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm font-body">
-                    <thead>
-                      <tr className="border-b border-border text-left">
-                        <th className="px-4 py-2.5 text-xs text-muted-foreground font-medium">Time</th>
-                        <th className="px-4 py-2.5 text-xs text-muted-foreground font-medium">Type</th>
-                        <th className="px-4 py-2.5 text-xs text-muted-foreground font-medium">Mode</th>
-                        <th className="px-4 py-2.5 text-xs text-muted-foreground font-medium">Lang</th>
-                        <th className="px-4 py-2.5 text-xs text-muted-foreground font-medium">Question</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {events.slice(0, 50).map((event) => (
-                        <tr key={event.id} className="border-b border-border/50 hover:bg-secondary/30">
-                          <td className="px-4 py-2.5 text-muted-foreground text-xs whitespace-nowrap">
-                            {new Date(event.created_at).toLocaleString()}
-                          </td>
-                          <td className="px-4 py-2.5">
-                            <span className={`inline-block px-2 py-0.5 rounded text-xs ${
-                              event.event_type === "custom" ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary"
-                            }`}>
-                              {event.event_type}
+                <div className="divide-y divide-border/50">
+                  {sessions.slice(0, 30).map(([sessionId, sessionEvents]) => {
+                    const firstEvent = sessionEvents[sessionEvents.length - 1];
+                    const lastEvent = sessionEvents[0];
+                    const isMulti = sessionEvents.length > 1;
+                    return (
+                      <div key={sessionId} className={`p-4 ${isMulti ? "bg-accent/[0.03]" : ""}`}>
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            {isMulti && (
+                              <span className="inline-block px-2 py-0.5 rounded-full text-[0.65rem] bg-accent/10 text-accent font-body font-medium">
+                                {sessionEvents.length} questions
+                              </span>
+                            )}
+                            <span className="text-xs text-muted-foreground font-body">
+                              {new Date(firstEvent.created_at).toLocaleString()}
                             </span>
-                          </td>
-                          <td className="px-4 py-2.5 text-foreground/70 text-xs">{event.mode || "-"}</td>
-                          <td className="px-4 py-2.5 text-foreground/70 text-xs uppercase">{event.language}</td>
-                          <td className="px-4 py-2.5 text-foreground/80 max-w-xs truncate">{event.challenge_text}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                            <span className="text-xs text-muted-foreground/50 font-body uppercase">{firstEvent.language}</span>
+                          </div>
+                          <span className="text-[0.6rem] text-muted-foreground/40 font-mono">{sessionId.slice(0, 8)}</span>
+                        </div>
+                        <div className="space-y-1.5">
+                          {sessionEvents.map((event: any) => (
+                            <div key={event.id} className="flex items-center gap-3">
+                              <span className={`inline-block px-1.5 py-0.5 rounded text-[0.65rem] ${
+                                event.event_type === "custom" ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary"
+                              }`}>
+                                {event.event_type}
+                              </span>
+                              <span className="text-[0.65rem] text-muted-foreground font-body">{event.mode || "-"}</span>
+                              <span className="text-xs text-foreground/80 font-body truncate max-w-md">{event.challenge_text}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
