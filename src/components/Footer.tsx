@@ -22,13 +22,23 @@ const Footer = () => {
         </p>
         <div className="flex flex-col items-center gap-2">
           <p className="text-xs font-body text-muted-foreground/60">
-            A project by <span className="text-foreground/70 font-medium">Kristof Eger</span>
+            A project by{" "}
+            <a
+              href="https://www.linkedin.com/in/christoph-eger/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground/70 font-medium hover:text-accent transition-colors underline underline-offset-2 decoration-accent/30 hover:decoration-accent"
+            >
+              Christoph Eger
+            </a>
           </p>
           <a
-            href="mailto:kristof.eger@lizaos.ai"
+            href="https://lizawest.ai"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-xs font-body text-accent hover:text-accent/80 transition-colors"
           >
-            kristof.eger@lizaos.ai
+            LizaWest.ai
           </a>
           <a
             href="/admin/login"
