@@ -54,7 +54,6 @@ const Index = () => {
 
   return (
     <main className="bg-background min-h-screen">
-      <LanguageSelector />
 
       {state === "home" && (
         <>
