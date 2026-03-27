@@ -123,6 +123,8 @@ const TrainingMode = ({ challenge, aiPhases, isAiLoading }: TrainingModeProps) =
   const [isCoachingLoading, setIsCoachingLoading] = useState(false);
   const [coachingError, setCoachingError] = useState<string | null>(null);
   const [expandedFeedback, setExpandedFeedback] = useState<string | null>("empathy_feedback");
+  const [hints, setHints] = useState<Record<string, string[]>>({});
+  const [hintsLoading, setHintsLoading] = useState(false);
 
   const STEPS = [
     {
