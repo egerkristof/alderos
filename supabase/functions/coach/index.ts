@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -31,23 +32,20 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
+    // Fetch system prompt from DB
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data: promptData } = await supabase
+      .from("system_prompts")
+      .select("prompt_text")
+      .eq("name", "coach")
+      .single();
+
+    const basePrompt = promptData?.prompt_text || "You are an expert communication coach.";
     const langInstruction = LANGUAGE_INSTRUCTIONS[language] || LANGUAGE_INSTRUCTIONS.en;
 
-    const systemPrompt = `You are a team of expert communication coaches specializing in the Catholic Voices reframing methodology. You bring together multiple perspectives:
-
-1. **The Empathy Coach** - An expert in emotional intelligence and active listening. They assess whether the user truly acknowledged the feelings behind the concern or jumped to defending/explaining too quickly.
-
-2. **The Bridge Builder** - A specialist in finding common ground across worldviews. They evaluate whether the shared value identified is genuinely shared (not just an Opus Dei value repackaged) and whether it creates a real bridge.
-
-3. **The Message Architect** - A communications strategist who evaluates clarity, tone, and persuasiveness. They assess whether the message reframes positively or falls into common traps like defensiveness, whataboutism, or dismissiveness.
-
-4. **The Root Cause Analyst** - A psychologist who looks at the deeper patterns in communication. They identify WHY certain weaknesses appear (e.g., fear of the question, over-identification with the institution, lack of genuine engagement with the concern).
-
-Your task: Review the user's attempt at reframing a concern about Opus Dei, compare it against what an ideal response would look like, and provide rich, specific, constructive coaching.
-
-Be honest but encouraging. Point out what they did well first, then what needs improvement, and always explain WHY something doesn't work, not just that it doesn't.
-
-${langInstruction}`;
+    const systemPrompt = `${basePrompt}\n\n${langInstruction}`;
 
     const userPrompt = `The concern being addressed:
 "${challenge}"

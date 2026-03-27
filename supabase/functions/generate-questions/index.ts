@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -16,6 +17,18 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
+    // Fetch system prompt from DB
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data: promptData } = await supabase
+      .from("system_prompts")
+      .select("prompt_text")
+      .eq("name", "generate-questions")
+      .single();
+
+    const basePrompt = promptData?.prompt_text || "You generate realistic challenging questions about Opus Dei.";
+
     const langMap: Record<string, string> = {
       en: "English", de: "German", es: "Spanish", fr: "French",
     };
@@ -32,7 +45,7 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You generate realistic, challenging questions and concerns that people commonly raise about Opus Dei. These should be varied, authentic-sounding, and cover different topics: money/power, recruitment, secrecy, personal freedom, lifestyle, family impact, political influence, women's role, self-mortification, cult accusations, etc. Write them as direct statements or questions a skeptical person might say. Write in ${langName}. Each question should be 1-2 sentences. Make them diverse and avoid repeating the same theme.`,
+            content: `${basePrompt} Write in ${langName}.`,
           },
           {
             role: "user",
