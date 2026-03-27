@@ -296,6 +296,8 @@ const translations = {
     error_unavailable: "Servicio temporalmente no disponible. Por favor, inténtalo más tarde.",
     error_generic: "Algo salió mal. Por favor, inténtalo de nuevo.",
     error_connection: "No se puede conectar. Por favor, verifica tu conexión e inténtalo de nuevo.",
+    sources_label: "Fuentes",
+    sources_subtitle: "Referencias que respaldan este reencuadre",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
