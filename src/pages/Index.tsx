@@ -9,7 +9,7 @@ import TrainingMode from "@/components/TrainingMode";
 import Footer from "@/components/Footer";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 type AppState = "home" | "select" | "choose-mode" | "reframe" | "training";
