@@ -500,6 +500,10 @@ const translations = {
     step_of: "sur",
     sources_value_title: "Appuye par des sources reelles",
     sources_value_body: "Chaque reponse inclut des references verifiees pour que vous puissiez approfondir le sujet et comprendre d'ou viennent les idees.",
+    consent_notice: "Votre question est collectee anonymement pour nous aider a ameliorer.",
+    consent_opt_out: "Ne pas collecter",
+    consent_opted_out: "Non collectee",
+    consent_opt_in: "Autoriser la collecte",
   },
   it: {
     hero_tagline: "Un ponte tra domande e comprensione",
