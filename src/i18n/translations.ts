@@ -706,8 +706,8 @@ const translations = {
     coach_gate_placeholder: "Password",
     coach_gate_error: "Password errata. Riprova.",
     coach_gate_enter: "Entra",
-    suggested_q1: "Cos'e davvero l'Opus Dei?",
-    suggested_q2: "L'Opus Dei e una setta?",
+    suggested_q1: "Cos'è davvero l'Opus Dei?",
+    suggested_q2: "L'Opus Dei è una setta?",
     suggested_q3: "Cosa fanno i membri dell'Opus Dei ogni giorno?",
   },
   hu: {
