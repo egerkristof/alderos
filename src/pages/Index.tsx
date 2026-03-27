@@ -66,10 +66,10 @@ const Index = () => {
         <section className="min-h-screen flex flex-col items-center px-6 py-16 md:py-24">
           <div className="max-w-3xl w-full">
             <button onClick={handleBack} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 font-body">
-              ← {useLanguage().t("back")}
+              ← {t("back")}
             </button>
             <div className="mb-12 text-center">
-              <p className="text-sm tracking-[0.25em] uppercase text-accent mb-4 font-body">{useLanguage().t("concern_label")}</p>
+              <p className="text-sm tracking-[0.25em] uppercase text-accent mb-4 font-body">{t("concern_label")}</p>
               <blockquote className="text-xl md:text-2xl font-heading italic text-foreground/80 max-w-2xl mx-auto leading-relaxed">"{challenge}"</blockquote>
             </div>
             <ModeChooser onChoose={handleModeChoice} />
