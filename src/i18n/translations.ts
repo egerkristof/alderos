@@ -83,6 +83,7 @@ const translations = {
     train_step2_label: "Find a shared value",
     train_step2_placeholder: "What values do you share with the person asking? What common ground can you find?",
     train_step3_label: "Craft a truth-based message",
+    train_step3_placeholder: "Based on that shared value, what positive, truthful message would you offer?",
     train_step1_guidance: "Start by showing you truly understand why someone feels this way. Do not defend or explain yet. Simply reflect back the emotion and experience behind the concern. Think: what is this person really feeling?",
     train_step2_guidance: "Now find a value you genuinely share with the person asking. This should not be an Opus Dei value repackaged. It should be a universal human value (dignity, freedom, honesty, care) that both of you hold dear.",
     train_step3_guidance: "From that common ground, craft a positive, truthful message. Avoid being defensive or dismissive. Instead, offer a new perspective that naturally flows from the shared value you identified. Show, do not just tell.",
