@@ -12,6 +12,7 @@ const LANGUAGE_INSTRUCTIONS: Record<string, string> = {
   de: "Antworte vollständig auf Deutsch.",
   es: "Responde completamente en español.",
   fr: "Réponds entièrement en français.",
+  hu: "Valaszolj teljes egeszeben magyarul.",
 };
 
 serve(async (req) => {
