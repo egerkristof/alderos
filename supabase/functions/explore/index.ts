@@ -138,6 +138,36 @@ Guidelines:
     if (toolCall?.function?.arguments) {
       const parsed = JSON.parse(toolCall.function.arguments);
 
+      // Validate source URLs in parallel
+      if (parsed.sources && Array.isArray(parsed.sources)) {
+        const validated = await Promise.all(
+          parsed.sources.map(async (source: { title: string; description: string; url?: string | null }) => {
+            if (!source.url) return source;
+            try {
+              const check = await fetch(source.url, {
+                method: "HEAD",
+                redirect: "follow",
+                signal: AbortSignal.timeout(5000),
+              });
+              if (check.ok) return source;
+              // Try GET as fallback (some servers reject HEAD)
+              const getCheck = await fetch(source.url, {
+                method: "GET",
+                redirect: "follow",
+                signal: AbortSignal.timeout(5000),
+              });
+              if (getCheck.ok) return source;
+              console.log(`Removing broken URL (${check.status}): ${source.url}`);
+              return { ...source, url: null };
+            } catch (e) {
+              console.log(`Removing unreachable URL: ${source.url}`, e);
+              return { ...source, url: null };
+            }
+          })
+        );
+        parsed.sources = validated;
+      }
+
       // Log the question to usage_events
       try {
         const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
