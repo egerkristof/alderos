@@ -63,7 +63,7 @@ const Admin = () => {
         hasMore = false;
       }
     }
-    if (data) setEvents(data);
+    setEvents(allEvents);
     setEventsLoading(false);
   };
 
