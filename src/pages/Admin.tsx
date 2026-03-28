@@ -44,12 +44,26 @@ const Admin = () => {
 
   const fetchEvents = async () => {
     setEventsLoading(true);
-    const { data } = await supabase
-      .from("usage_events")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(200);
-    if (data) setEvents(data);
+    // Fetch all events (paginate in batches of 1000 to avoid Supabase row limit)
+    let allEvents: any[] = [];
+    let from = 0;
+    const batchSize = 1000;
+    let hasMore = true;
+    while (hasMore) {
+      const { data } = await supabase
+        .from("usage_events")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .range(from, from + batchSize - 1);
+      if (data && data.length > 0) {
+        allEvents = allEvents.concat(data);
+        from += batchSize;
+        if (data.length < batchSize) hasMore = false;
+      } else {
+        hasMore = false;
+      }
+    }
+    setEvents(allEvents);
     setEventsLoading(false);
   };
 
