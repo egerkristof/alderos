@@ -76,7 +76,7 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
             <ReactMarkdown
               key={i}
               components={{
-                p: ({ children }) => <span className="inline">{children}</span>,
+                p: ({ children }) => <span className="block mb-4 last:mb-0">{children}</span>,
                 strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
                 em: ({ children }) => <em>{children}</em>,
                 ul: ({ children }) => <ul className="list-disc pl-5 my-2 block">{children}</ul>,
