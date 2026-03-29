@@ -892,6 +892,7 @@ const translations = {
     explore_subtitle: "Kapjon világos, őszinte, forrásokkal alátámasztott választ.",
     explore_placeholder: "Mit szeretne tudni az Opus Deiről?",
     explore_hint: "MI-vel működik, ellenőrzött forrásokkal",
+    counter_interactions: "beszélgetés eddig",
     explore_new_question: "Új kérdés",
     explore_your_question: "Az Ön kérdése",
     explore_loading: "A legjobb válasz keresése...",
