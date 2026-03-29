@@ -72,6 +72,22 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
           {t("hero_cta_new")}
         </motion.button>
 
+        {/* Secondary CTA - back to explore */}
+        <motion.a
+          href="/"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 0.6 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
+          className="mt-4 inline-flex items-center gap-2 px-8 py-3 rounded-full border border-border
+                     text-muted-foreground font-body text-sm tracking-wide hover:border-foreground/30
+                     hover:text-foreground transition-all"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          {t("coach_back_to_explore")}
+        </motion.a>
+
       </motion.div>
 
       {/* Scroll indicator */}
