@@ -75,6 +75,21 @@ const ExploreAnswer = ({ answer, sources, followUpQuestions, onFollowUp }: Explo
         </div>
       )}
 
+      {/* Low source coverage notice */}
+      {lowSourceCoverage && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="flex gap-3 p-4 rounded-xl border border-accent/20 bg-accent/[0.04]"
+        >
+          <Info className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+          <p className="text-xs font-body text-foreground/70 leading-relaxed">
+            {t("low_source_notice")}
+          </p>
+        </motion.div>
+      )}
+
       {/* Follow-up questions */}
       {followUpQuestions.length > 0 && (
         <div className="pt-6 border-t border-border">
