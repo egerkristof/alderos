@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ArrowDown } from "lucide-react";
-import LiveCounter from "@/components/LiveCounter";
+
 
 const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
   const { t } = useLanguage();
@@ -72,14 +72,6 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
           {t("hero_cta_new")}
         </motion.button>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.6, duration: 0.8 }}
-          className="mt-8"
-        >
-          <LiveCounter />
-        </motion.div>
       </motion.div>
 
       {/* Scroll indicator */}

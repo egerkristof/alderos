@@ -6,6 +6,7 @@ import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
 
 import Footer from "@/components/Footer";
+import LiveCounter from "@/components/LiveCounter";
 
 const EXPLORE_SESSION_ID = crypto.randomUUID();
 
@@ -170,6 +171,9 @@ const Explore = () => {
                   {t("explore_hint")}
                 </p>
 
+                <div className="mt-6 flex justify-center">
+                  <LiveCounter />
+                </div>
 
                 {/* CTA to Communicator / Coach */}
                 <motion.div
