@@ -759,7 +759,7 @@ const translations = {
     suggested_q1: "Cos'è davvero l'Opus Dei?",
     suggested_q2: "L'Opus Dei è una setta?",
     suggested_q3: "Cosa fanno i membri dell'Opus Dei ogni giorno?",
-    explore_coach_intro: "Vuoi imparare a comunicare sull'Opus Dei con sicurezza?",
+    explore_coach_intro: "Oppure, se vuoi esercitarti a rispondere alle domande sull'Opus Dei con le tue parole…",
     explore_coach_cta: "Esercitati a comunicare",
     soft_mission: "Missione e scopo",
     soft_mission_desc: "Di cosa si occupa davvero l'Opus Dei? Qual è la sua missione?",
