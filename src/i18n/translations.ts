@@ -163,7 +163,7 @@ const translations = {
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
     hero_title: "Alderos",
-    hero_title_pain: "Über das Opus Dei zu sprechen\nmuss nicht schwer sein",
+    hero_title_pain: "Die positive Wirklichkeit\ndes Opus Dei klar vermitteln",
     hero_promise: "Lernen Sie, schwierige Fragen in Momente der Verbindung zu verwandeln",
     hero_body_new: "Alderos nutzt KI und die Catholic-Voices-Reframing-Methodik, um Ihnen zu helfen, auf die schwierigsten Fragen über das Opus Dei mit Klarheit, Empathie und Wahrheit zu antworten.",
     hero_cta_new: "In Aktion sehen",
