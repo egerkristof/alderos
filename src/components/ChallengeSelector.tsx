@@ -1,26 +1,35 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ChallengeSelectorProps {
   onSelect: (challenge: string, id?: string) => void;
 }
 
+const SOFT_CHALLENGES = [
+  { id: "soft-mission", labelKey: "soft_mission" as const, descKey: "soft_mission_desc" as const },
+  { id: "soft-daily", labelKey: "soft_daily" as const, descKey: "soft_daily_desc" as const },
+  { id: "soft-freedom", labelKey: "soft_freedom" as const, descKey: "soft_freedom_desc" as const },
+];
+
+const TOUGH_CHALLENGES = [
+  { id: "wealth", labelKey: "challenge_wealth" as const, descKey: "challenge_wealth_desc" as const },
+  { id: "recruitment", labelKey: "challenge_recruitment" as const, descKey: "challenge_recruitment_desc" as const },
+  { id: "leaving", labelKey: "challenge_leaving" as const, descKey: "challenge_leaving_desc" as const },
+  { id: "secrecy", labelKey: "challenge_secrecy" as const, descKey: "challenge_secrecy_desc" as const },
+  { id: "autonomy", labelKey: "challenge_autonomy" as const, descKey: "challenge_autonomy_desc" as const },
+];
+
 const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
   const { t } = useLanguage();
   const [customInput, setCustomInput] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [showTough, setShowTough] = useState(false);
 
-  const challenges = [
-    { id: "wealth", labelKey: "challenge_wealth" as const, descKey: "challenge_wealth_desc" as const },
-    { id: "recruitment", labelKey: "challenge_recruitment" as const, descKey: "challenge_recruitment_desc" as const },
-    { id: "leaving", labelKey: "challenge_leaving" as const, descKey: "challenge_leaving_desc" as const },
-    { id: "secrecy", labelKey: "challenge_secrecy" as const, descKey: "challenge_secrecy_desc" as const },
-    { id: "autonomy", labelKey: "challenge_autonomy" as const, descKey: "challenge_autonomy_desc" as const },
-  ];
+  const allChallenges = [...SOFT_CHALLENGES, ...TOUGH_CHALLENGES];
 
-  const handleChipClick = (challenge: typeof challenges[0]) => {
+  const handleChipClick = (challenge: typeof allChallenges[0]) => {
     setSelectedId(challenge.id);
     setCustomInput("");
     onSelect(t(challenge.descKey), challenge.id);
@@ -51,8 +60,8 @@ const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
           {t("select_body")}
         </p>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {challenges.map((challenge, i) => (
+        <div className="flex flex-wrap justify-center gap-3 mb-4">
+          {SOFT_CHALLENGES.map((challenge, i) => (
             <motion.button
               key={challenge.id}
               initial={{ opacity: 0, y: 10 }}
@@ -66,6 +75,39 @@ const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
           ))}
         </div>
 
+        {/* Toggle for tough questions */}
+        <button
+          onClick={() => setShowTough(!showTough)}
+          className="inline-flex items-center gap-1.5 text-xs font-body text-muted-foreground hover:text-foreground transition-colors mb-4"
+        >
+          {showTough ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          {showTough ? t("tough_questions_hide") : t("tough_questions_show")}
+        </button>
+
+        <AnimatePresence>
+          {showTough && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="flex flex-wrap justify-center gap-3 mb-8"
+            >
+              {TOUGH_CHALLENGES.map((challenge, i) => (
+                <motion.button
+                  key={challenge.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.08, duration: 0.4 }}
+                  onClick={() => handleChipClick(challenge)}
+                  className={`challenge-chip text-sm font-body ${selectedId === challenge.id ? "active" : ""}`}
+                >
+                  {t(challenge.labelKey)}
+                </motion.button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {selectedId && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
@@ -74,7 +116,7 @@ const ChallengeSelector = ({ onSelect }: ChallengeSelectorProps) => {
           >
             <p className="text-sm text-muted-foreground mb-1 font-body">{t("select_preview")}</p>
             <p className="text-foreground font-body italic">
-              "{t(challenges.find(c => c.id === selectedId)!.descKey)}"
+              "{t(allChallenges.find(c => c.id === selectedId)!.descKey)}"
             </p>
           </motion.div>
         )}
