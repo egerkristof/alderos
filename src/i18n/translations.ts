@@ -13,8 +13,8 @@ const translations = {
   en: {
     hero_tagline: "A bridge between questions and understanding",
     hero_title: "Alderos",
-    hero_title_pain: "We know our mission is good.\nSo why is it so hard to explain?",
-    hero_promise: "What if every difficult question became a bridge?",
+    hero_title_pain: "Communicating about Opus Dei\ndoesn't have to be hard",
+    hero_promise: "Learn to turn tough questions into moments of connection",
     hero_body_new: "Alderos uses AI and the Catholic Voices reframing methodology to turn the toughest questions about Opus Dei into moments of connection and clarity.",
     hero_cta_new: "See it in action",
     hero_scroll: "Scroll",
