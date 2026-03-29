@@ -149,6 +149,8 @@ const translations = {
     suggested_q1: "What is Opus Dei, really?",
     suggested_q2: "Is Opus Dei a cult?",
     suggested_q3: "What do members of Opus Dei do every day?",
+    explore_coach_intro: "Want to learn how to communicate about Opus Dei with confidence?",
+    explore_coach_cta: "Practice communicating",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
