@@ -898,6 +898,7 @@ const translations = {
     explore_placeholder: "Mit szeretne tudni az Opus Deiről?",
     explore_hint: "MI-vel működik, ellenőrzött forrásokkal",
     counter_interactions: "megválaszolt kérdés eddig",
+    explore_scroll_more: "Tovább",
     explore_new_question: "Új kérdés",
     explore_your_question: "Az Ön kérdése",
     explore_loading: "A legjobb válasz keresése...",
