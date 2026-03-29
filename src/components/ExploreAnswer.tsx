@@ -38,6 +38,10 @@ const ExploreAnswer = ({ answer, sources, followUpQuestions, onFollowUp }: Explo
     return mapped ? `[${mapped}]` : "";
   });
 
+  // Determine if source coverage is low relative to answer length
+  const wordCount = cleanedAnswer.split(/\s+/).length;
+  const lowSourceCoverage = verifiedSources.length <= 1 && wordCount > 150;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
