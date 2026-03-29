@@ -39,19 +39,15 @@ const ExploreAnswer = ({ answer, sources, followUpQuestions, onFollowUp }: Explo
             {t("sources_label")}
           </p>
           <div className="space-y-3">
-            {sources.map((source, i) => (
+            {sources.filter(s => !!s.url).map((source, i) => (
               <div key={i} className="flex items-start gap-3 text-sm">
                 <span className="text-xs font-body text-accent/70 mt-0.5 flex-shrink-0">[{i + 1}]</span>
                 <div className="flex-1 min-w-0">
                   <p className="font-body font-medium text-foreground/80">
-                    {source.url ? (
-                      <a href={source.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors inline-flex items-center gap-1">
-                        {source.title}
-                        <ExternalLink className="w-3 h-3 flex-shrink-0" />
-                      </a>
-                    ) : (
-                      source.title
-                    )}
+                    <a href={source.url!} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors inline-flex items-center gap-1">
+                      {source.title}
+                      <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                    </a>
                   </p>
                   <p className="text-muted-foreground/70 font-body text-xs mt-0.5">{source.description}</p>
                 </div>
