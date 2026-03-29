@@ -20,6 +20,24 @@ interface ExploreAnswerProps {
 const ExploreAnswer = ({ answer, sources, followUpQuestions, onFollowUp }: ExploreAnswerProps) => {
   const { t } = useLanguage();
 
+  // Only keep sources with real URLs; strip orphaned citation markers from text
+  const verifiedSources = sources.filter(s => !!s.url);
+  const verifiedIndexes = new Set(sources.map((s, i) => s.url ? i + 1 : null).filter(Boolean) as number[]);
+
+  // Rebuild citation numbering: old index → new index
+  const indexMap = new Map<number, number>();
+  let newIdx = 1;
+  sources.forEach((s, i) => {
+    if (s.url) indexMap.set(i + 1, newIdx++);
+  });
+
+  // Renumber valid citations and strip invalid ones
+  const cleanedAnswer = answer.replace(/\[(\d+)\]/g, (match, num) => {
+    const n = parseInt(num, 10);
+    const mapped = indexMap.get(n);
+    return mapped ? `[${mapped}]` : "";
+  });
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -29,7 +47,7 @@ const ExploreAnswer = ({ answer, sources, followUpQuestions, onFollowUp }: Explo
     >
       {/* Answer */}
       <div className="prose prose-neutral max-w-none font-body text-foreground/90 leading-relaxed">
-        <CitationText text={answer} sources={sources} />
+        <CitationText text={cleanedAnswer} sources={verifiedSources} />
       </div>
 
       {/* Sources */}
