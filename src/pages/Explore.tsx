@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Loader2, ArrowLeft, Sparkles } from "lucide-react";
+import { Send, Loader2, ArrowLeft, Sparkles, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
