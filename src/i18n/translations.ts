@@ -859,6 +859,8 @@ const translations = {
     suggested_q1: "Mi is valójában az Opus Dei?",
     suggested_q2: "Az Opus Dei szekta?",
     suggested_q3: "Mit csinálnak az Opus Dei tagjai a mindennapokban?",
+    explore_coach_intro: "Szeretne megtanulni magabiztosan kommunikálni az Opus Deiről?",
+    explore_coach_cta: "Kommunikáció gyakorlása",
   },
 } as const;
 
