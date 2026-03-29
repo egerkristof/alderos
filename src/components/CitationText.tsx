@@ -72,7 +72,21 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
     <span className="relative">
       {parts.map((part, i) => {
         if (part.type === "text") {
-          return <span key={i}>{part.value}</span>;
+          return (
+            <ReactMarkdown
+              key={i}
+              components={{
+                p: ({ children }) => <span className="inline">{children}</span>,
+                strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
+                em: ({ children }) => <em>{children}</em>,
+                ul: ({ children }) => <ul className="list-disc pl-5 my-2 block">{children}</ul>,
+                ol: ({ children }) => <ol className="list-decimal pl-5 my-2 block">{children}</ol>,
+                li: ({ children }) => <li className="my-1">{children}</li>,
+              }}
+            >
+              {part.value}
+            </ReactMarkdown>
+          );
         }
 
         return (
