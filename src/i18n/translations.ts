@@ -911,7 +911,7 @@ const translations = {
     suggested_q1: "Mi is valójában az Opus Dei?",
     suggested_q2: "Az Opus Dei szekta?",
     suggested_q3: "Mit csinálnak az Opus Dei tagjai a mindennapokban?",
-    explore_coach_intro: "Szeretne megtanulni magabiztosan kommunikálni az Opus Deiről?",
+    explore_coach_intro: "Vagy ha szeretné gyakorolni, hogyan válaszoljon az Opus Deiről szóló kérdésekre a saját szavaival…",
     explore_coach_cta: "Kommunikáció gyakorlása",
     soft_mission: "Küldetés és cél",
     soft_mission_desc: "Miről szól valójában az Opus Dei? Mi a küldetése?",
