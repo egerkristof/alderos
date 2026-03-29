@@ -756,6 +756,7 @@ const translations = {
     sources_label: "Fonti",
     sources_subtitle: "Riferimenti a supporto di questo reframing",
     followup_label: "Esplora ancora",
+    low_source_notice: "Questa risposta ha poche fonti verificate. Sebbene le informazioni siano probabilmente accurate, ti consigliamo di verificare autonomamente i dettagli che ti interessano.",
     demo_refresh: "Mostra nuove domande",
     step_label: "Passo",
     step_of: "di",
