@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ArrowDown, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 
 const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
