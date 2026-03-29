@@ -170,9 +170,6 @@ const Explore = () => {
                   {t("explore_hint")}
                 </p>
 
-                <div className="mt-6 flex justify-center">
-                  <LiveCounter />
-                </div>
 
                 {/* CTA to Communicator / Coach */}
                 <motion.div
