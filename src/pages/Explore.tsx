@@ -118,9 +118,13 @@ const Explore = () => {
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold tracking-tight text-foreground mb-4 leading-[1.15]">
                   {t("explore_title")}
                 </h1>
-                <p className="text-lg text-muted-foreground font-body mb-10 max-w-lg mx-auto leading-relaxed">
+                <p className="text-lg text-muted-foreground font-body mb-6 max-w-lg mx-auto leading-relaxed">
                   {t("explore_subtitle")}
                 </p>
+
+                <div className="mb-6 flex justify-center">
+                  <LiveCounter />
+                </div>
 
                 <form onSubmit={handleSubmit} className="relative max-w-xl mx-auto">
                   <textarea
@@ -145,7 +149,7 @@ const Explore = () => {
                 </form>
 
                 {/* Suggested questions */}
-                <div className="mt-6 flex flex-wrap gap-2 justify-center max-w-xl mx-auto">
+                <div className="mt-5 flex flex-wrap gap-2 justify-center max-w-xl mx-auto">
                   {[t("suggested_q1"), t("suggested_q2"), t("suggested_q3")].map((q, i) => (
                     <button
                       key={i}
@@ -167,35 +171,23 @@ const Explore = () => {
                     {collectConsent ? t("consent_opt_out") : t("consent_opt_in")}
                   </button>
                 </div>
-                <p className="mt-2 text-xs text-muted-foreground/50 font-body">
-                  {t("explore_hint")}
-                </p>
 
-                <div className="mt-6 flex justify-center">
-                  <LiveCounter />
-                </div>
-
-                {/* CTA to Communicator / Coach */}
+                {/* Coach CTA */}
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ delay: 0.6, duration: 0.6 }}
-                  className="mt-12 pt-8 border-t border-border/50"
+                  className="mt-6"
                 >
-                  <div className="flex flex-col items-center gap-3">
-                    <p className="text-sm text-muted-foreground font-body">
-                      {t("explore_coach_intro")}
-                    </p>
-                    <a
-                      href="/coach"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent/30 bg-accent/[0.05]
-                                 text-foreground font-body text-sm hover:border-accent/60 hover:bg-accent/[0.1]
-                                 transition-all duration-300"
-                    >
-                      <Sparkles className="w-4 h-4 text-accent" />
-                      {t("explore_coach_cta")}
-                    </a>
-                  </div>
+                  <a
+                    href="/coach"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-accent/30 bg-accent/[0.05]
+                               text-foreground font-body text-sm hover:border-accent/60 hover:bg-accent/[0.1]
+                               transition-all duration-300"
+                  >
+                    <Sparkles className="w-4 h-4 text-accent" />
+                    {t("explore_coach_cta")}
+                  </a>
                 </motion.div>
               </motion.div>
             </motion.section>
