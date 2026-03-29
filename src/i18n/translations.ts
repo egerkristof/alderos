@@ -746,6 +746,7 @@ const translations = {
     explore_placeholder: "Cosa vorresti sapere sull'Opus Dei?",
     explore_hint: "Alimentato dall'IA con fonti verificate",
     counter_interactions: "domande risposte finora",
+    explore_scroll_more: "Altro",
     explore_new_question: "Nuova domanda",
     explore_your_question: "La tua domanda",
     explore_loading: "Ricerca della migliore risposta...",
