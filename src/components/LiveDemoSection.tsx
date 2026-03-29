@@ -30,6 +30,7 @@ const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
   const [dynamicQuestions, setDynamicQuestions] = useState<DynamicQuestion[]>([]);
   const [isLoadingDynamic, setIsLoadingDynamic] = useState(false);
   const [useDynamic, setUseDynamic] = useState(false);
+  const [showTough, setShowTough] = useState(false);
 
   const fetchDynamicQuestions = useCallback(async () => {
     setIsLoadingDynamic(true);
