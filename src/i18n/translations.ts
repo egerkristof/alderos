@@ -282,6 +282,7 @@ const translations = {
     sources_label: "Quellen",
     sources_subtitle: "Referenzen, die dieses Reframing unterstützen",
     followup_label: "Weiter erkunden",
+    low_source_notice: "Diese Antwort hat nur wenige verifizierte Quellen. Die Informationen sind wahrscheinlich korrekt, aber wir empfehlen, wichtige Details selbst zu überprüfen.",
     demo_refresh: "Neue Fragen anzeigen",
     step_label: "Schritt",
     step_of: "von",
