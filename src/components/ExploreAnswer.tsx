@@ -33,22 +33,26 @@ const ExploreAnswer = ({ answer, sources, followUpQuestions, onFollowUp }: Explo
       </div>
 
       {/* Sources */}
-      {sources.filter(s => !!s.url).length > 0 && (
+      {sources.length > 0 && (
         <div className="pt-6 border-t border-border">
           <p className="text-xs tracking-[0.2em] uppercase text-accent font-body mb-4">
             {t("sources_label")}
           </p>
           <div className="space-y-3">
-            {sources.filter(s => !!s.url).map((source, i) => (
+            {sources.map((source, i) => (
               <div key={i} className="flex items-start gap-3 text-sm">
                 <span className="text-xs font-body text-accent/70 mt-0.5 flex-shrink-0">[{i + 1}]</span>
                 <div className="flex-1 min-w-0">
-                  <p className="font-body font-medium text-foreground/80">
-                    <a href={source.url!} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors inline-flex items-center gap-1">
-                      {source.title}
-                      <ExternalLink className="w-3 h-3 flex-shrink-0" />
-                    </a>
-                  </p>
+                  {source.url ? (
+                    <p className="font-body font-medium text-foreground/80">
+                      <a href={source.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors inline-flex items-center gap-1">
+                        {source.title}
+                        <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                      </a>
+                    </p>
+                  ) : (
+                    <p className="font-body font-medium text-foreground/60">{source.title}</p>
+                  )}
                   <p className="text-muted-foreground/70 font-body text-xs mt-0.5">{source.description}</p>
                 </div>
               </div>
