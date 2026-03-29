@@ -124,6 +124,7 @@ const translations = {
     sources_label: "Sources",
     sources_subtitle: "References supporting this reframing",
     followup_label: "Explore further",
+    low_source_notice: "This answer has limited verified sources. While the information is likely accurate, we recommend verifying specific details that matter to you through your own research.",
     demo_refresh: "Show new questions",
     step_label: "Step",
     step_of: "of",
