@@ -459,7 +459,7 @@ const translations = {
     suggested_q3: "¿Qué hacen los miembros del Opus Dei en su día a día?",
     explore_coach_intro: "O si prefieres practicar respondiendo preguntas sobre el Opus Dei con tus propias palabras…",
     explore_coach_cta: "Practicar la comunicación",
-    coach_back_to_explore: "Solo hacer una pregunta",
+    coach_back_to_explore: "Solo quiero saber más sobre el Opus Dei",
     soft_mission: "Misión y propósito",
     soft_mission_desc: "¿De qué se trata realmente el Opus Dei? ¿Cuál es su misión?",
     soft_daily: "Vida diaria",
