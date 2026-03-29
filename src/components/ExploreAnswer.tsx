@@ -33,7 +33,7 @@ const ExploreAnswer = ({ answer, sources, followUpQuestions, onFollowUp }: Explo
       </div>
 
       {/* Sources */}
-      {sources.length > 0 && (
+      {sources.filter(s => !!s.url).length > 0 && (
         <div className="pt-6 border-t border-border">
           <p className="text-xs tracking-[0.2em] uppercase text-accent font-body mb-4">
             {t("sources_label")}
