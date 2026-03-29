@@ -455,7 +455,7 @@ const translations = {
     suggested_q1: "¿Qué es realmente el Opus Dei?",
     suggested_q2: "¿Es el Opus Dei una secta?",
     suggested_q3: "¿Qué hacen los miembros del Opus Dei en su día a día?",
-    explore_coach_intro: "¿Quieres aprender a comunicar sobre el Opus Dei con confianza?",
+    explore_coach_intro: "O si prefieres practicar respondiendo preguntas sobre el Opus Dei con tus propias palabras…",
     explore_coach_cta: "Practicar la comunicación",
     soft_mission: "Misión y propósito",
     soft_mission_desc: "¿De qué se trata realmente el Opus Dei? ¿Cuál es su misión?",
