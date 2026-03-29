@@ -168,6 +168,29 @@ const Explore = () => {
                 <p className="mt-2 text-xs text-muted-foreground/50 font-body">
                   {t("explore_hint")}
                 </p>
+
+                {/* CTA to Communicator / Coach */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
+                  className="mt-12 pt-8 border-t border-border/50"
+                >
+                  <div className="flex flex-col items-center gap-3">
+                    <p className="text-sm text-muted-foreground font-body">
+                      {t("explore_coach_intro")}
+                    </p>
+                    <a
+                      href="/coach"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent/30 bg-accent/[0.05]
+                                 text-foreground font-body text-sm hover:border-accent/60 hover:bg-accent/[0.1]
+                                 transition-all duration-300"
+                    >
+                      <Sparkles className="w-4 h-4 text-accent" />
+                      {t("explore_coach_cta")}
+                    </a>
+                  </div>
+                </motion.div>
               </motion.div>
             </motion.section>
           ) : (
