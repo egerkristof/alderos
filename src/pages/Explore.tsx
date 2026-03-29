@@ -4,6 +4,7 @@ import { Send, Loader2, ArrowLeft, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
+import LiveCounter from "@/components/LiveCounter";
 import Footer from "@/components/Footer";
 
 const EXPLORE_SESSION_ID = crypto.randomUUID();
