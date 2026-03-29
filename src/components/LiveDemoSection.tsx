@@ -12,7 +12,13 @@ interface DynamicQuestion {
   topic: string;
 }
 
-const STATIC_CHALLENGES = [
+const SOFT_CHALLENGES = [
+  { id: "soft-mission", labelKey: "soft_mission" as const, descKey: "soft_mission_desc" as const },
+  { id: "soft-daily", labelKey: "soft_daily" as const, descKey: "soft_daily_desc" as const },
+  { id: "soft-freedom", labelKey: "soft_freedom" as const, descKey: "soft_freedom_desc" as const },
+];
+
+const TOUGH_CHALLENGES = [
   { id: "wealth", labelKey: "challenge_wealth" as const, descKey: "challenge_wealth_desc" as const },
   { id: "recruitment", labelKey: "challenge_recruitment" as const, descKey: "challenge_recruitment_desc" as const },
   { id: "secrecy", labelKey: "challenge_secrecy" as const, descKey: "challenge_secrecy_desc" as const },
