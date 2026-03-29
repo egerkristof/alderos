@@ -128,7 +128,7 @@ const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
               </motion.div>
             ) : (
               <motion.div key="static" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid gap-4">
-                {STATIC_CHALLENGES.map((challenge, i) => (
+                {SOFT_CHALLENGES.map((challenge, i) => (
                   <motion.button
                     key={challenge.id}
                     initial={{ opacity: 0, x: -20 }}
@@ -144,7 +144,7 @@ const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
                   >
                     <div className="flex-1">
                       <p className="text-xs tracking-[0.2em] uppercase text-accent font-body mb-1">
-                        {t("demo_challenge_prefix")}
+                        {t(challenge.labelKey)}
                       </p>
                       <p className="text-foreground font-heading text-lg font-medium italic leading-snug">
                         "{t(challenge.descKey)}"
@@ -158,6 +158,48 @@ const LiveDemoSection = ({ onTryChallenge }: LiveDemoSectionProps) => {
                     </motion.div>
                   </motion.button>
                 ))}
+
+                {/* Toggle for tough questions */}
+                <button
+                  onClick={() => setShowTough(!showTough)}
+                  className="flex items-center justify-center gap-2 text-sm font-body text-muted-foreground hover:text-foreground transition-colors py-2"
+                >
+                  {showTough ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  {showTough ? t("tough_questions_hide") : t("tough_questions_show")}
+                </button>
+
+                <AnimatePresence>
+                  {showTough && TOUGH_CHALLENGES.map((challenge, i) => (
+                    <motion.button
+                      key={challenge.id}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ delay: i * 0.08, duration: 0.3 }}
+                      onMouseEnter={() => setHoveredId(challenge.id)}
+                      onMouseLeave={() => setHoveredId(null)}
+                      onClick={() => onTryChallenge(t(challenge.descKey), challenge.id)}
+                      className="group flex items-center justify-between p-6 rounded-xl border border-border
+                                 bg-card hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5
+                                 transition-all duration-300 text-left"
+                    >
+                      <div className="flex-1">
+                        <p className="text-xs tracking-[0.2em] uppercase text-accent font-body mb-1">
+                          {t("demo_challenge_prefix")}
+                        </p>
+                        <p className="text-foreground font-heading text-lg font-medium italic leading-snug">
+                          "{t(challenge.descKey)}"
+                        </p>
+                      </div>
+                      <motion.div
+                        animate={{ x: hoveredId === challenge.id ? 4 : 0, opacity: hoveredId === challenge.id ? 1 : 0.4 }}
+                        className="ml-4 p-2 rounded-full bg-accent/10 text-accent flex-shrink-0"
+                      >
+                        <ArrowRight className="w-4 h-4" />
+                      </motion.div>
+                    </motion.button>
+                  ))}
+                </AnimatePresence>
               </motion.div>
             )}
           </AnimatePresence>
