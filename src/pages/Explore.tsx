@@ -17,6 +17,30 @@ const LOADING_STEPS = [
   { key: "loading_step_4", icon: CheckCircle2, delay: 8000 },
 ] as const;
 
+const TypeWriter = ({ text, className }: { text: string; className: string }) => {
+  const [displayed, setDisplayed] = useState("");
+  
+  useEffect(() => {
+    setDisplayed("");
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) clearInterval(interval);
+    }, 30);
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return (
+    <span className={className}>
+      {displayed}
+      {displayed.length < text.length && (
+        <span className="inline-block w-[2px] h-[1em] bg-accent/60 ml-0.5 animate-pulse align-middle" />
+      )}
+    </span>
+  );
+};
+
 const LoadingSteps = ({ t }: { t: (key: string) => string }) => {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -38,44 +62,61 @@ const LoadingSteps = ({ t }: { t: (key: string) => string }) => {
           const Icon = step.icon;
           const isActive = i === activeStep;
           const isDone = i < activeStep;
+          const isHidden = i > activeStep;
 
           return (
             <motion.div
               key={step.key}
               initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: i <= activeStep ? 1 : 0.3, x: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
+              animate={{ opacity: isHidden ? 0 : 1, x: isHidden ? -10 : 0 }}
+              transition={{ duration: 0.4 }}
               className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${
-                isActive ? "bg-accent/[0.06] border border-accent/20" : isDone ? "opacity-60" : ""
+                isActive
+                  ? "bg-accent/[0.06] border border-accent/20"
+                  : isDone
+                  ? "border border-transparent"
+                  : ""
               }`}
             >
               <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 ${
                 isActive ? "bg-accent/15 text-accent" : isDone ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground/40"
               }`}>
                 {isDone ? (
-                  <CheckCircle2 className="w-4 h-4" />
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 300 }}>
+                    <CheckCircle2 className="w-4 h-4" />
+                  </motion.div>
                 ) : (
                   <Icon className={`w-4 h-4 ${isActive ? "animate-pulse" : ""}`} />
                 )}
               </div>
-              <span className={`text-sm font-body transition-colors duration-300 ${
-                isActive ? "text-foreground font-medium" : isDone ? "text-muted-foreground" : "text-muted-foreground/40"
-              }`}>
-                {t(step.key)}
-              </span>
+              {isActive ? (
+                <TypeWriter
+                  text={t(step.key)}
+                  className="text-sm font-body text-foreground font-medium"
+                />
+              ) : (
+                <span className={`text-sm font-body transition-colors duration-300 ${
+                  isDone ? "text-muted-foreground line-through decoration-muted-foreground/30" : "text-muted-foreground/40"
+                }`}>
+                  {isDone ? t(step.key) : ""}
+                </span>
+              )}
             </motion.div>
           );
         })}
       </div>
 
-      {/* Progress bar */}
-      <div className="w-full max-w-sm h-1 bg-muted rounded-full overflow-hidden">
+      {/* Shimmer progress bar */}
+      <div className="w-full max-w-sm h-1.5 bg-muted rounded-full overflow-hidden relative">
         <motion.div
-          className="h-full bg-accent/60 rounded-full"
+          className="h-full rounded-full relative overflow-hidden bg-accent/50"
           initial={{ width: "0%" }}
           animate={{ width: activeStep >= 3 ? "95%" : `${(activeStep + 1) * 25}%` }}
           transition={{ duration: 1.5, ease: "easeInOut" }}
-        />
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer_1.5s_infinite] -translate-x-full" 
+               style={{ animation: "shimmer 1.5s infinite" }} />
+        </motion.div>
       </div>
     </motion.div>
   );
