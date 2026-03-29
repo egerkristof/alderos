@@ -15,7 +15,7 @@ const translations = {
     hero_title: "Alderos",
     hero_title_pain: "Communicating about Opus Dei\ndoesn't have to be hard",
     hero_promise: "Learn to turn tough questions into moments of connection",
-    hero_body_new: "Alderos uses AI and the Catholic Voices reframing methodology to turn the toughest questions about Opus Dei into moments of connection and clarity.",
+    hero_body_new: "Alderos uses AI and the Catholic Voices reframing methodology to help you respond to the toughest questions about Opus Dei with clarity, empathy, and truth.",
     hero_cta_new: "See it in action",
     hero_scroll: "Scroll",
     hero_subtitle: "Every question deserves a thoughtful answer.",
