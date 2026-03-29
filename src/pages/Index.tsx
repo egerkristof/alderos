@@ -13,7 +13,6 @@ import { useEffect, useLayoutEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 type AppState = "home" | "select" | "choose-mode" | "reframe" | "training";
-type PageContext = "coach"; // Coach page is now public
 
 // Generate a stable session ID per browser tab
 const SESSION_ID = crypto.randomUUID();
