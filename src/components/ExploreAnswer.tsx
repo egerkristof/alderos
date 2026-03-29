@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { ExternalLink, ArrowRight, Info } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
 import CitationText from "./CitationText";
