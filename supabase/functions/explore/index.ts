@@ -139,7 +139,7 @@ Guidelines:
     if (toolCall?.function?.arguments) {
       const parsed = JSON.parse(toolCall.function.arguments);
 
-      // Validate source URLs in parallel
+      // Validate source URLs in parallel with short timeout
       if (parsed.sources && Array.isArray(parsed.sources)) {
         const validated = await Promise.all(
           parsed.sources.map(async (source: { title: string; description: string; url?: string | null }) => {
@@ -148,20 +148,13 @@ Guidelines:
               const check = await fetch(source.url, {
                 method: "HEAD",
                 redirect: "follow",
-                signal: AbortSignal.timeout(5000),
+                signal: AbortSignal.timeout(2000),
               });
               if (check.ok) return source;
-              // Try GET as fallback (some servers reject HEAD)
-              const getCheck = await fetch(source.url, {
-                method: "GET",
-                redirect: "follow",
-                signal: AbortSignal.timeout(5000),
-              });
-              if (getCheck.ok) return source;
               console.log(`Removing broken URL (${check.status}): ${source.url}`);
               return { ...source, url: null };
-            } catch (e) {
-              console.log(`Removing unreachable URL: ${source.url}`, e);
+            } catch {
+              console.log(`Removing unreachable URL: ${source.url}`);
               return { ...source, url: null };
             }
           })
