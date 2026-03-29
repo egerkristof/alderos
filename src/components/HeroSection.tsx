@@ -8,17 +8,6 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
 
   return (
     <section className="min-h-[85vh] lg:min-h-[75vh] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
-      {/* Back to Explore link */}
-      <motion.a
-        href="/"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        className="absolute top-6 left-6 flex items-center gap-1.5 text-sm font-body text-muted-foreground hover:text-foreground transition-colors z-20"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        {t("coach_back_to_explore")}
-      </motion.a>
       {/* Subtle background shapes */}
       <motion.div
         className="absolute top-20 right-20 w-72 h-72 rounded-full opacity-[0.04]"
@@ -82,6 +71,22 @@ const HeroSection = ({ onBegin }: { onBegin: () => void }) => {
         >
           {t("hero_cta_new")}
         </motion.button>
+
+        {/* Secondary CTA - back to explore */}
+        <motion.a
+          href="/"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 0.6 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
+          className="mt-4 inline-flex items-center gap-2 px-8 py-3 rounded-full border border-border
+                     text-muted-foreground font-body text-sm tracking-wide hover:border-foreground/30
+                     hover:text-foreground transition-all"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          {t("coach_back_to_explore")}
+        </motion.a>
 
       </motion.div>
 
