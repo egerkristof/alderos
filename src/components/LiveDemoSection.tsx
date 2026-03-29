@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
-import { ArrowRight, Sparkles, RefreshCw, BookOpen } from "lucide-react";
+import { ArrowRight, Sparkles, RefreshCw, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LiveDemoSectionProps {
