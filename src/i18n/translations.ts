@@ -717,6 +717,8 @@ const translations = {
     suggested_q1: "Cos'è davvero l'Opus Dei?",
     suggested_q2: "L'Opus Dei è una setta?",
     suggested_q3: "Cosa fanno i membri dell'Opus Dei ogni giorno?",
+    explore_coach_intro: "Vuoi imparare a comunicare sull'Opus Dei con sicurezza?",
+    explore_coach_cta: "Esercitati a comunicare",
   },
   hu: {
     hero_tagline: "Híd a kérdések és a megértés között",
