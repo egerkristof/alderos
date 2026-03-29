@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { ExternalLink, ArrowRight, Info } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
 import CitationText from "./CitationText";
@@ -38,6 +38,10 @@ const ExploreAnswer = ({ answer, sources, followUpQuestions, onFollowUp }: Explo
     return mapped ? `[${mapped}]` : "";
   });
 
+  // Determine if source coverage is low relative to answer length
+  const wordCount = cleanedAnswer.split(/\s+/).length;
+  const lowSourceCoverage = verifiedSources.length <= 1 && wordCount > 150;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -73,6 +77,21 @@ const ExploreAnswer = ({ answer, sources, followUpQuestions, onFollowUp }: Explo
             ))}
           </div>
         </div>
+      )}
+
+      {/* Low source coverage notice */}
+      {lowSourceCoverage && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="flex gap-3 p-4 rounded-xl border border-accent/20 bg-accent/[0.04]"
+        >
+          <Info className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+          <p className="text-xs font-body text-foreground/70 leading-relaxed">
+            {t("low_source_notice")}
+          </p>
+        </motion.div>
       )}
 
       {/* Follow-up questions */}
