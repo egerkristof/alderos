@@ -598,6 +598,7 @@ const translations = {
     sources_label: "Sources",
     sources_subtitle: "References soutenant ce recadrage",
     followup_label: "Explorer davantage",
+    low_source_notice: "Cette réponse dispose de peu de sources vérifiées. Bien que les informations soient probablement exactes, nous vous recommandons de vérifier les détails importants par vous-même.",
     demo_refresh: "Afficher de nouvelles questions",
     step_label: "Etape",
     step_of: "sur",
