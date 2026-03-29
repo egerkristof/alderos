@@ -723,9 +723,9 @@ const translations = {
   hu: {
     hero_tagline: "Híd a kérdések és a megértés között",
     hero_title: "Alderos",
-    hero_title_pain: "Tudjuk, hogy a küldetésünk jó.\nMiért olyan nehéz mégis elmagyarázni?",
-    hero_promise: "Mi lenne, ha minden nehéz kérdés egy híddá válna?",
-    hero_body_new: "Az Alderos a mesterséges intelligenciát és a Catholic Voices átkeretezési módszertanát használja, hogy az Opus Deiről szóló legnehezebb kérdéseket a kapcsolódás és a tisztánlátás pillanataivá alakítsa.",
+    hero_title_pain: "Az Opus Deiről kommunikálni\nnem kell nehéznek lennie",
+    hero_promise: "Tanulja meg a nehéz kérdéseket a kapcsolódás pillanataivá alakítani",
+    hero_body_new: "Az Alderos a mesterséges intelligenciát és a Catholic Voices átkeretezési módszertanát használja, hogy segítsen Önnek az Opus Deiről szóló legnehezebb kérdésekre tisztán, empatikusan és őszintén válaszolni.",
     hero_cta_new: "Nézze meg működés közben",
     hero_scroll: "Görgessen",
     hero_subtitle: "Minden kérdés megérdemel egy átgondolt választ.",
