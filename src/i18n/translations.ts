@@ -440,6 +440,7 @@ const translations = {
     sources_label: "Fuentes",
     sources_subtitle: "Referencias que respaldan este reencuadre",
     followup_label: "Explorar mas",
+    low_source_notice: "Esta respuesta tiene pocas fuentes verificadas. Aunque la información probablemente sea correcta, te recomendamos verificar los detalles que te interesen por tu cuenta.",
     demo_refresh: "Mostrar nuevas preguntas",
     step_label: "Paso",
     step_of: "de",
