@@ -613,7 +613,7 @@ const translations = {
   it: {
     hero_tagline: "Un ponte tra domande e comprensione",
     hero_title: "Alderos",
-    hero_title_pain: "Comunicare sull'Opus Dei\nnon deve essere difficile",
+    hero_title_pain: "Condividi la realtà positiva\ndell'Opus Dei con chiarezza",
     hero_promise: "Impara a trasformare le domande difficili in momenti di connessione",
     hero_body_new: "Alderos usa l'IA e la metodologia di reframing di Catholic Voices per aiutarti a rispondere alle domande più difficili sull'Opus Dei con chiarezza, empatia e verità.",
     hero_cta_new: "Guardalo in azione",
