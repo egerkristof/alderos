@@ -107,81 +107,110 @@ const Explore = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center"
+              className="min-h-[100vh] flex flex-col"
             >
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="max-w-2xl w-full"
-              >
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold tracking-tight text-foreground mb-4 leading-[1.15]">
-                  {t("explore_title")}
-                </h1>
-                <p className="text-lg text-muted-foreground font-body mb-6 max-w-lg mx-auto leading-relaxed">
-                  {t("explore_subtitle")}
-                </p>
-
-                <div className="mb-6 flex justify-center">
-                  <LiveCounter />
-                </div>
-
-                <form onSubmit={handleSubmit} className="relative max-w-xl mx-auto">
-                  <textarea
-                    ref={inputRef}
-                    value={question}
-                    onChange={(e) => setQuestion(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder={t("explore_placeholder")}
-                    rows={3}
-                    className="w-full px-5 py-4 pr-14 rounded-2xl border border-border bg-card text-foreground font-body
-                               placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent/30
-                               focus:border-accent/40 transition-all resize-none"
-                  />
-                  <button
-                    type="submit"
-                    disabled={!question.trim()}
-                    className="absolute right-3 bottom-3 p-2.5 rounded-xl bg-accent text-accent-foreground
-                               hover:opacity-90 transition-opacity disabled:opacity-30"
-                  >
-                    <Send className="w-4 h-4" />
-                  </button>
-                </form>
-
-                {/* Suggested questions */}
-                <div className="mt-5 flex flex-wrap gap-2 justify-center max-w-xl mx-auto">
-                  {[t("suggested_q1"), t("suggested_q2"), t("suggested_q3")].map((q, i) => (
-                    <button
-                      key={i}
-                      onClick={() => askQuestion(q)}
-                      className="px-4 py-2 text-sm font-body text-foreground/70 bg-card border border-border
-                                 rounded-full hover:border-accent/40 hover:text-foreground transition-all"
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground/50 font-body">
-                  <span>{collectConsent ? t("consent_notice") : t("consent_opted_out")}</span>
-                  <button
-                    onClick={toggleConsent}
-                    className="underline hover:text-muted-foreground transition-colors"
-                  >
-                    {collectConsent ? t("consent_opt_out") : t("consent_opt_in")}
-                  </button>
-                </div>
-
-                {/* Coach CTA */}
+              {/* Hero area - fits viewport */}
+              <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6, duration: 0.6 }}
-                  className="mt-6"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="max-w-2xl w-full"
                 >
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold tracking-tight text-foreground mb-4 leading-[1.15]">
+                    {t("explore_title")}
+                  </h1>
+                  <p className="text-lg text-muted-foreground font-body mb-6 max-w-lg mx-auto leading-relaxed">
+                    {t("explore_subtitle")}
+                  </p>
+
+                  <div className="mb-6 flex justify-center">
+                    <LiveCounter />
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="relative max-w-xl mx-auto">
+                    <textarea
+                      ref={inputRef}
+                      value={question}
+                      onChange={(e) => setQuestion(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      placeholder={t("explore_placeholder")}
+                      rows={3}
+                      className="w-full px-5 py-4 pr-14 rounded-2xl border border-border bg-card text-foreground font-body
+                                 placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent/30
+                                 focus:border-accent/40 transition-all resize-none"
+                    />
+                    <button
+                      type="submit"
+                      disabled={!question.trim()}
+                      className="absolute right-3 bottom-3 p-2.5 rounded-xl bg-accent text-accent-foreground
+                                 hover:opacity-90 transition-opacity disabled:opacity-30"
+                    >
+                      <Send className="w-4 h-4" />
+                    </button>
+                  </form>
+
+                  {/* Suggested questions */}
+                  <div className="mt-5 flex flex-wrap gap-2 justify-center max-w-xl mx-auto">
+                    {[t("suggested_q1"), t("suggested_q2"), t("suggested_q3")].map((q, i) => (
+                      <button
+                        key={i}
+                        onClick={() => askQuestion(q)}
+                        className="px-4 py-2 text-sm font-body text-foreground/70 bg-card border border-border
+                                   rounded-full hover:border-accent/40 hover:text-foreground transition-all"
+                      >
+                        {q}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground/50 font-body">
+                    <span>{collectConsent ? t("consent_notice") : t("consent_opted_out")}</span>
+                    <button
+                      onClick={toggleConsent}
+                      className="underline hover:text-muted-foreground transition-colors"
+                    >
+                      {collectConsent ? t("consent_opt_out") : t("consent_opt_in")}
+                    </button>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Scroll indicator */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.7 }}
+                transition={{ delay: 1.5, duration: 1 }}
+                className="pb-8 flex justify-center"
+              >
+                <motion.div
+                  animate={{ y: [0, 6, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="flex flex-col items-center gap-1.5 cursor-pointer"
+                  onClick={() => document.getElementById("coach-cta")?.scrollIntoView({ behavior: "smooth" })}
+                >
+                  <span className="text-xs font-body text-muted-foreground/60 tracking-widest uppercase">
+                    {t("explore_scroll_more")}
+                  </span>
+                  <ArrowDown className="w-4 h-4 text-muted-foreground/50" />
+                </motion.div>
+              </motion.div>
+
+              {/* Coach CTA section - below the fold */}
+              <section id="coach-cta" className="px-6 py-16 md:py-20 flex flex-col items-center text-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.7 }}
+                  className="max-w-lg"
+                >
+                  <p className="text-base text-muted-foreground font-body mb-5 leading-relaxed">
+                    {t("explore_coach_intro")}
+                  </p>
                   <a
                     href="/coach"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-accent/30 bg-accent/[0.05]
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent/30 bg-accent/[0.05]
                                text-foreground font-body text-sm hover:border-accent/60 hover:bg-accent/[0.1]
                                transition-all duration-300"
                   >
@@ -189,7 +218,7 @@ const Explore = () => {
                     {t("explore_coach_cta")}
                   </a>
                 </motion.div>
-              </motion.div>
+              </section>
             </motion.section>
           ) : (
             <motion.section
