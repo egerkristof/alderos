@@ -901,6 +901,14 @@ const translations = {
     suggested_q3: "Mit csinálnak az Opus Dei tagjai a mindennapokban?",
     explore_coach_intro: "Szeretne megtanulni magabiztosan kommunikálni az Opus Deiről?",
     explore_coach_cta: "Kommunikáció gyakorlása",
+    soft_mission: "Küldetés és cél",
+    soft_mission_desc: "Miről szól valójában az Opus Dei? Mi a küldetése?",
+    soft_daily: "Mindennapi élet",
+    soft_daily_desc: "Hogyan élik mindennapjaikat az Opus Dei tagjai?",
+    soft_freedom: "Hit és szabadság",
+    soft_freedom_desc: "Milyen szerepet játszik a személyes szabadság az Opus Deiben?",
+    tough_questions_show: "Nehéz kérdések megtekintése",
+    tough_questions_hide: "Kevesebb kérdés mutatása",
   },
 } as const;
 
