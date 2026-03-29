@@ -13,7 +13,7 @@ const translations = {
   en: {
     hero_tagline: "A bridge between questions and understanding",
     hero_title: "Alderos",
-    hero_title_pain: "Communicating about Opus Dei\ndoesn't have to be hard",
+    hero_title_pain: "Share the positive reality\nof Opus Dei with clarity",
     hero_promise: "Learn to turn tough questions into moments of connection",
     hero_body_new: "Alderos uses AI and the Catholic Voices reframing methodology to help you respond to the toughest questions about Opus Dei with clarity, empathy, and truth.",
     hero_cta_new: "See it in action",
@@ -163,7 +163,7 @@ const translations = {
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
     hero_title: "Alderos",
-    hero_title_pain: "Über das Opus Dei zu sprechen\nmuss nicht schwer sein",
+    hero_title_pain: "Die positive Wirklichkeit\ndes Opus Dei klar vermitteln",
     hero_promise: "Lernen Sie, schwierige Fragen in Momente der Verbindung zu verwandeln",
     hero_body_new: "Alderos nutzt KI und die Catholic-Voices-Reframing-Methodik, um Ihnen zu helfen, auf die schwierigsten Fragen über das Opus Dei mit Klarheit, Empathie und Wahrheit zu antworten.",
     hero_cta_new: "In Aktion sehen",
@@ -313,7 +313,7 @@ const translations = {
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
     hero_title: "Alderos",
-    hero_title_pain: "Comunicar sobre el Opus Dei\nno tiene que ser difícil",
+    hero_title_pain: "Comparte la realidad positiva\ndel Opus Dei con claridad",
     hero_promise: "Aprende a convertir las preguntas difíciles en momentos de conexión",
     hero_body_new: "Alderos usa IA y la metodología de reencuadre de Catholic Voices para ayudarte a responder las preguntas más difíciles sobre el Opus Dei con claridad, empatía y verdad.",
     hero_cta_new: "Verlo en acción",
@@ -463,7 +463,7 @@ const translations = {
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
     hero_title: "Alderos",
-    hero_title_pain: "Communiquer sur l'Opus Dei\nn'a pas à être difficile",
+    hero_title_pain: "Partagez la réalité positive\nde l'Opus Dei avec clarté",
     hero_promise: "Apprenez à transformer les questions difficiles en moments de connexion",
     hero_body_new: "Alderos utilise l'IA et la méthodologie de recadrage de Catholic Voices pour vous aider à répondre aux questions les plus difficiles sur l'Opus Dei avec clarté, empathie et vérité.",
     hero_cta_new: "Voir en action",
@@ -613,7 +613,7 @@ const translations = {
   it: {
     hero_tagline: "Un ponte tra domande e comprensione",
     hero_title: "Alderos",
-    hero_title_pain: "Comunicare sull'Opus Dei\nnon deve essere difficile",
+    hero_title_pain: "Condividi la realtà positiva\ndell'Opus Dei con chiarezza",
     hero_promise: "Impara a trasformare le domande difficili in momenti di connessione",
     hero_body_new: "Alderos usa l'IA e la metodologia di reframing di Catholic Voices per aiutarti a rispondere alle domande più difficili sull'Opus Dei con chiarezza, empatia e verità.",
     hero_cta_new: "Guardalo in azione",
@@ -763,7 +763,7 @@ const translations = {
   hu: {
     hero_tagline: "Híd a kérdések és a megértés között",
     hero_title: "Alderos",
-    hero_title_pain: "Az Opus Deiről kommunikálni\nnem kell nehéznek lennie",
+    hero_title_pain: "Az Opus Dei pozitív valóságát\nérthetően közvetíteni",
     hero_promise: "Tanulja meg a nehéz kérdéseket a kapcsolódás pillanataivá alakítani",
     hero_body_new: "Az Alderos a mesterséges intelligenciát és a Catholic Voices átkeretezési módszertanát használja, hogy segítsen Önnek az Opus Deiről szóló legnehezebb kérdésekre tisztán, empatikusan és őszintén válaszolni.",
     hero_cta_new: "Nézze meg működés közben",
