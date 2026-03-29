@@ -247,17 +247,7 @@ const Explore = () => {
                   </blockquote>
                 </div>
 
-                {/* Loading */}
-                {isLoading && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex items-center gap-3 py-12 justify-center"
-                  >
-                    <Loader2 className="w-5 h-5 text-accent animate-spin" />
-                    <span className="text-sm text-muted-foreground font-body">{t("explore_loading")}</span>
-                  </motion.div>
-                )}
+                {isLoading && <LoadingSteps t={t} />}
 
                 {/* Error */}
                 {error && (
