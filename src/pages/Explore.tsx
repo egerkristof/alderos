@@ -6,6 +6,7 @@ import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
 
 import Footer from "@/components/Footer";
+import LiveCounter from "@/components/LiveCounter";
 
 const EXPLORE_SESSION_ID = crypto.randomUUID();
 
