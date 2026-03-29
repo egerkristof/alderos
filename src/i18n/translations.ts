@@ -137,7 +137,7 @@ const translations = {
     explore_subtitle: "Get a clear, honest, well-sourced answer.",
     explore_placeholder: "What would you like to know about Opus Dei?",
     explore_hint: "Powered by AI with verified sources",
-    counter_interactions: "conversations so far",
+    counter_interactions: "questions answered so far",
     explore_new_question: "New question",
     explore_your_question: "Your question",
     explore_loading: "Finding the best answer...",
