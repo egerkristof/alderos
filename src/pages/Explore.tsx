@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Loader2, ArrowLeft, Sparkles, ArrowDown } from "lucide-react";
+import { Send, ArrowLeft, Sparkles, ArrowDown, Search, BookOpen, FileText, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
@@ -9,6 +9,77 @@ import Footer from "@/components/Footer";
 import LiveCounter from "@/components/LiveCounter";
 
 const EXPLORE_SESSION_ID = crypto.randomUUID();
+
+const LOADING_STEPS = [
+  { key: "loading_step_1", icon: Search, delay: 0 },
+  { key: "loading_step_2", icon: BookOpen, delay: 2000 },
+  { key: "loading_step_3", icon: FileText, delay: 5000 },
+  { key: "loading_step_4", icon: CheckCircle2, delay: 8000 },
+] as const;
+
+const LoadingSteps = ({ t }: { t: (key: string) => string }) => {
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const timers = LOADING_STEPS.slice(1).map((step, i) =>
+      setTimeout(() => setActiveStep(i + 1), step.delay)
+    );
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="py-12 flex flex-col items-center gap-6"
+    >
+      <div className="w-full max-w-sm space-y-3">
+        {LOADING_STEPS.map((step, i) => {
+          const Icon = step.icon;
+          const isActive = i === activeStep;
+          const isDone = i < activeStep;
+
+          return (
+            <motion.div
+              key={step.key}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: i <= activeStep ? 1 : 0.3, x: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${
+                isActive ? "bg-accent/[0.06] border border-accent/20" : isDone ? "opacity-60" : ""
+              }`}
+            >
+              <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 ${
+                isActive ? "bg-accent/15 text-accent" : isDone ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground/40"
+              }`}>
+                {isDone ? (
+                  <CheckCircle2 className="w-4 h-4" />
+                ) : (
+                  <Icon className={`w-4 h-4 ${isActive ? "animate-pulse" : ""}`} />
+                )}
+              </div>
+              <span className={`text-sm font-body transition-colors duration-300 ${
+                isActive ? "text-foreground font-medium" : isDone ? "text-muted-foreground" : "text-muted-foreground/40"
+              }`}>
+                {t(step.key)}
+              </span>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Progress bar */}
+      <div className="w-full max-w-sm h-1 bg-muted rounded-full overflow-hidden">
+        <motion.div
+          className="h-full bg-accent/60 rounded-full"
+          initial={{ width: "0%" }}
+          animate={{ width: activeStep >= 3 ? "95%" : `${(activeStep + 1) * 25}%` }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+        />
+      </div>
+    </motion.div>
+  );
+};
 
 interface AnswerData {
   answer: string;
@@ -247,17 +318,7 @@ const Explore = () => {
                   </blockquote>
                 </div>
 
-                {/* Loading */}
-                {isLoading && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex items-center gap-3 py-12 justify-center"
-                  >
-                    <Loader2 className="w-5 h-5 text-accent animate-spin" />
-                    <span className="text-sm text-muted-foreground font-body">{t("explore_loading")}</span>
-                  </motion.div>
-                )}
+                {isLoading && <LoadingSteps t={t} />}
 
                 {/* Error */}
                 {error && (

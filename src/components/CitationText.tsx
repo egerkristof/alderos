@@ -1,6 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ReactMarkdown from "react-markdown";
 
 interface Source {
   title: string;
@@ -13,6 +12,10 @@ interface CitationTextProps {
   sources: Source[];
 }
 
+/**
+ * Splits the answer into paragraphs (double-newline separated),
+ * renders inline markdown (bold, italic) and citation markers with tooltips.
+ */
 const CitationText = ({ text, sources }: CitationTextProps) => {
   const [hoveredCitation, setHoveredCitation] = useState<number | null>(null);
   const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({});
@@ -24,14 +27,12 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
     const el = triggerRef.current;
     const rect = el.getBoundingClientRect();
     const vw = window.innerWidth;
-    const tooltipW = 288; // w-72 = 18rem = 288px
+    const tooltipW = 288;
     let left = rect.left + rect.width / 2 - tooltipW / 2;
 
-    // Clamp horizontally
     if (left < 8) left = 8;
     if (left + tooltipW > vw - 8) left = vw - 8 - tooltipW;
 
-    // Position above or below
     const spaceAbove = rect.top;
     const above = spaceAbove > 160;
 
@@ -44,74 +45,99 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
     });
   }, [hoveredCitation]);
 
-  const parts = useMemo(() => {
-    const regex = /\[(\d+)\]/g;
-    const result: { type: "text" | "citation"; value: string; index?: number }[] = [];
-    let lastIndex = 0;
-    let match: RegExpExecArray | null;
-
-    while ((match = regex.exec(text)) !== null) {
-      if (match.index > lastIndex) {
-        result.push({ type: "text", value: text.slice(lastIndex, match.index) });
-      }
-      const citationIndex = parseInt(match[1], 10);
-      result.push({ type: "citation", value: match[0], index: citationIndex });
-      lastIndex = regex.lastIndex;
-    }
-
-    if (lastIndex < text.length) {
-      result.push({ type: "text", value: text.slice(lastIndex) });
-    }
-
-    return result;
+  // Split into paragraphs on double newlines
+  const paragraphs = useMemo(() => {
+    return text.split(/\n{2,}/).filter((p) => p.trim().length > 0);
   }, [text]);
 
   const hoveredSource = hoveredCitation != null ? sources[hoveredCitation - 1] : null;
 
-  return (
-    <span className="relative">
-      {parts.map((part, i) => {
-        if (part.type === "text") {
-          return (
-            <ReactMarkdown
-              key={i}
-              components={{
-                p: ({ children }) => <span className="block mb-4 last:mb-0">{children}</span>,
-                strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
-                em: ({ children }) => <em>{children}</em>,
-                ul: ({ children }) => <ul className="list-disc pl-5 my-2 block">{children}</ul>,
-                ol: ({ children }) => <ol className="list-decimal pl-5 my-2 block">{children}</ol>,
-                li: ({ children }) => <li className="my-1">{children}</li>,
-              }}
-            >
-              {part.value}
-            </ReactMarkdown>
-          );
-        }
+  const renderInlineContent = (content: string) => {
+    // Parse: **bold**, *italic*, and [N] citations — all inline
+    const regex = /(\*\*(.+?)\*\*|\*(.+?)\*|\[(\d+)\])/g;
+    const result: React.ReactNode[] = [];
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
 
-        return (
+    while ((match = regex.exec(content)) !== null) {
+      // Text before this match
+      if (match.index > lastIndex) {
+        result.push(content.slice(lastIndex, match.index));
+      }
+
+      if (match[2]) {
+        // **bold**
+        result.push(
+          <strong key={`b-${match.index}`} className="font-semibold text-foreground">
+            {match[2]}
+          </strong>
+        );
+      } else if (match[3]) {
+        // *italic*
+        result.push(
+          <em key={`i-${match.index}`}>{match[3]}</em>
+        );
+      } else if (match[4]) {
+        // [N] citation
+        const citationIndex = parseInt(match[4], 10);
+        result.push(
           <span
-            key={i}
-            className="relative inline-block"
-            ref={hoveredCitation === part.index ? triggerRef : undefined}
+            key={`c-${match.index}`}
+            className="relative inline"
+            ref={hoveredCitation === citationIndex ? triggerRef : undefined}
             onMouseEnter={(e) => {
               triggerRef.current = e.currentTarget;
-              setHoveredCitation(part.index ?? null);
+              setHoveredCitation(citationIndex);
             }}
-            onMouseLeave={() => setTimeout(() => setHoveredCitation((prev) => prev === part.index ? null : prev), 150)}
+            onMouseLeave={() =>
+              setTimeout(
+                () => setHoveredCitation((prev) => (prev === citationIndex ? null : prev)),
+                150
+              )
+            }
             onTouchStart={(e) => {
               triggerRef.current = e.currentTarget;
-              setHoveredCitation((prev) => (prev === part.index ? null : (part.index ?? null)));
+              setHoveredCitation((prev) =>
+                prev === citationIndex ? null : citationIndex
+              );
             }}
           >
             <sup className="cursor-help text-accent font-body font-semibold text-[0.7em] hover:text-accent/80 transition-colors px-0.5">
-              {part.value}
+              [{match[4]}]
             </sup>
           </span>
         );
+      }
+
+      lastIndex = regex.lastIndex;
+    }
+
+    if (lastIndex < content.length) {
+      result.push(content.slice(lastIndex));
+    }
+
+    return result;
+  };
+
+  return (
+    <div className="relative">
+      {paragraphs.map((para, i) => {
+        // Handle single-newline line breaks within a paragraph
+        const lines = para.split(/\n/);
+
+        return (
+          <p key={i} className="mb-4 last:mb-0 leading-relaxed">
+            {lines.map((line, j) => (
+              <span key={j}>
+                {j > 0 && <br />}
+                {renderInlineContent(line)}
+              </span>
+            ))}
+          </p>
+        );
       })}
 
-      {/* Portal-like fixed tooltip */}
+      {/* Fixed tooltip */}
       <AnimatePresence>
         {hoveredCitation != null && hoveredSource && (
           <motion.div
@@ -124,17 +150,26 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
             onMouseEnter={() => setHoveredCitation(hoveredCitation)}
             onMouseLeave={() => setHoveredCitation(null)}
           >
-            <p className="text-xs font-body font-medium text-foreground mb-1">{hoveredSource.title}</p>
-            <p className="text-[0.7rem] font-body text-muted-foreground leading-relaxed">{hoveredSource.description}</p>
+            <p className="text-xs font-body font-medium text-foreground mb-1">
+              {hoveredSource.title}
+            </p>
+            <p className="text-[0.7rem] font-body text-muted-foreground leading-relaxed">
+              {hoveredSource.description}
+            </p>
             {hoveredSource.url && (
-              <a href={hoveredSource.url} target="_blank" rel="noopener noreferrer" className="text-[0.7rem] font-body text-accent mt-1 block truncate hover:text-accent/80 transition-colors">
+              <a
+                href={hoveredSource.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[0.7rem] font-body text-accent mt-1 block truncate hover:text-accent/80 transition-colors"
+              >
                 View source
               </a>
             )}
           </motion.div>
         )}
       </AnimatePresence>
-    </span>
+    </div>
   );
 };
 
