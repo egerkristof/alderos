@@ -181,23 +181,23 @@ const Explore = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.7 }}
                 transition={{ delay: 1.5, duration: 1 }}
-                className="pb-8 flex justify-center"
+                className="pt-12 pb-6 flex justify-center"
               >
                 <motion.div
                   animate={{ y: [0, 6, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="flex flex-col items-center gap-1.5 cursor-pointer"
+                  className="flex flex-col items-center gap-2 cursor-pointer"
                   onClick={() => document.getElementById("coach-cta")?.scrollIntoView({ behavior: "smooth" })}
                 >
-                  <span className="text-xs font-body text-muted-foreground/60 tracking-widest uppercase">
+                  <span className="text-sm font-body text-muted-foreground/60 tracking-widest uppercase">
                     {t("explore_scroll_more")}
                   </span>
-                  <ArrowDown className="w-4 h-4 text-muted-foreground/50" />
+                  <ArrowDown className="w-5 h-5 text-muted-foreground/50" />
                 </motion.div>
               </motion.div>
 
               {/* Coach CTA section - below the fold */}
-              <section id="coach-cta" className="px-6 py-16 md:py-20 flex flex-col items-center text-center">
+              <section id="coach-cta" className="px-6 py-8 md:py-12 flex flex-col items-center text-center">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
