@@ -914,6 +914,7 @@ const translations = {
     sources_label: "Források",
     sources_subtitle: "Az átkeretezést alátámasztó hivatkozások",
     followup_label: "További felfedezés",
+    low_source_notice: "Ez a válasz kevés ellenőrzött forrással rendelkezik. Bár az információ valószínűleg pontos, javasoljuk, hogy az Ön számára fontos részleteket saját kutatással is ellenőrizze.",
     demo_refresh: "Új kérdések mutatása",
     step_label: "Lépés",
     step_of: "/",
