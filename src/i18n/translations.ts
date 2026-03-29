@@ -297,9 +297,9 @@ const translations = {
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
     hero_title: "Alderos",
-    hero_title_pain: "Sabemos que nuestra misión es buena.\n¿Por qué es tan difícil explicarla?",
-    hero_promise: "¿Y si cada pregunta difícil se convirtiera en un puente?",
-    hero_body_new: "Alderos usa IA y la metodología de reencuadre de Catholic Voices para transformar las preguntas más difíciles sobre el Opus Dei en momentos de conexión y claridad.",
+    hero_title_pain: "Comunicar sobre el Opus Dei\nno tiene que ser difícil",
+    hero_promise: "Aprende a convertir las preguntas difíciles en momentos de conexión",
+    hero_body_new: "Alderos usa IA y la metodología de reencuadre de Catholic Voices para ayudarte a responder las preguntas más difíciles sobre el Opus Dei con claridad, empatía y verdad.",
     hero_cta_new: "Verlo en acción",
     hero_scroll: "Desplazar",
     hero_subtitle: "Cada pregunta merece una respuesta reflexiva.",
