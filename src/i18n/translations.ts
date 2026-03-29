@@ -291,6 +291,8 @@ const translations = {
     suggested_q1: "Was ist Opus Dei wirklich?",
     suggested_q2: "Ist Opus Dei eine Sekte?",
     suggested_q3: "Was machen Mitglieder von Opus Dei im Alltag?",
+    explore_coach_intro: "Möchten Sie lernen, selbstbewusst über das Opus Dei zu kommunizieren?",
+    explore_coach_cta: "Kommunizieren üben",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
