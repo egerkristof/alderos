@@ -763,7 +763,7 @@ const translations = {
   hu: {
     hero_tagline: "Híd a kérdések és a megértés között",
     hero_title: "Alderos",
-    hero_title_pain: "Az Opus Deiről kommunikálni\nnem kell nehéznek lennie",
+    hero_title_pain: "Az Opus Dei pozitív valóságát\nérthetően közvetíteni",
     hero_promise: "Tanulja meg a nehéz kérdéseket a kapcsolódás pillanataivá alakítani",
     hero_body_new: "Az Alderos a mesterséges intelligenciát és a Catholic Voices átkeretezési módszertanát használja, hogy segítsen Önnek az Opus Deiről szóló legnehezebb kérdésekre tisztán, empatikusan és őszintén válaszolni.",
     hero_cta_new: "Nézze meg működés közben",
