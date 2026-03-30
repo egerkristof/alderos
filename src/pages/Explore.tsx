@@ -381,12 +381,18 @@ const Explore = () => {
 
                 {/* Answer */}
                 {answerData && (
-                  <ExploreAnswer
-                    answer={answerData.answer}
-                    sources={answerData.sources}
-                    followUpQuestions={answerData.follow_up_questions}
-                    onFollowUp={(q) => askQuestion(q)}
-                  />
+                  <>
+                    <ExploreAnswer
+                      answer={answerData.answer}
+                      sources={answerData.sources}
+                      followUpQuestions={answerData.follow_up_questions}
+                      onFollowUp={(q) => askQuestion(q)}
+                    />
+                    <ExploreFeedback
+                      question={currentQuestion}
+                      sessionId={EXPLORE_SESSION_ID}
+                    />
+                  </>
                 )}
 
                 {/* Ask another question inline */}
