@@ -803,6 +803,7 @@ const translations = {
     soft_freedom_desc: "Che ruolo gioca la libertà personale nell'Opus Dei?",
     tough_questions_show: "Vedi domande difficili",
     tough_questions_hide: "Mostra meno domande",
+    explore_rate_question: "Questa risposta ti è stata utile?",
   },
   hu: {
     hero_tagline: "Híd a kérdések és a megértés között",
