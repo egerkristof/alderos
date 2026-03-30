@@ -644,6 +644,7 @@ const translations = {
     soft_freedom_desc: "Quel rôle joue la liberté personnelle dans l'Opus Dei ?",
     tough_questions_show: "Voir les questions difficiles",
     tough_questions_hide: "Afficher moins de questions",
+    explore_rate_question: "Cette réponse vous a-t-elle été utile ?",
   },
   it: {
     hero_tagline: "Un ponte tra domande e comprensione",
