@@ -4,6 +4,7 @@ import { Send, ArrowLeft, Sparkles, ArrowDown, Search, BookOpen, FileText, Check
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
+import ExploreFeedback from "@/components/ExploreFeedback";
 
 import Footer from "@/components/Footer";
 import LiveCounter from "@/components/LiveCounter";
@@ -380,12 +381,18 @@ const Explore = () => {
 
                 {/* Answer */}
                 {answerData && (
-                  <ExploreAnswer
-                    answer={answerData.answer}
-                    sources={answerData.sources}
-                    followUpQuestions={answerData.follow_up_questions}
-                    onFollowUp={(q) => askQuestion(q)}
-                  />
+                  <>
+                    <ExploreAnswer
+                      answer={answerData.answer}
+                      sources={answerData.sources}
+                      followUpQuestions={answerData.follow_up_questions}
+                      onFollowUp={(q) => askQuestion(q)}
+                    />
+                    <ExploreFeedback
+                      question={currentQuestion}
+                      sessionId={EXPLORE_SESSION_ID}
+                    />
+                  </>
                 )}
 
                 {/* Ask another question inline */}

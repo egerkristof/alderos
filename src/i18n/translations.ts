@@ -167,6 +167,7 @@ const translations = {
     soft_freedom_desc: "What role does personal freedom play in Opus Dei?",
     tough_questions_show: "See tough questions people ask",
     tough_questions_hide: "Show fewer questions",
+    explore_rate_question: "Was this answer helpful?",
   },
   de: {
     hero_tagline: "Eine Brücke zwischen Fragen und Verständnis",
@@ -325,6 +326,7 @@ const translations = {
     soft_freedom_desc: "Welche Rolle spielt persönliche Freiheit im Opus Dei?",
     tough_questions_show: "Schwierige Fragen anzeigen",
     tough_questions_hide: "Weniger Fragen anzeigen",
+    explore_rate_question: "War diese Antwort hilfreich?",
   },
   es: {
     hero_tagline: "Un puente entre preguntas y comprensión",
@@ -483,6 +485,7 @@ const translations = {
     soft_freedom_desc: "¿Qué papel juega la libertad personal en el Opus Dei?",
     tough_questions_show: "Ver preguntas difíciles",
     tough_questions_hide: "Mostrar menos preguntas",
+    explore_rate_question: "¿Te resultó útil esta respuesta?",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
@@ -641,6 +644,7 @@ const translations = {
     soft_freedom_desc: "Quel rôle joue la liberté personnelle dans l'Opus Dei ?",
     tough_questions_show: "Voir les questions difficiles",
     tough_questions_hide: "Afficher moins de questions",
+    explore_rate_question: "Cette réponse vous a-t-elle été utile ?",
   },
   it: {
     hero_tagline: "Un ponte tra domande e comprensione",
@@ -799,6 +803,7 @@ const translations = {
     soft_freedom_desc: "Che ruolo gioca la libertà personale nell'Opus Dei?",
     tough_questions_show: "Vedi domande difficili",
     tough_questions_hide: "Mostra meno domande",
+    explore_rate_question: "Questa risposta ti è stata utile?",
   },
   hu: {
     hero_tagline: "Híd a kérdések és a megértés között",
@@ -957,6 +962,7 @@ const translations = {
     soft_freedom_desc: "Milyen szerepet játszik a személyes szabadság az Opus Deiben?",
     tough_questions_show: "Nehéz kérdések megtekintése",
     tough_questions_hide: "Kevesebb kérdés mutatása",
+    explore_rate_question: "Hasznos volt ez a válasz?",
   },
 } as const;
 

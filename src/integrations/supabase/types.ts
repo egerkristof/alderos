@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      explore_feedback: {
+        Row: {
+          created_at: string
+          feedback_text: string | null
+          id: string
+          language: string | null
+          question: string
+          rating: string
+          session_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          feedback_text?: string | null
+          id?: string
+          language?: string | null
+          question: string
+          rating: string
+          session_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          feedback_text?: string | null
+          id?: string
+          language?: string | null
+          question?: string
+          rating?: string
+          session_id?: string | null
+        }
+        Relationships: []
+      }
       system_prompts: {
         Row: {
           description: string | null
