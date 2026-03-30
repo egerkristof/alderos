@@ -485,6 +485,7 @@ const translations = {
     soft_freedom_desc: "¿Qué papel juega la libertad personal en el Opus Dei?",
     tough_questions_show: "Ver preguntas difíciles",
     tough_questions_hide: "Mostrar menos preguntas",
+    explore_rate_question: "¿Te resultó útil esta respuesta?",
   },
   fr: {
     hero_tagline: "Un pont entre les questions et la compréhension",
