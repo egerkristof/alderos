@@ -15,6 +15,7 @@ const Admin = () => {
   // Analytics state
   const [events, setEvents] = useState<any[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
+  const [feedbackData, setFeedbackData] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<"prompts" | "analytics">("prompts");
 
   useEffect(() => {
