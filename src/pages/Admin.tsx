@@ -297,12 +297,59 @@ const Admin = () => {
           <div>
             <div className="flex justify-end mb-6">
               <button
-                onClick={fetchEvents}
+                onClick={() => { fetchEvents(); fetchFeedback(); }}
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground font-body transition-colors"
               >
                 <RefreshCw className="w-3.5 h-3.5" /> Refresh
               </button>
             </div>
+
+            {/* Explore Satisfaction */}
+            {feedbackData.length > 0 && (() => {
+              const thumbsUp = feedbackData.filter((f: any) => f.rating === "up").length;
+              const thumbsDown = feedbackData.filter((f: any) => f.rating === "down").length;
+              const total = thumbsUp + thumbsDown;
+              const pct = total > 0 ? Math.round((thumbsUp / total) * 100) : 0;
+              const negFeedback = feedbackData.filter((f: any) => f.rating === "down" && f.feedback_text);
+              return (
+                <div className="rounded-xl border border-accent/30 bg-accent/5 p-6 mb-6">
+                  <h3 className="text-sm font-body font-medium text-foreground mb-4">
+                    Explore Satisfaction ({total} ratings)
+                  </h3>
+                  <div className="flex items-center gap-6 mb-4">
+                    <div className="text-center">
+                      <p className="text-3xl font-heading font-semibold text-foreground">{pct}%</p>
+                      <p className="text-xs text-muted-foreground font-body">satisfied</p>
+                    </div>
+                    <div className="flex-1 h-3 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-accent rounded-full transition-all" style={{ width: `${pct}%` }} />
+                    </div>
+                    <div className="flex gap-4 text-sm font-body">
+                      <span className="text-accent">👍 {thumbsUp}</span>
+                      <span className="text-muted-foreground">👎 {thumbsDown}</span>
+                    </div>
+                  </div>
+                  {negFeedback.length > 0 && (
+                    <div>
+                      <p className="text-xs text-muted-foreground font-body mb-2">Negative feedback comments:</p>
+                      <div className="space-y-2 max-h-40 overflow-y-auto">
+                        {negFeedback.map((f: any) => (
+                          <div key={f.id} className="flex items-start justify-between gap-3">
+                            <p className="text-xs text-foreground/80 font-body leading-snug flex-1">"{f.feedback_text}"</p>
+                            <div className="flex items-center gap-2 flex-shrink-0">
+                              <span className="text-[0.6rem] text-muted-foreground/50 font-body uppercase">{f.language || "en"}</span>
+                              <span className="text-[0.6rem] text-muted-foreground/40 font-body">
+                                {new Date(f.created_at).toLocaleDateString(undefined, { day: "2-digit", month: "short" })}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Stats cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
