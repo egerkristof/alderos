@@ -4,6 +4,7 @@ import { Send, ArrowLeft, Sparkles, ArrowDown, Search, BookOpen, FileText, Check
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
+import ExploreFeedback from "@/components/ExploreFeedback";
 
 import Footer from "@/components/Footer";
 import LiveCounter from "@/components/LiveCounter";
