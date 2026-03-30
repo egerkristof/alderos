@@ -962,6 +962,7 @@ const translations = {
     soft_freedom_desc: "Milyen szerepet játszik a személyes szabadság az Opus Deiben?",
     tough_questions_show: "Nehéz kérdések megtekintése",
     tough_questions_hide: "Kevesebb kérdés mutatása",
+    explore_rate_question: "Hasznos volt ez a válasz?",
   },
 } as const;
 
