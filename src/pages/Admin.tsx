@@ -69,6 +69,28 @@ const Admin = () => {
     setEventsLoading(false);
   };
 
+  const fetchFeedback = async () => {
+    let all: any[] = [];
+    let from = 0;
+    const batchSize = 1000;
+    let hasMore = true;
+    while (hasMore) {
+      const { data } = await supabase
+        .from("explore_feedback" as any)
+        .select("*")
+        .order("created_at", { ascending: false })
+        .range(from, from + batchSize - 1);
+      if (data && (data as any[]).length > 0) {
+        all = all.concat(data);
+        from += batchSize;
+        if ((data as any[]).length < batchSize) hasMore = false;
+      } else {
+        hasMore = false;
+      }
+    }
+    setFeedbackData(all);
+  };
+
   const handleSavePrompt = async (id: string) => {
     setSaving(true);
     setSaveSuccess(false);
