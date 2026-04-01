@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, ArrowLeft, Sparkles, ArrowDown, Search, BookOpen, FileText, CheckCircle2 } from "lucide-react";
+import { Send, ArrowLeft, Sparkles, ArrowDown, Search, BookOpen, FileText, CheckCircle2, MessageSquare } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
 import ExploreFeedback from "@/components/ExploreFeedback";
-
 import Footer from "@/components/Footer";
 import LiveCounter from "@/components/LiveCounter";
 
@@ -107,7 +106,6 @@ const LoadingSteps = ({ t }: { t: (key: string) => string }) => {
         })}
       </div>
 
-      {/* Shimmer progress bar */}
       <div className="w-full max-w-sm h-1.5 bg-muted rounded-full overflow-hidden relative">
         <motion.div
           className="h-full rounded-full relative overflow-hidden bg-accent/50"
@@ -129,18 +127,24 @@ interface AnswerData {
   follow_up_questions: string[];
 }
 
+interface ConversationTurn {
+  question: string;
+  answer: AnswerData | null;
+  isLoading: boolean;
+  error: string | null;
+}
+
 const Explore = () => {
   const { t, lang } = useLanguage();
   const [question, setQuestion] = useState("");
-  const [currentQuestion, setCurrentQuestion] = useState("");
-  const [answerData, setAnswerData] = useState<AnswerData | null>(null);
+  const [conversation, setConversation] = useState<ConversationTurn[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [collectConsent, setCollectConsent] = useState(() => {
     const stored = localStorage.getItem("alderos_collect_consent");
     return stored !== "false";
   });
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const threadEndRef = useRef<HTMLDivElement>(null);
 
   const toggleConsent = () => {
     const newVal = !collectConsent;
@@ -148,42 +152,70 @@ const Explore = () => {
     localStorage.setItem("alderos_collect_consent", String(newVal));
   };
 
+  // Build history from conversation for the API
+  const buildHistory = () => {
+    const history: { role: string; content: string }[] = [];
+    for (const turn of conversation) {
+      history.push({ role: "user", content: turn.question });
+      if (turn.answer) {
+        history.push({ role: "assistant", content: turn.answer.answer });
+      }
+    }
+    return history;
+  };
+
   const askQuestion = async (q: string) => {
-    if (!q.trim()) return;
-    setCurrentQuestion(q);
+    if (!q.trim() || isLoading) return;
+    const trimmedQ = q.trim();
     setQuestion("");
-    setAnswerData(null);
-    setError(null);
     setIsLoading(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    const newTurn: ConversationTurn = { question: trimmedQ, answer: null, isLoading: true, error: null };
+    setConversation(prev => [...prev, newTurn]);
+
+    // Scroll to bottom after adding new turn
+    setTimeout(() => threadEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
 
     try {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
       const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      const history = buildHistory();
       const resp = await fetch(`${supabaseUrl}/functions/v1/explore`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${supabaseKey}`,
         },
-        body: JSON.stringify({ question: q, language: lang, consent: collectConsent, session_id: EXPLORE_SESSION_ID }),
+        body: JSON.stringify({ question: trimmedQ, language: lang, consent: collectConsent, session_id: EXPLORE_SESSION_ID, history }),
       });
 
       if (resp.status === 429) {
-        setError(t("error_rate_limit"));
+        setConversation(prev => prev.map((turn, i) =>
+          i === prev.length - 1 ? { ...turn, isLoading: false, error: t("error_rate_limit") } : turn
+        ));
         return;
       }
       if (!resp.ok) {
-        setError(t("error_generic"));
+        setConversation(prev => prev.map((turn, i) =>
+          i === prev.length - 1 ? { ...turn, isLoading: false, error: t("error_generic") } : turn
+        ));
         return;
       }
 
       const data = await resp.json();
-      setAnswerData(data);
+      setConversation(prev => prev.map((turn, i) =>
+        i === prev.length - 1 ? { ...turn, isLoading: false, answer: data } : turn
+      ));
     } catch {
-      setError(t("error_connection"));
+      setConversation(prev => prev.map((turn, i) =>
+        i === prev.length - 1 ? { ...turn, isLoading: false, error: t("error_connection") } : turn
+      ));
     } finally {
       setIsLoading(false);
+      setTimeout(() => {
+        threadEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        inputRef.current?.focus();
+      }, 200);
     }
   };
 
@@ -199,14 +231,13 @@ const Explore = () => {
     }
   };
 
-  const handleBack = () => {
-    setAnswerData(null);
-    setCurrentQuestion("");
-    setError(null);
+  const handleNewConversation = () => {
+    setConversation([]);
+    setQuestion("");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const showingAnswer = !!answerData || isLoading || !!error;
+  const inConversation = conversation.length > 0;
 
   return (
     <main className="bg-background min-h-screen flex flex-col">
@@ -214,7 +245,7 @@ const Explore = () => {
         <LanguageSelector />
 
         <AnimatePresence mode="wait">
-          {!showingAnswer ? (
+          {!inConversation ? (
             <motion.section
               key="input"
               initial={{ opacity: 0 }}
@@ -222,7 +253,6 @@ const Explore = () => {
               exit={{ opacity: 0 }}
               className="min-h-[100vh] flex flex-col"
             >
-              {/* Hero area - fits viewport */}
               <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
@@ -263,7 +293,6 @@ const Explore = () => {
                     </button>
                   </form>
 
-                  {/* Suggested questions */}
                   <div className="mt-5 flex flex-wrap gap-2 justify-center max-w-xl mx-auto">
                     {[t("suggested_q1"), t("suggested_q2"), t("suggested_q3")].map((q, i) => (
                       <button
@@ -289,7 +318,6 @@ const Explore = () => {
                 </motion.div>
               </div>
 
-              {/* Scroll indicator */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.7 }}
@@ -309,7 +337,6 @@ const Explore = () => {
                 </motion.div>
               </motion.div>
 
-              {/* Coach CTA section - below the fold */}
               <section id="coach-cta" className="px-6 py-8 md:py-12 flex flex-col items-center text-center">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -335,7 +362,7 @@ const Explore = () => {
             </motion.section>
           ) : (
             <motion.section
-              key="answer"
+              key="conversation"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
@@ -343,67 +370,100 @@ const Explore = () => {
             >
               <div className="max-w-2xl mx-auto">
                 <button
-                  onClick={handleBack}
+                  onClick={handleNewConversation}
                   className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 font-body"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   {t("explore_new_question")}
                 </button>
 
-                {/* The question */}
-                <div className="mb-8">
-                  <p className="text-xs tracking-[0.2em] uppercase text-accent font-body mb-3">
-                    {t("explore_your_question")}
-                  </p>
-                  <blockquote className="text-lg md:text-xl font-heading italic text-foreground/80 leading-relaxed">
-                    "{currentQuestion}"
-                  </blockquote>
+                {/* Conversation thread */}
+                <div className="space-y-10">
+                  {conversation.map((turn, idx) => (
+                    <div key={idx} className="space-y-6">
+                      {/* Question */}
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="flex-shrink-0 w-7 h-7 rounded-full bg-accent/10 flex items-center justify-center mt-0.5">
+                            <MessageSquare className="w-3.5 h-3.5 text-accent" />
+                          </div>
+                          <div>
+                            <p className="text-xs tracking-[0.2em] uppercase text-accent font-body mb-2">
+                              {idx === 0 ? t("explore_your_question") : t("explore_followup_label")}
+                            </p>
+                            <blockquote className="text-lg md:text-xl font-heading italic text-foreground/80 leading-relaxed">
+                              "{turn.question}"
+                            </blockquote>
+                          </div>
+                        </div>
+                      </motion.div>
+
+                      {/* Loading */}
+                      {turn.isLoading && <LoadingSteps t={t} />}
+
+                      {/* Error */}
+                      {turn.error && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="text-center py-8"
+                        >
+                          <p className="text-sm text-destructive font-body mb-4">{turn.error}</p>
+                          <button
+                            onClick={() => askQuestion(turn.question)}
+                            className="text-sm font-body text-accent hover:underline"
+                          >
+                            {t("try_again")}
+                          </button>
+                        </motion.div>
+                      )}
+
+                      {/* Answer */}
+                      {turn.answer && (
+                        <>
+                          <ExploreAnswer
+                            answer={turn.answer.answer}
+                            sources={turn.answer.sources}
+                            followUpQuestions={idx === conversation.length - 1 ? turn.answer.follow_up_questions : []}
+                            onFollowUp={(q) => askQuestion(q)}
+                          />
+                          {idx === conversation.length - 1 && (
+                            <ExploreFeedback
+                              question={turn.question}
+                              sessionId={EXPLORE_SESSION_ID}
+                            />
+                          )}
+                        </>
+                      )}
+
+                      {/* Separator between turns */}
+                      {idx < conversation.length - 1 && turn.answer && (
+                        <div className="border-t border-border pt-2" />
+                      )}
+                    </div>
+                  ))}
                 </div>
 
-                {isLoading && <LoadingSteps t={t} />}
+                <div ref={threadEndRef} />
 
-                {/* Error */}
-                {error && (
+                {/* Input for follow-up */}
+                {conversation.length > 0 && conversation[conversation.length - 1].answer && (
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="text-center py-12"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-10 pt-8 border-t border-border"
                   >
-                    <p className="text-sm text-destructive font-body mb-4">{error}</p>
-                    <button
-                      onClick={() => askQuestion(currentQuestion)}
-                      className="text-sm font-body text-accent hover:underline"
-                    >
-                      {t("try_again")}
-                    </button>
-                  </motion.div>
-                )}
-
-                {/* Answer */}
-                {answerData && (
-                  <>
-                    <ExploreAnswer
-                      answer={answerData.answer}
-                      sources={answerData.sources}
-                      followUpQuestions={answerData.follow_up_questions}
-                      onFollowUp={(q) => askQuestion(q)}
-                    />
-                    <ExploreFeedback
-                      question={currentQuestion}
-                      sessionId={EXPLORE_SESSION_ID}
-                    />
-                  </>
-                )}
-
-                {/* Ask another question inline */}
-                {answerData && (
-                  <div className="mt-10 pt-8 border-t border-border">
                     <form onSubmit={handleSubmit} className="relative">
                       <textarea
+                        ref={inputRef}
                         value={question}
                         onChange={(e) => setQuestion(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder={t("explore_ask_another")}
+                        placeholder={t("explore_continue_conversation")}
                         rows={2}
                         className="w-full px-5 py-4 pr-14 rounded-2xl border border-border bg-card text-foreground font-body
                                    placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent/30
@@ -411,14 +471,14 @@ const Explore = () => {
                       />
                       <button
                         type="submit"
-                        disabled={!question.trim()}
+                        disabled={!question.trim() || isLoading}
                         className="absolute right-3 bottom-3 p-2.5 rounded-xl bg-accent text-accent-foreground
                                    hover:opacity-90 transition-opacity disabled:opacity-30"
                       >
                         <Send className="w-4 h-4" />
                       </button>
                     </form>
-                  </div>
+                  </motion.div>
                 )}
               </div>
             </motion.section>

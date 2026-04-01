@@ -22,7 +22,7 @@ serve(async (req) => {
   }
 
   try {
-    const { question, language = "en", consent = true, session_id = null } = await req.json();
+    const { question, language = "en", consent = true, session_id = null, history = [] } = await req.json();
     if (!question || typeof question !== "string" || question.trim().length === 0) {
       return new Response(JSON.stringify({ error: "No question provided" }), {
         status: 400,
@@ -64,7 +64,33 @@ Guidelines:
 - NEVER use em dashes or en dashes. Use commas, periods, or colons instead.`;
     }
 
-    const systemPrompt = `${promptText}\n\n${langInstruction}`;
+    // Add conversation-awareness to prompt when there is history
+    let conversationNote = "";
+    if (Array.isArray(history) && history.length > 0) {
+      conversationNote = "\n\nThis is a multi-turn conversation. The user may be following up on previous answers. Reference earlier context when relevant, avoid repeating information already covered, and build on what was discussed before.";
+    }
+
+    const systemPrompt = `${promptText}${conversationNote}\n\n${langInstruction}`;
+
+    // Build messages array with conversation history
+    const messages: { role: string; content: string }[] = [
+      { role: "system", content: systemPrompt },
+    ];
+
+    // Add validated history (max 10 turns to stay within context limits)
+    if (Array.isArray(history)) {
+      const safeHistory = history.slice(-10);
+      for (const turn of safeHistory) {
+        if (turn.role === "user" && typeof turn.content === "string") {
+          messages.push({ role: "user", content: turn.content.slice(0, 2000) });
+        } else if (turn.role === "assistant" && typeof turn.content === "string") {
+          messages.push({ role: "assistant", content: turn.content.slice(0, 4000) });
+        }
+      }
+    }
+
+    // Add current question
+    messages.push({ role: "user", content: question });
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -74,10 +100,7 @@ Guidelines:
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-pro",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: question },
-        ],
+        messages,
         tools: [
           {
             type: "function",
