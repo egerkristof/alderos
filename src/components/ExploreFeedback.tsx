@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThumbsUp, ThumbsDown, Send } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ExploreFeedbackProps {
@@ -31,12 +31,21 @@ const ExploreFeedback = ({ question, sessionId }: ExploreFeedbackProps) => {
 
   const saveFeedback = async (r: "up" | "down", text: string) => {
     try {
-      await supabase.from("explore_feedback" as any).insert({
-        session_id: sessionId,
-        question,
-        rating: r,
-        feedback_text: text || null,
-        language: lang,
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      await fetch(`${supabaseUrl}/functions/v1/submit-feedback`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${supabaseKey}`,
+        },
+        body: JSON.stringify({
+          session_id: sessionId,
+          question,
+          rating: r,
+          feedback_text: text || null,
+          language: lang,
+        }),
       });
     } catch (err) {
       console.error("Failed to save feedback:", err);

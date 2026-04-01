@@ -14,28 +14,15 @@ const LiveCounter = ({ label }: LiveCounterProps) => {
 
   useEffect(() => {
     const fetchCount = async () => {
-      const { count: total } = await supabase
-        .from("usage_events")
-        .select("*", { count: "exact", head: true });
-      if (total !== null) setCount(total);
+      const { data, error } = await supabase.rpc("get_usage_count" as any);
+      if (!error && data !== null) setCount(Number(data));
     };
 
     fetchCount();
 
-    const channel = supabase
-      .channel("live-counter")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "usage_events" },
-        () => {
-          setCount((prev) => (prev !== null ? prev + 1 : prev));
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    // Poll every 30s instead of realtime (removed from publication for security)
+    const interval = setInterval(fetchCount, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   if (count === null) return null;
