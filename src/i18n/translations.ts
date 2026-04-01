@@ -309,6 +309,8 @@ const translations = {
     loading_step_3: "Eine klare Antwort wird erstellt…",
     loading_step_4: "Überprüfung & Fertigstellung…",
     explore_ask_another: "Stellen Sie eine weitere Frage...",
+    explore_continue_conversation: "Gespräch fortsetzen...",
+    explore_followup_label: "Nachfrage",
     coach_gate_title: "Coach-Zugang",
     coach_gate_body: "Geben Sie das Passwort ein, um das Trainingstool zu nutzen.",
     coach_gate_placeholder: "Passwort",
