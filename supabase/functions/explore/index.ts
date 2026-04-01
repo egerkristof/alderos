@@ -171,7 +171,7 @@ Guidelines:
               const check = await fetch(source.url, {
                 method: "HEAD",
                 redirect: "follow",
-                signal: AbortSignal.timeout(2000),
+                signal: AbortSignal.timeout(1000),
               });
               if (check.ok) return source;
               console.log(`Removing broken URL (${check.status}): ${source.url}`);
