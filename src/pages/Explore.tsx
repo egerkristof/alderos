@@ -172,7 +172,7 @@ const Explore = () => {
     } finally {
       setIsLoading(false);
       setTimeout(() => {
-        threadEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        lastResponseRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
         inlineInputRef.current?.focus();
       }, 300);
     }
