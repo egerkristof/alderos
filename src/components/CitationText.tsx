@@ -13,7 +13,7 @@ interface CitationTextProps {
 }
 
 /**
- * Splits the answer into paragraphs (double-newline separated),
+ * Splits the answer into paragraphs and list blocks,
  * renders inline markdown (bold, italic) and citation markers with tooltips.
  */
 const CitationText = ({ text, sources }: CitationTextProps) => {
@@ -45,40 +45,31 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
     });
   }, [hoveredCitation]);
 
-  // Split into paragraphs on double newlines
-  const paragraphs = useMemo(() => {
-    return text.split(/\n{2,}/).filter((p) => p.trim().length > 0);
-  }, [text]);
-
   const hoveredSource = hoveredCitation != null ? sources[hoveredCitation - 1] : null;
 
   const renderInlineContent = (content: string) => {
-    // Parse: **bold**, *italic*, and [N] citations — all inline
+    // Parse: **bold**, *italic* (not at line start to avoid list conflicts), and [N] citations
     const regex = /(\*\*(.+?)\*\*|\*(.+?)\*|\[(\d+)\])/g;
     const result: React.ReactNode[] = [];
     let lastIndex = 0;
     let match: RegExpExecArray | null;
 
     while ((match = regex.exec(content)) !== null) {
-      // Text before this match
       if (match.index > lastIndex) {
         result.push(content.slice(lastIndex, match.index));
       }
 
       if (match[2]) {
-        // **bold**
         result.push(
           <strong key={`b-${match.index}`} className="font-semibold text-foreground">
             {match[2]}
           </strong>
         );
       } else if (match[3]) {
-        // *italic*
         result.push(
           <em key={`i-${match.index}`}>{match[3]}</em>
         );
       } else if (match[4]) {
-        // [N] citation
         const citationIndex = parseInt(match[4], 10);
         result.push(
           <span
@@ -119,15 +110,97 @@ const CitationText = ({ text, sources }: CitationTextProps) => {
     return result;
   };
 
+  // Parse text into blocks: paragraphs, unordered lists, ordered lists
+  type Block =
+    | { type: "paragraph"; lines: string[] }
+    | { type: "ul"; items: string[] }
+    | { type: "ol"; items: string[] };
+
+  const blocks = useMemo((): Block[] => {
+    const rawLines = text.split("\n");
+    const result: Block[] = [];
+    let currentList: Block | null = null;
+
+    const flushList = () => {
+      if (currentList) {
+        result.push(currentList);
+        currentList = null;
+      }
+    };
+
+    let paragraphLines: string[] = [];
+    const flushParagraph = () => {
+      if (paragraphLines.length > 0) {
+        result.push({ type: "paragraph", lines: paragraphLines });
+        paragraphLines = [];
+      }
+    };
+
+    for (const rawLine of rawLines) {
+      const line = rawLine;
+
+      // Unordered list: "- item", "* item", "• item"
+      const ulMatch = line.match(/^\s*[-*•]\s+(.+)/);
+      // Ordered list: "1. item", "2) item"
+      const olMatch = line.match(/^\s*\d+[.)]\s+(.+)/);
+
+      if (ulMatch) {
+        flushParagraph();
+        if (currentList?.type !== "ul") {
+          flushList();
+          currentList = { type: "ul", items: [] };
+        }
+        currentList.items.push(ulMatch[1]);
+      } else if (olMatch) {
+        flushParagraph();
+        if (currentList?.type !== "ol") {
+          flushList();
+          currentList = { type: "ol", items: [] };
+        }
+        currentList.items.push(olMatch[1]);
+      } else if (line.trim() === "") {
+        flushList();
+        flushParagraph();
+      } else {
+        flushList();
+        paragraphLines.push(line);
+      }
+    }
+
+    flushList();
+    flushParagraph();
+    return result;
+  }, [text]);
+
   return (
     <div className="relative">
-      {paragraphs.map((para, i) => {
-        // Handle single-newline line breaks within a paragraph
-        const lines = para.split(/\n/);
-
+      {blocks.map((block, i) => {
+        if (block.type === "ul") {
+          return (
+            <ul key={i} className="mb-4 last:mb-0 list-disc list-outside pl-5 space-y-1.5">
+              {block.items.map((item, j) => (
+                <li key={j} className="leading-relaxed">
+                  {renderInlineContent(item)}
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        if (block.type === "ol") {
+          return (
+            <ol key={i} className="mb-4 last:mb-0 list-decimal list-outside pl-5 space-y-1.5">
+              {block.items.map((item, j) => (
+                <li key={j} className="leading-relaxed">
+                  {renderInlineContent(item)}
+                </li>
+              ))}
+            </ol>
+          );
+        }
+        // paragraph
         return (
           <p key={i} className="mb-4 last:mb-0 leading-relaxed">
-            {lines.map((line, j) => (
+            {block.lines.map((line, j) => (
               <span key={j}>
                 {j > 0 && <br />}
                 {renderInlineContent(line)}
