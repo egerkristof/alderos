@@ -148,6 +148,8 @@ const translations = {
     loading_step_3: "Building a clear answer…",
     loading_step_4: "Verifying & finalizing…",
     explore_ask_another: "Ask another question...",
+    explore_continue_conversation: "Continue the conversation...",
+    explore_followup_label: "Follow-up",
     coach_gate_title: "Coach Access",
     coach_gate_body: "Enter the password to access the training tool.",
     coach_gate_placeholder: "Password",
