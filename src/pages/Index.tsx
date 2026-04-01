@@ -71,25 +71,16 @@ const Index = () => {
     setState(mode === "ai" ? "reframe" : "training");
     window.scrollTo({ top: 0, behavior: "smooth" });
     const eventType = isCustom ? "custom" : (challengeId?.startsWith("ai-generated") ? "ai-generated" : "preselected");
-    if (collectConsent) {
-      supabase.from("usage_events").insert({
-        event_type: eventType,
-        challenge_id: challengeId,
-        challenge_text: challenge,
-        language: lang,
-        mode,
-        session_id: SESSION_ID,
-      } as any).then(() => {});
-    } else {
-      supabase.from("usage_events").insert({
-        event_type: "withheld",
-        challenge_id: null,
-        challenge_text: "(withheld by user)",
-        language: lang,
-        mode,
-        session_id: SESSION_ID,
-      } as any).then(() => {});
-    }
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+    const payload = collectConsent
+      ? { event_type: eventType, challenge_id: challengeId, challenge_text: challenge, language: lang, mode, session_id: SESSION_ID }
+      : { event_type: "withheld", challenge_id: null, challenge_text: "(withheld by user)", language: lang, mode, session_id: SESSION_ID };
+    fetch(`${supabaseUrl}/functions/v1/log-event`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${supabaseKey}` },
+      body: JSON.stringify(payload),
+    }).catch(() => {});
   };
 
   const handleBack = () => {
