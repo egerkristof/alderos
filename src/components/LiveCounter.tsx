@@ -14,7 +14,7 @@ const LiveCounter = ({ label }: LiveCounterProps) => {
 
   useEffect(() => {
     const fetchCount = async () => {
-      const { data, error } = await supabase.rpc("get_usage_count");
+      const { data, error } = await supabase.rpc("get_usage_count" as any);
       if (!error && data !== null) setCount(Number(data));
     };
 
