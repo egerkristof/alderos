@@ -631,6 +631,8 @@ const translations = {
     loading_step_3: "Construction d'une réponse claire…",
     loading_step_4: "Vérification et finalisation…",
     explore_ask_another: "Posez une autre question...",
+    explore_continue_conversation: "Continuer la conversation...",
+    explore_followup_label: "Suivi",
     coach_gate_title: "Accès Coach",
     coach_gate_body: "Entrez le mot de passe pour accéder à l'outil d'entraînement.",
     coach_gate_placeholder: "Mot de passe",
