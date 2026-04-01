@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, ArrowLeft, Sparkles, ArrowDown, Search, BookOpen, FileText, CheckCircle2, MessageSquare } from "lucide-react";
+import { Send, RotateCcw, Sparkles, ArrowDown, Search, BookOpen, FileText, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSelector from "@/components/LanguageSelector";
 import ExploreAnswer from "@/components/ExploreAnswer";
@@ -55,9 +55,9 @@ const LoadingSteps = ({ t }: { t: (key: string) => string }) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="py-12 flex flex-col items-center gap-6"
+      className="py-6 flex flex-col items-center gap-4"
     >
-      <div className="w-full max-w-sm space-y-3">
+      <div className="w-full max-w-xs space-y-2.5">
         {LOADING_STEPS.map((step, i) => {
           const Icon = step.icon;
           const isActive = i === activeStep;
@@ -70,7 +70,7 @@ const LoadingSteps = ({ t }: { t: (key: string) => string }) => {
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: isHidden ? 0 : 1, x: isHidden ? -10 : 0 }}
               transition={{ duration: 0.4 }}
-              className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${
+              className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300 ${
                 isActive
                   ? "bg-accent/[0.06] border border-accent/20"
                   : isDone
@@ -78,24 +78,24 @@ const LoadingSteps = ({ t }: { t: (key: string) => string }) => {
                   : ""
               }`}
             >
-              <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 ${
+              <div className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-300 ${
                 isActive ? "bg-accent/15 text-accent" : isDone ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground/40"
               }`}>
                 {isDone ? (
                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 300 }}>
-                    <CheckCircle2 className="w-4 h-4" />
+                    <CheckCircle2 className="w-3.5 h-3.5" />
                   </motion.div>
                 ) : (
-                  <Icon className={`w-4 h-4 ${isActive ? "animate-pulse" : ""}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? "animate-pulse" : ""}`} />
                 )}
               </div>
               {isActive ? (
                 <TypeWriter
                   text={t(step.key)}
-                  className="text-sm font-body text-foreground font-medium"
+                  className="text-xs font-body text-foreground font-medium"
                 />
               ) : (
-                <span className={`text-sm font-body transition-colors duration-300 ${
+                <span className={`text-xs font-body transition-colors duration-300 ${
                   isDone ? "text-muted-foreground line-through decoration-muted-foreground/30" : "text-muted-foreground/40"
                 }`}>
                   {isDone ? t(step.key) : ""}
@@ -106,14 +106,14 @@ const LoadingSteps = ({ t }: { t: (key: string) => string }) => {
         })}
       </div>
 
-      <div className="w-full max-w-sm h-1.5 bg-muted rounded-full overflow-hidden relative">
+      <div className="w-full max-w-xs h-1 bg-muted rounded-full overflow-hidden relative">
         <motion.div
           className="h-full rounded-full relative overflow-hidden bg-accent/50"
           initial={{ width: "0%" }}
           animate={{ width: activeStep >= 3 ? "95%" : `${(activeStep + 1) * 25}%` }}
           transition={{ duration: 1.5, ease: "easeInOut" }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer_1.5s_infinite] -translate-x-full" 
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
                style={{ animation: "shimmer 1.5s infinite" }} />
         </motion.div>
       </div>
@@ -152,7 +152,6 @@ const Explore = () => {
     localStorage.setItem("alderos_collect_consent", String(newVal));
   };
 
-  // Build history from conversation for the API
   const buildHistory = () => {
     const history: { role: string; content: string }[] = [];
     for (const turn of conversation) {
@@ -173,7 +172,6 @@ const Explore = () => {
     const newTurn: ConversationTurn = { question: trimmedQ, answer: null, isLoading: true, error: null };
     setConversation(prev => [...prev, newTurn]);
 
-    // Scroll to bottom after adding new turn
     setTimeout(() => threadEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
 
     try {
@@ -215,7 +213,7 @@ const Explore = () => {
       setTimeout(() => {
         threadEndRef.current?.scrollIntoView({ behavior: "smooth" });
         inputRef.current?.focus();
-      }, 200);
+      }, 300);
     }
   };
 
@@ -241,11 +239,12 @@ const Explore = () => {
 
   return (
     <main className="bg-background min-h-screen flex flex-col">
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col">
         <LanguageSelector />
 
         <AnimatePresence mode="wait">
           {!inConversation ? (
+            /* ── Landing ── */
             <motion.section
               key="input"
               initial={{ opacity: 0 }}
@@ -361,131 +360,156 @@ const Explore = () => {
               </section>
             </motion.section>
           ) : (
+            /* ── Chat Thread ── */
             <motion.section
               key="conversation"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="px-6 py-12 md:py-16"
+              className="flex-1 flex flex-col"
             >
-              <div className="max-w-2xl mx-auto">
-                <button
-                  onClick={handleNewConversation}
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 font-body"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  {t("explore_new_question")}
-                </button>
+              {/* Top bar */}
+              <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border px-6 py-3">
+                <div className="max-w-2xl mx-auto flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center">
+                      <Sparkles className="w-4 h-4 text-accent" />
+                    </div>
+                    <div>
+                      <h2 className="text-sm font-heading font-semibold text-foreground">Alderos</h2>
+                      <p className="text-[0.65rem] text-muted-foreground font-body">
+                        {conversation.length} {conversation.length === 1 ? "message" : "messages"}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleNewConversation}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-body
+                               text-muted-foreground hover:text-foreground border border-border hover:border-accent/30
+                               transition-all"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                    {t("explore_new_question")}
+                  </button>
+                </div>
+              </div>
 
-                {/* Conversation thread */}
-                <div className="space-y-10">
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto">
+                <div className="max-w-2xl mx-auto px-6 py-6 space-y-6">
                   {conversation.map((turn, idx) => (
-                    <div key={idx} className="space-y-6">
-                      {/* Question */}
+                    <div key={idx} className="space-y-4">
+                      {/* User bubble */}
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.25 }}
+                        className="flex justify-end"
                       >
-                        <div className="flex items-start gap-3">
-                          <div className="flex-shrink-0 w-7 h-7 rounded-full bg-accent/10 flex items-center justify-center mt-0.5">
-                            <MessageSquare className="w-3.5 h-3.5 text-accent" />
-                          </div>
-                          <div>
-                            <p className="text-xs tracking-[0.2em] uppercase text-accent font-body mb-2">
-                              {idx === 0 ? t("explore_your_question") : t("explore_followup_label")}
-                            </p>
-                            <blockquote className="text-lg md:text-xl font-heading italic text-foreground/80 leading-relaxed">
-                              "{turn.question}"
-                            </blockquote>
-                          </div>
+                        <div className="max-w-[85%] md:max-w-[75%] px-4 py-3 rounded-2xl rounded-br-md bg-accent text-accent-foreground font-body text-sm leading-relaxed">
+                          {turn.question}
                         </div>
                       </motion.div>
 
-                      {/* Loading */}
-                      {turn.isLoading && <LoadingSteps t={t} />}
+                      {/* AI response */}
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                      >
+                        <div className="flex gap-3">
+                          <div className="flex-shrink-0 w-7 h-7 rounded-full bg-accent/10 flex items-center justify-center mt-1">
+                            <Sparkles className="w-3.5 h-3.5 text-accent" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            {/* Loading */}
+                            {turn.isLoading && <LoadingSteps t={t} />}
 
-                      {/* Error */}
-                      {turn.error && (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="text-center py-8"
-                        >
-                          <p className="text-sm text-destructive font-body mb-4">{turn.error}</p>
-                          <button
-                            onClick={() => askQuestion(turn.question)}
-                            className="text-sm font-body text-accent hover:underline"
-                          >
-                            {t("try_again")}
-                          </button>
-                        </motion.div>
-                      )}
+                            {/* Error */}
+                            {turn.error && (
+                              <div className="py-6 text-center">
+                                <p className="text-sm text-destructive font-body mb-3">{turn.error}</p>
+                                <button
+                                  onClick={() => askQuestion(turn.question)}
+                                  className="text-sm font-body text-accent hover:underline"
+                                >
+                                  {t("try_again")}
+                                </button>
+                              </div>
+                            )}
 
-                      {/* Answer */}
-                      {turn.answer && (
-                        <>
-                          <ExploreAnswer
-                            answer={turn.answer.answer}
-                            sources={turn.answer.sources}
-                            followUpQuestions={idx === conversation.length - 1 ? turn.answer.follow_up_questions : []}
-                            onFollowUp={(q) => askQuestion(q)}
-                          />
-                          {idx === conversation.length - 1 && (
-                            <ExploreFeedback
-                              question={turn.question}
-                              sessionId={EXPLORE_SESSION_ID}
-                            />
-                          )}
-                        </>
-                      )}
+                            {/* Answer */}
+                            {turn.answer && (
+                              <div className="space-y-4">
+                                <div className="rounded-2xl rounded-tl-md bg-card border border-border p-5">
+                                  <ExploreAnswer
+                                    answer={turn.answer.answer}
+                                    sources={turn.answer.sources}
+                                    followUpQuestions={idx === conversation.length - 1 ? turn.answer.follow_up_questions : []}
+                                    onFollowUp={(q) => askQuestion(q)}
+                                  />
+                                </div>
 
-                      {/* Separator between turns */}
-                      {idx < conversation.length - 1 && turn.answer && (
-                        <div className="border-t border-border pt-2" />
-                      )}
+                                {/* Inline feedback — prominent */}
+                                <ExploreFeedback
+                                  question={turn.question}
+                                  sessionId={EXPLORE_SESSION_ID}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
                     </div>
                   ))}
+                  <div ref={threadEndRef} />
                 </div>
+              </div>
 
-                <div ref={threadEndRef} />
-
-                {/* Input for follow-up */}
-                {conversation.length > 0 && conversation[conversation.length - 1].answer && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-10 pt-8 border-t border-border"
+              {/* Sticky input bar */}
+              <div className="sticky bottom-0 bg-background/80 backdrop-blur-md border-t border-border px-6 py-4">
+                <form onSubmit={handleSubmit} className="max-w-2xl mx-auto relative">
+                  <textarea
+                    ref={inputRef}
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder={t("explore_continue_conversation")}
+                    rows={1}
+                    className="w-full px-5 py-3.5 pr-14 rounded-2xl border border-border bg-card text-foreground font-body text-sm
+                               placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent/30
+                               focus:border-accent/40 transition-all resize-none"
+                    style={{ minHeight: "48px", maxHeight: "120px" }}
+                    onInput={(e) => {
+                      const target = e.target as HTMLTextAreaElement;
+                      target.style.height = "48px";
+                      target.style.height = Math.min(target.scrollHeight, 120) + "px";
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    disabled={!question.trim() || isLoading}
+                    className="absolute right-3 bottom-2.5 p-2 rounded-xl bg-accent text-accent-foreground
+                               hover:opacity-90 transition-opacity disabled:opacity-30"
                   >
-                    <form onSubmit={handleSubmit} className="relative">
-                      <textarea
-                        ref={inputRef}
-                        value={question}
-                        onChange={(e) => setQuestion(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder={t("explore_continue_conversation")}
-                        rows={2}
-                        className="w-full px-5 py-4 pr-14 rounded-2xl border border-border bg-card text-foreground font-body
-                                   placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent/30
-                                   focus:border-accent/40 transition-all resize-none"
-                      />
-                      <button
-                        type="submit"
-                        disabled={!question.trim() || isLoading}
-                        className="absolute right-3 bottom-3 p-2.5 rounded-xl bg-accent text-accent-foreground
-                                   hover:opacity-90 transition-opacity disabled:opacity-30"
-                      >
-                        <Send className="w-4 h-4" />
-                      </button>
-                    </form>
-                  </motion.div>
-                )}
+                    <Send className="w-4 h-4" />
+                  </button>
+                </form>
+                <div className="max-w-2xl mx-auto mt-2 flex items-center justify-center gap-2 text-[0.65rem] text-muted-foreground/40 font-body">
+                  <span>{collectConsent ? t("consent_notice") : t("consent_opted_out")}</span>
+                  <button
+                    onClick={toggleConsent}
+                    className="underline hover:text-muted-foreground transition-colors"
+                  >
+                    {collectConsent ? t("consent_opt_out") : t("consent_opt_in")}
+                  </button>
+                </div>
               </div>
             </motion.section>
           )}
         </AnimatePresence>
       </div>
-      <Footer />
+      {!inConversation && <Footer />}
     </main>
   );
 };
