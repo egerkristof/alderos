@@ -157,17 +157,17 @@ const Explore = () => {
         body: JSON.stringify({ question: trimmedQ, language: lang, consent: collectConsent, session_id: EXPLORE_SESSION_ID, history }),
       });
       if (resp.status === 429) {
-        setConversation(prev => prev.map((t, i) => i === prev.length - 1 ? { ...t, isLoading: false, error: t("error_rate_limit") } : t));
+        setConversation(prev => prev.map((turn, i) => i === prev.length - 1 ? { ...turn, isLoading: false, error: t("error_rate_limit") } : turn));
         return;
       }
       if (!resp.ok) {
-        setConversation(prev => prev.map((t, i) => i === prev.length - 1 ? { ...t, isLoading: false, error: t("error_generic") } : t));
+        setConversation(prev => prev.map((turn, i) => i === prev.length - 1 ? { ...turn, isLoading: false, error: t("error_generic") } : turn));
         return;
       }
       const data = await resp.json();
-      setConversation(prev => prev.map((t, i) => i === prev.length - 1 ? { ...t, isLoading: false, answer: data } : t));
+      setConversation(prev => prev.map((turn, i) => i === prev.length - 1 ? { ...turn, isLoading: false, answer: data } : turn));
     } catch {
-      setConversation(prev => prev.map((t, i) => i === prev.length - 1 ? { ...t, isLoading: false, error: t("error_connection") } : t));
+      setConversation(prev => prev.map((turn, i) => i === prev.length - 1 ? { ...turn, isLoading: false, error: t("error_connection") } : turn));
     } finally {
       setIsLoading(false);
       setTimeout(() => {
