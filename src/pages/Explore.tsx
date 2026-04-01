@@ -102,6 +102,7 @@ const Explore = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const threadEndRef = useRef<HTMLDivElement>(null);
   const inlineInputRef = useRef<HTMLTextAreaElement>(null);
+  const lastResponseRef = useRef<HTMLDivElement>(null);
 
   const toggleConsent = () => {
     const newVal = !collectConsent;
