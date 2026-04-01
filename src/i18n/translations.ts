@@ -953,6 +953,8 @@ const translations = {
     loading_step_3: "Világos válasz felépítése…",
     loading_step_4: "Ellenőrzés és véglegesítés…",
     explore_ask_another: "Tegyen fel még egy kérdést...",
+    explore_continue_conversation: "Folytassa a beszélgetést...",
+    explore_followup_label: "Kiegészítő kérdés",
     coach_gate_title: "Coach hozzáférés",
     coach_gate_body: "Adja meg a jelszót a képzési eszköz eléréséhez.",
     coach_gate_placeholder: "Jelszó",
