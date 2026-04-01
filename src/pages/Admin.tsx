@@ -305,7 +305,7 @@ const Admin = () => {
             </div>
 
             {/* Explore Satisfaction */}
-            {feedbackData.length > 0 && (() => {
+            {(() => {
               const thumbsUp = feedbackData.filter((f: any) => f.rating === "up").length;
               const thumbsDown = feedbackData.filter((f: any) => f.rating === "down").length;
               const total = thumbsUp + thumbsDown;
@@ -329,7 +329,9 @@ const Admin = () => {
                       <span className="text-muted-foreground">👎 {thumbsDown}</span>
                     </div>
                   </div>
-                  {negFeedback.length > 0 && (
+                  {total === 0 ? (
+                    <p className="text-xs text-muted-foreground font-body">No feedback submitted yet.</p>
+                  ) : negFeedback.length > 0 ? (
                     <div>
                       <p className="text-xs text-muted-foreground font-body mb-2">Negative feedback comments:</p>
                       <div className="space-y-2 max-h-40 overflow-y-auto">
@@ -346,7 +348,7 @@ const Admin = () => {
                         ))}
                       </div>
                     </div>
-                  )}
+                  ) : null}
                 </div>
               );
             })()}
