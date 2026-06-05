@@ -16,9 +16,9 @@ const LanguageContext = createContext<LanguageContextType>({
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [lang, setLang] = useState<Language>(() => {
     const stored = localStorage.getItem("alderos-lang");
-if (stored && ["en", "de", "es", "fr", "it", "hu"].includes(stored)) return stored as Language;
+if (stored && ["en", "de", "es", "fr", "it", "hu", "pt"].includes(stored)) return stored as Language;
     const browserLang = navigator.language.slice(0, 2);
-    if (["en", "de", "es", "fr", "it", "hu"].includes(browserLang)) return browserLang as Language;
+    if (["en", "de", "es", "fr", "it", "hu", "pt"].includes(browserLang)) return browserLang as Language;
     return "en";
   });
 
