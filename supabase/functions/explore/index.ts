@@ -14,6 +14,7 @@ const LANGUAGE_INSTRUCTIONS: Record<string, string> = {
   fr: "Réponds entièrement en français.",
   it: "Rispondi interamente in italiano.",
   hu: "Válaszolj teljesen magyarul.",
+  pt: "Responde inteiramente em português.",
 };
 
 const SECURITY_INSTRUCTIONS = `
