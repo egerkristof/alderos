@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 const VALID_RATINGS = ["up", "down"];
-const VALID_LANGUAGES = ["en", "de", "es", "fr", "it", "hu"];
+const VALID_LANGUAGES = ["en", "de", "es", "fr", "it", "hu", "pt"];
 const MAX_TEXT = 2000;
 
 serve(async (req) => {
