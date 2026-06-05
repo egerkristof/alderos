@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.get_usage_count() TO anon, authenticated;
