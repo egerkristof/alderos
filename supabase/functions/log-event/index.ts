@@ -9,7 +9,7 @@ const corsHeaders = {
 
 const VALID_EVENT_TYPES = ["preselected", "custom", "ai-generated", "withheld", "explore"];
 const VALID_MODES = ["ai", "training", "explore"];
-const VALID_LANGUAGES = ["en", "de", "es", "fr", "it", "hu"];
+const VALID_LANGUAGES = ["en", "de", "es", "fr", "it", "hu", "pt"];
 const MAX_TEXT = 2000;
 
 serve(async (req) => {
