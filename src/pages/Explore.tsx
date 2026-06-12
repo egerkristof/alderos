@@ -119,10 +119,12 @@ const Explore = () => {
     return history;
   };
 
-  // Accumulate all verified sources across turns, deduped by URL
+  // Accumulate all linked sources across turns, deduped by URL.
+  // Includes both verified and unverified links (we trust the model and only
+  // strip URLs on true 5xx errors server-side).
   const allSources = useMemo(() => {
     const seen = new Set<string>();
-    const accumulated: { title: string; description: string; url: string }[] = [];
+    const accumulated: { title: string; description: string; url: string; verified?: boolean }[] = [];
     for (const turn of conversation) {
       if (!turn.answer) continue;
       for (const s of getVerifiedSources(turn.answer.sources)) {
@@ -134,6 +136,7 @@ const Explore = () => {
     }
     return accumulated;
   }, [conversation]);
+
 
   const lastTurn = conversation[conversation.length - 1];
   const lastAnswerReady = lastTurn?.answer != null;
@@ -345,9 +348,18 @@ const Explore = () => {
                                     <a href={source.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors inline-flex items-center gap-1">
                                       {source.title}<ExternalLink className="w-3 h-3 flex-shrink-0" />
                                     </a>
+                                    {source.verified === false && (
+                                      <span
+                                        title={t("unverified_link_hint")}
+                                        className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-[0.6rem] uppercase tracking-wider text-muted-foreground/70 border border-border/70 bg-muted/30 align-middle"
+                                      >
+                                        {t("unverified_link_label")}
+                                      </span>
+                                    )}
                                   </p>
                                   <p className="text-muted-foreground/70 font-body text-xs mt-0.5">{source.description}</p>
                                 </div>
+
                               </div>
                             ))}
                           </div>
