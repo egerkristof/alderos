@@ -216,24 +216,71 @@ Guidelines:
     if (toolCall?.function?.arguments) {
       const parsed = JSON.parse(toolCall.function.arguments);
 
-      // Validate source URLs in parallel with short timeout
+      // Validate source URLs in parallel.
+      // Philosophy: do NOT strip URLs on validation failure (HEAD-block, slow CDN,
+      // Cloudflare 403, etc. routinely false-positive on legitimate sources like
+      // opusdei.org, vatican.va, news sites and publishers). Only strip on genuine
+      // 5xx server errors, and fast-pass an allowlist of trusted domains.
+      // Mark each source as verified true/false so the UI can show a soft badge.
       if (parsed.sources && Array.isArray(parsed.sources)) {
+        const TRUSTED_DOMAINS = [
+          "opusdei.org", "vatican.va", "press.vatican.va",
+          "wikipedia.org", "wikimedia.org",
+          "nytimes.com", "washingtonpost.com", "theguardian.com", "bbc.co.uk", "bbc.com",
+          "ft.com", "bloomberg.com", "reuters.com", "apnews.com", "thetimes.co.uk",
+          "telegraph.co.uk", "economist.com", "lemonde.fr", "elpais.com", "abc.es",
+          "corriere.it", "repubblica.it", "faz.net", "zeit.de", "spiegel.de",
+          "cnn.com", "ncronline.org", "catholicnewsagency.com", "americamagazine.org",
+          "thetablet.co.uk", "osvnews.com", "catholicworldreport.com",
+          "penguin.co.uk", "penguinrandomhouse.com", "harpercollins.com",
+          "cambridge.org", "oup.com", "jstor.org", "academic.oup.com",
+          "gov.uk", "europa.eu", "un.org",
+        ];
+        const isTrusted = (url: string) => {
+          try {
+            const host = new URL(url).hostname.toLowerCase();
+            return TRUSTED_DOMAINS.some((d) => host === d || host.endsWith(`.${d}`));
+          } catch {
+            return false;
+          }
+        };
+
+        const probe = async (url: string): Promise<boolean> => {
+          const headers = {
+            "User-Agent":
+              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          };
+          try {
+            const head = await fetch(url, {
+              method: "HEAD",
+              redirect: "follow",
+              headers,
+              signal: AbortSignal.timeout(5000),
+            });
+            // Anything that isn't a real server error counts as "exists".
+            if (head.status < 500) return true;
+          } catch { /* fall through to GET */ }
+          try {
+            const get = await fetch(url, {
+              method: "GET",
+              redirect: "follow",
+              headers: { ...headers, Range: "bytes=0-0" },
+              signal: AbortSignal.timeout(5000),
+            });
+            return get.status < 500;
+          } catch {
+            return false;
+          }
+        };
+
         const validated = await Promise.all(
-          parsed.sources.map(async (source: { title: string; description: string; url?: string | null }) => {
-            if (!source.url) return source;
-            try {
-              const check = await fetch(source.url, {
-                method: "HEAD",
-                redirect: "follow",
-                signal: AbortSignal.timeout(1000),
-              });
-              if (check.ok) return source;
-              console.log(`Removing broken URL (${check.status}): ${source.url}`);
-              return { ...source, url: null };
-            } catch {
-              console.log(`Removing unreachable URL: ${source.url}`);
-              return { ...source, url: null };
-            }
+          parsed.sources.map(async (source: { title: string; description: string; url?: string | null; verified?: boolean }) => {
+            if (!source.url) return { ...source, verified: false };
+            if (isTrusted(source.url)) return { ...source, verified: true };
+            const ok = await probe(source.url);
+            if (!ok) console.log(`Unverified URL (kept): ${source.url}`);
+            return { ...source, verified: ok };
           })
         );
         parsed.sources = validated;
