@@ -119,10 +119,12 @@ const Explore = () => {
     return history;
   };
 
-  // Accumulate all verified sources across turns, deduped by URL
+  // Accumulate all linked sources across turns, deduped by URL.
+  // Includes both verified and unverified links (we trust the model and only
+  // strip URLs on true 5xx errors server-side).
   const allSources = useMemo(() => {
     const seen = new Set<string>();
-    const accumulated: { title: string; description: string; url: string }[] = [];
+    const accumulated: { title: string; description: string; url: string; verified?: boolean }[] = [];
     for (const turn of conversation) {
       if (!turn.answer) continue;
       for (const s of getVerifiedSources(turn.answer.sources)) {
@@ -134,6 +136,7 @@ const Explore = () => {
     }
     return accumulated;
   }, [conversation]);
+
 
   const lastTurn = conversation[conversation.length - 1];
   const lastAnswerReady = lastTurn?.answer != null;
