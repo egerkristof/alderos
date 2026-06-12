@@ -7,6 +7,7 @@ interface Source {
   title: string;
   description: string;
   url?: string | null;
+  verified?: boolean;
 }
 
 interface ExploreAnswerProps {
@@ -17,11 +18,17 @@ interface ExploreAnswerProps {
 /**
  * Renders only the answer text with inline citations.
  * Sources and follow-ups are handled by the parent.
+ *
+ * NOTE: We keep every source that has a URL, even when our backend probe
+ * could not reach it (`verified === false`). Many legitimate hosts
+ * (opusdei.org, vatican.va, paywalled news, publishers, gov.uk) block
+ * HEAD/anonymous probes from edge runtimes, so previous "broken URL"
+ * stripping was hiding good sources.
  */
 const ExploreAnswer = ({ answer, sources }: ExploreAnswerProps) => {
   const { t } = useLanguage();
 
-  const verifiedSources = sources.filter(s => !!s.url);
+  const linkedSources = sources.filter((s) => !!s.url);
 
   const indexMap = new Map<number, number>();
   let newIdx = 1;
@@ -36,7 +43,7 @@ const ExploreAnswer = ({ answer, sources }: ExploreAnswerProps) => {
   });
 
   const wordCount = cleanedAnswer.split(/\s+/).length;
-  const lowSourceCoverage = verifiedSources.length <= 1 && wordCount > 150;
+  const lowSourceCoverage = linkedSources.length <= 1 && wordCount > 150;
 
   return (
     <motion.div
@@ -46,7 +53,7 @@ const ExploreAnswer = ({ answer, sources }: ExploreAnswerProps) => {
       className="space-y-4"
     >
       <div className="prose prose-neutral max-w-none font-body text-foreground/90 leading-relaxed">
-        <CitationText text={cleanedAnswer} sources={verifiedSources} />
+        <CitationText text={cleanedAnswer} sources={linkedSources} />
       </div>
 
       {lowSourceCoverage && (
@@ -69,9 +76,15 @@ const ExploreAnswer = ({ answer, sources }: ExploreAnswerProps) => {
 export default ExploreAnswer;
 
 /**
- * Helper to extract verified sources from raw sources array.
- * Used by parent to accumulate sources across turns.
+ * Returns every source that has a URL, regardless of whether our backend
+ * could automatically verify the link. Verification status is preserved
+ * via the `verified` field so the UI can mark unverified links.
  */
-export function getVerifiedSources(sources: Source[]): (Source & { url: string })[] {
+export function getLinkedSources(
+  sources: Source[]
+): (Source & { url: string })[] {
   return sources.filter((s): s is Source & { url: string } => !!s.url);
 }
+
+// Backwards-compatible alias.
+export const getVerifiedSources = getLinkedSources;
