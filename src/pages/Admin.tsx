@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Save, RefreshCw } from "lucide-react";
+import { LogOut, Save, RefreshCw, Mail, ThumbsUp, ThumbsDown, Trash2, CheckCircle2, Circle, Inbox as InboxIcon } from "lucide-react";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -16,7 +16,10 @@ const Admin = () => {
   const [events, setEvents] = useState<any[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
   const [feedbackData, setFeedbackData] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<"prompts" | "analytics">("prompts");
+  const [messages, setMessages] = useState<any[]>([]);
+  const [messagesLoading, setMessagesLoading] = useState(true);
+  const [inboxFilter, setInboxFilter] = useState<"all" | "unread" | "contact" | "positive" | "negative">("all");
+  const [activeTab, setActiveTab] = useState<"prompts" | "analytics" | "inbox">("inbox");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -29,6 +32,7 @@ const Admin = () => {
       fetchPrompts();
       fetchEvents();
       fetchFeedback();
+      fetchMessages();
     };
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -89,6 +93,28 @@ const Admin = () => {
       }
     }
     setFeedbackData(all);
+  };
+
+  const fetchMessages = async () => {
+    setMessagesLoading(true);
+    const { data } = await supabase
+      .from("contact_messages" as any)
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(500);
+    if (data) setMessages(data as any[]);
+    setMessagesLoading(false);
+  };
+
+  const toggleRead = async (id: string, is_read: boolean) => {
+    await supabase.from("contact_messages" as any).update({ is_read: !is_read }).eq("id", id);
+    fetchMessages();
+  };
+
+  const deleteMessage = async (id: string) => {
+    if (!confirm("Delete this message?")) return;
+    await supabase.from("contact_messages" as any).delete().eq("id", id);
+    fetchMessages();
   };
 
   const handleSavePrompt = async (id: string) => {
@@ -219,6 +245,19 @@ const Admin = () => {
             Agent Prompts
           </button>
           <button
+            onClick={() => setActiveTab("inbox")}
+            className={`px-4 py-2.5 text-sm font-body transition-colors border-b-2 -mb-px flex items-center gap-2 ${
+              activeTab === "inbox" ? "border-accent text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <InboxIcon className="w-4 h-4" /> Inbox
+            {messages.filter((m) => !m.is_read).length > 0 && (
+              <span className="ml-1 inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full bg-accent text-accent-foreground text-[0.65rem] font-body font-semibold">
+                {messages.filter((m) => !m.is_read).length}
+              </span>
+            )}
+          </button>
+          <button
             onClick={() => setActiveTab("analytics")}
             className={`px-4 py-2.5 text-sm font-body transition-colors border-b-2 -mb-px ${
               activeTab === "analytics" ? "border-accent text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
@@ -227,6 +266,134 @@ const Admin = () => {
             Usage Analytics
           </button>
         </div>
+
+        {/* Inbox Tab */}
+        {activeTab === "inbox" && (
+          <div>
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+              <div className="flex flex-wrap gap-2">
+                {([
+                  { id: "all", label: "All" },
+                  { id: "unread", label: `Unread (${messages.filter((m) => !m.is_read).length})` },
+                  { id: "contact", label: "Contact" },
+                  { id: "positive", label: "Positive" },
+                  { id: "negative", label: "Negative" },
+                ] as const).map((f) => (
+                  <button
+                    key={f.id}
+                    onClick={() => setInboxFilter(f.id)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-body border transition-all ${
+                      inboxFilter === f.id
+                        ? "border-accent bg-accent/10 text-accent"
+                        : "border-border text-muted-foreground hover:border-accent/30"
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={fetchMessages}
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground font-body transition-colors"
+              >
+                <RefreshCw className="w-3.5 h-3.5" /> Refresh
+              </button>
+            </div>
+
+            {messagesLoading ? (
+              <p className="text-muted-foreground font-body text-center py-12">Loading...</p>
+            ) : (() => {
+              const filtered = messages.filter((m) => {
+                if (inboxFilter === "all") return true;
+                if (inboxFilter === "unread") return !m.is_read;
+                return m.kind === inboxFilter;
+              });
+              if (filtered.length === 0) {
+                return <p className="text-muted-foreground font-body text-center py-12">No messages.</p>;
+              }
+              return (
+                <div className="space-y-3">
+                  {filtered.map((m) => {
+                    const Icon = m.kind === "positive" ? ThumbsUp : m.kind === "negative" ? ThumbsDown : Mail;
+                    const tone =
+                      m.kind === "positive"
+                        ? "text-primary bg-primary/10"
+                        : m.kind === "negative"
+                        ? "text-destructive bg-destructive/10"
+                        : "text-accent bg-accent/10";
+                    return (
+                      <div
+                        key={m.id}
+                        className={`rounded-xl border p-5 transition-all ${
+                          m.is_read ? "border-border bg-card" : "border-accent/40 bg-accent/5"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-3 mb-3">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${tone}`}>
+                              <Icon className="w-4 h-4" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-sm font-body font-medium text-foreground truncate">
+                                  {m.name || "Anonymous"}
+                                </span>
+                                {m.email && (
+                                  <a
+                                    href={`mailto:${m.email}?subject=${encodeURIComponent("Re: your message to Alderos")}`}
+                                    className="text-xs font-body text-accent hover:underline truncate"
+                                  >
+                                    {m.email}
+                                  </a>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-[0.65rem] text-muted-foreground font-body">
+                                  {new Date(m.created_at).toLocaleString(undefined, {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })}
+                                </span>
+                                <span className="text-[0.6rem] text-muted-foreground/50 font-body uppercase">
+                                  {m.language || "en"}
+                                </span>
+                                <span className="text-[0.6rem] text-muted-foreground/60 font-body capitalize">
+                                  {m.kind}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 flex-shrink-0">
+                            <button
+                              onClick={() => toggleRead(m.id, m.is_read)}
+                              title={m.is_read ? "Mark unread" : "Mark read"}
+                              className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                            >
+                              {m.is_read ? <Circle className="w-4 h-4" /> : <CheckCircle2 className="w-4 h-4" />}
+                            </button>
+                            <button
+                              onClick={() => deleteMessage(m.id)}
+                              title="Delete"
+                              className="p-1.5 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                        <p className="text-sm text-foreground/85 font-body whitespace-pre-wrap leading-relaxed pl-12">
+                          {m.message}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
+          </div>
+        )}
 
         {/* Prompts Tab */}
         {activeTab === "prompts" && (
