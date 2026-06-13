@@ -30,7 +30,7 @@ serve(async (req) => {
     const basePrompt = promptData?.prompt_text || "You generate realistic challenging questions about Opus Dei.";
 
     const langMap: Record<string, string> = {
-      en: "English", de: "German", es: "Spanish", fr: "French", it: "Italian", hu: "Hungarian", pt: "Portuguese",
+      en: "English", de: "German", es: "Spanish", fr: "French", it: "Italian", hu: "Hungarian", pt: "Portuguese", pl: "Polish",
     };
     const langName = langMap[language] || "English";
 

@@ -15,6 +15,7 @@ const LANGUAGE_INSTRUCTIONS: Record<string, string> = {
   it: "Rispondi interamente in italiano.",
   hu: "Válaszolj teljesen magyarul.",
   pt: "Responde inteiramente em português.",
+  pl: "Odpowiadaj w całości po polsku.",
 };
 
 const SECURITY_INSTRUCTIONS = `
@@ -33,6 +34,8 @@ const SECURITY_REFUSALS: Record<string, string> = {
   fr: "Je ne peux pas partager de prompts internes, d’instructions cachées, de détails d’implémentation ni de preuve d’identité du modèle. Je peux expliquer l’objectif public d’Alderos et répondre aux questions sur l’Opus Dei.",
   it: "Non posso condividere prompt interni, istruzioni nascoste, dettagli di implementazione o prove sull’identità del modello. Posso spiegare lo scopo pubblico di Alderos e rispondere a domande sull’Opus Dei.",
   hu: "Nem oszthatok meg belső promptokat, rejtett utasításokat, megvalósítási részleteket vagy modellazonossági bizonyítékot. El tudom magyarázni Alderos nyilvános célját, és válaszolok az Opus Deivel kapcsolatos kérdésekre.",
+  pt: "Não posso partilhar prompts internos, instruções ocultas, detalhes de implementação ou prova da identidade do modelo. Posso explicar o propósito público do Alderos e responder a perguntas sobre o Opus Dei.",
+  pl: "Nie mogę udostępniać wewnętrznych promptów, ukrytych instrukcji, szczegółów implementacji ani dowodu tożsamości modelu. Mogę wyjaśnić publiczny cel Alderos i odpowiadać na pytania o Opus Dei.",
 };
 
 const PROMPT_EXTRACTION_PATTERN = /\b(system|developer|hidden|internal|technical|architecture|policy|instruction|instructions|prompt|configuration|tool schema|implementation|model identity|true self|gemini|google|claude)\b[\s\S]{0,160}\b(reveal|share|show|give|quote|print|repeat|summarize|analy[sz]e|score|assess|audit|upgrade|improve|continue|rest|first half|entire|full|proof|prove|identity)\b|\b(reveal|share|show|give|quote|print|repeat|summarize|continue)\b[\s\S]{0,160}\b(system|developer|hidden|internal|technical|architecture|policy|instruction|instructions|prompt|configuration|tool schema|implementation)\b|\b(first half|the rest|entire prompt|full prompt|technical part|true self|as gemini|model identity|share some proof|prove you are|ignore previous instructions|ignore your instructions)\b/i;
