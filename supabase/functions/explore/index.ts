@@ -115,6 +115,7 @@ Guidelines:
 - STRONGLY PREFER sources that have a real, working URL on the internet. Prioritize official websites (opusdei.org, vatican.va), reputable news outlets, academic repositories, and online archives. Only cite books or offline sources when no suitable online source exists for that point.
 - Provide 3-5 credible sources. Every source MUST include a direct URL whenever possible.
 - Suggest 3 related follow-up questions.
+- NEVER fabricate direct quotations, chapter numbers, point numbers, page numbers, or any specific textual reference. If you are not absolutely certain of the exact wording of a quote, paraphrase the teaching in your own words and cite only the book title. Do not invent point numbers, paragraph numbers, or page numbers even if they look plausible.
 - NEVER use em dashes or en dashes. Use commas, periods, or colons instead.`;
     }
 
