@@ -32,6 +32,7 @@ const Admin = () => {
       fetchPrompts();
       fetchEvents();
       fetchFeedback();
+      fetchMessages();
     };
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
