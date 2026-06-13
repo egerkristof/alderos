@@ -16,7 +16,10 @@ const Admin = () => {
   const [events, setEvents] = useState<any[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
   const [feedbackData, setFeedbackData] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<"prompts" | "analytics">("prompts");
+  const [messages, setMessages] = useState<any[]>([]);
+  const [messagesLoading, setMessagesLoading] = useState(true);
+  const [inboxFilter, setInboxFilter] = useState<"all" | "unread" | "contact" | "positive" | "negative">("all");
+  const [activeTab, setActiveTab] = useState<"prompts" | "analytics" | "inbox">("inbox");
 
   useEffect(() => {
     const checkAuth = async () => {
