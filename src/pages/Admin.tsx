@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Save, RefreshCw } from "lucide-react";
+import { LogOut, Save, RefreshCw, Mail, ThumbsUp, ThumbsDown, Trash2, CheckCircle2, Circle, Inbox as InboxIcon } from "lucide-react";
 
 const Admin = () => {
   const navigate = useNavigate();
