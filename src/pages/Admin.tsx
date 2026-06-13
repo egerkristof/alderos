@@ -95,6 +95,28 @@ const Admin = () => {
     setFeedbackData(all);
   };
 
+  const fetchMessages = async () => {
+    setMessagesLoading(true);
+    const { data } = await supabase
+      .from("contact_messages" as any)
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(500);
+    if (data) setMessages(data as any[]);
+    setMessagesLoading(false);
+  };
+
+  const toggleRead = async (id: string, is_read: boolean) => {
+    await supabase.from("contact_messages" as any).update({ is_read: !is_read }).eq("id", id);
+    fetchMessages();
+  };
+
+  const deleteMessage = async (id: string) => {
+    if (!confirm("Delete this message?")) return;
+    await supabase.from("contact_messages" as any).delete().eq("id", id);
+    fetchMessages();
+  };
+
   const handleSavePrompt = async (id: string) => {
     setSaving(true);
     setSaveSuccess(false);
