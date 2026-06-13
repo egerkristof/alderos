@@ -1,4 +1,4 @@
-export type Language = "en" | "de" | "es" | "fr" | "it" | "hu" | "pt";
+export type Language = "en" | "de" | "es" | "fr" | "it" | "hu" | "pt" | "pl";
 
 export const LANGUAGES: { code: Language; label: string; flag: string }[] = [
   { code: "en", label: "English", flag: "🇬🇧" },
@@ -7,6 +7,7 @@ export const LANGUAGES: { code: Language; label: string; flag: string }[] = [
   { code: "fr", label: "Français", flag: "🇫🇷" },
   { code: "it", label: "Italiano", flag: "🇮🇹" },
   { code: "pt", label: "Português", flag: "🇵🇹" },
+  { code: "pl", label: "Polski", flag: "🇵🇱" },
   { code: "hu", label: "Magyar", flag: "🇭🇺" },
 ];
 
