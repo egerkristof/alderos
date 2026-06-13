@@ -172,6 +172,7 @@ const translations = {
     soft_freedom: "Faith & Freedom",
     soft_freedom_desc: "What role does personal freedom play in Opus Dei?",
     tough_questions_show: "See tough questions people ask",
+    tough_questions_hide: "Show fewer questions",
     explore_rate_question: "Was this answer helpful?",
     contact_open: "Contact",
     contact_title: "Get in touch",
